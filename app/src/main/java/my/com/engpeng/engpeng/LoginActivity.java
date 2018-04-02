@@ -12,6 +12,15 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 
 import my.com.engpeng.engpeng.controller.BranchController;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
@@ -29,13 +38,17 @@ public class LoginActivity extends AppCompatActivity
         implements AppLoader.AppLoaderListener, LoginAsyncTaskLoader.LoginAsyncTaskLoaderListener {
 
     private EditText etUsername, etPassword;
-    private CheckBox cbPrototype;
     private CheckBox cbLocal;
     private Dialog progressDialog;
     private Button btnLogin;
     private SQLiteDatabase db;
     private AppLoader loader;
     private String username, password;
+    private GoogleSignInClient mGoogleSignInClient;
+    private String mSignInEmail;
+    private SignInButton mSignInButton;
+
+    public static final int RC_SIGN_IN = 9001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +59,6 @@ public class LoginActivity extends AppCompatActivity
 
         etUsername = findViewById(R.id.login_btn_username);
         etPassword = findViewById(R.id.login_btn_password);
-        cbPrototype = findViewById(R.id.login_cb_prototype);
         btnLogin = findViewById(R.id.login_btn_login);
         cbLocal = findViewById(R.id.login_cb_local);
 
@@ -55,13 +67,73 @@ public class LoginActivity extends AppCompatActivity
 
         SharedPreferencesUtils.clearUsernamePassword(this);
         DatabaseUtils.clearSystemData(db);
-        Global.sIsPrototype = false;
 
         progressDialog = UIUtils.getProgressDialog(this);
         setupListener();
 
         loader = new AppLoader(this);
         getSupportLoaderManager().initLoader(Global.LOGIN_LOADER_ID, null, loader);
+
+        //Google Authentication
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        mSignInButton = findViewById(R.id.login_sign_in_button);
+        mSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mGoogleSignInClient.signOut();
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, RC_SIGN_IN);
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        updateUI(account);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                updateUI(account);
+            } catch (ApiException e) {
+                updateUI(null);
+            }
+        }
+    }
+
+    private void updateUI(GoogleSignInAccount account) {
+        if (account != null) {
+            mSignInEmail = account.getEmail();
+            setGoogleSignInButtonText(mSignInButton, account.getEmail() + " (Sign out)");
+        } else {
+            mSignInEmail = null;
+            setGoogleSignInButtonText(mSignInButton,  "Sign in");
+        }
+    }
+
+    private void setGoogleSignInButtonText(SignInButton signInButton, String buttonText) {
+        // Find the TextView that is inside of the SignInButton and set its text
+        for (int i = 0; i < signInButton.getChildCount(); i++) {
+            View v = signInButton.getChildAt(i);
+
+            if (v instanceof TextView) {
+                TextView tv = (TextView) v;
+                tv.setText(buttonText);
+                return;
+            }
+        }
     }
 
     private void setupListener() {
@@ -69,17 +141,6 @@ public class LoginActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 attemptLogin();
-            }
-        });
-
-        cbPrototype.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    Global.sIsPrototype = true;
-                } else {
-                    Global.sIsPrototype = false;
-                }
             }
         });
     }
@@ -90,6 +151,16 @@ public class LoginActivity extends AppCompatActivity
     }
 
     private void attemptLogin() {
+        if (mSignInEmail == null || mSignInEmail.isEmpty()) {
+            UIUtils.showToastMessage(this, "Please sign in google account before login");
+            return;
+        }
+
+        if (!(mSignInEmail.equals("ep.it.apps@gmail.com") || mSignInEmail.equals("geoffreylzf@gmail.com"))) {
+            UIUtils.showToastMessage(this, "Invalid google account");
+            return;
+        }
+
         if (etUsername.getText().length() == 0) {
             etUsername.setError(getString(R.string.error_field_required));
             etUsername.requestFocus();
@@ -107,7 +178,7 @@ public class LoginActivity extends AppCompatActivity
         queryBundle.putString(AppLoader.LOADER_EXTRA_USERNAME, username);
         queryBundle.putString(AppLoader.LOADER_EXTRA_PASSWORD, password);
 
-        if(cbLocal.isChecked()){
+        if (cbLocal.isChecked()) {
             queryBundle.putBoolean(AppLoader.LOADER_IS_LOCAL, true);
         }
 
@@ -141,31 +212,23 @@ public class LoginActivity extends AppCompatActivity
     @Override
     public void afterLoaderDone(String json) {
         progressDialog.hide();
-        if (!Global.sIsPrototype) { //TODO remove this when online
-            if (json != null && !json.equals("")) {
+        if (json != null && !json.equals("")) {
+            if (JsonUtils.getAuthentication(this, json)) {
+                SharedPreferencesUtils.saveUsernamePassword(this, username, password);
+                Global.setupGlobalVariables(this, db);
+                finish();
 
-                if (JsonUtils.getAuthentication(this, json)) {
-
-                    SharedPreferencesUtils.saveUsernamePassword(this, username, password);
-                    Global.setupGlobalVariables(this, db);
-                    finish();
-
-                    if(BranchController.getAllCompany(db).getCount() == 0){
-                        Intent syncIntent = new Intent(this, LocationInfoActivity.class);
-                        syncIntent.putExtra(I_KEY_DIRECT_RUN, true);
-                        startActivity(syncIntent);
-                    }
-
-                } else {
-                    UIUtils.showToastMessage(this, "Login Failed! (Check username or password)");
+                if (BranchController.getAllCompany(db).getCount() == 0) {
+                    Intent syncIntent = new Intent(this, LocationInfoActivity.class);
+                    syncIntent.putExtra(I_KEY_DIRECT_RUN, true);
+                    startActivity(syncIntent);
                 }
+
             } else {
-                UIUtils.showToastMessage(this, "Connection Failed!");
+                UIUtils.showToastMessage(this, "Login Failed! (Check username or password)");
             }
         } else {
-            SharedPreferencesUtils.saveUsernamePassword(this, username, password);
-            FakeDataUtils.insertFakeData(db);
-            finish();
+            UIUtils.showToastMessage(this, "Connection Failed!");
         }
     }
 }

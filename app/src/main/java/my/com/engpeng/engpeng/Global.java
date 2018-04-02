@@ -35,8 +35,6 @@ public class Global {
     public static String sUsername;
     public static String sPassword;
 
-    public static boolean sIsPrototype = false;
-
     public static final String PREF_KEY = "PREF_KEY";
     public static final String MODULE_MORTALITY = "MORTALITY";
     public static final String MODULE_CATCH_BTA = "CATCH_BTA";
