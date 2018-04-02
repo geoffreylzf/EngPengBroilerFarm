@@ -64,6 +64,8 @@ public class Global {
     public static final String P_KEY_COMPANY_ID = "P_KEY_COMPANY_ID";
     public static final String P_KEY_LOCATION_ID = "P_KEY_LOCATION_ID";
 
+    //test
+
     //Assign different id for different loader
     public static final int UPLOAD_LOADER_ID = 1001;
     public static final int LOCATION_INFO_LOADER_ID = 1002;
