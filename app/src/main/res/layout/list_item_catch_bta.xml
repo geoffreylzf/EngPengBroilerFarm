@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/li_catch_bta_ll"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@drawable/list_item_selector"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/li_catch_bta_tv_no"
+        style="@style/TableRowTextViewStyle"
+        android:layout_weight="0.5"/>
+
+    <TextView
+        android:id="@+id/li_catch_bta_tv_weight"
+        style="@style/TableRowTextViewStyle" />
+
+    <TextView
+        android:id="@+id/li_catch_bta_tv_qty"
+        style="@style/TableRowTextViewStyle" />
+
+    <TextView
+        android:id="@+id/li_catch_bta_tv_house"
+        style="@style/TableRowTextViewStyle"/>
+
+    <TextView
+        android:id="@+id/li_catch_bta_tv_cage_qty"
+        style="@style/TableRowTextViewStyle"/>
+
+    <TextView
+        android:id="@+id/li_catch_bta_tv_with_cover_qty"
+        style="@style/TableRowTextViewStyle"/>
+
+</LinearLayout>

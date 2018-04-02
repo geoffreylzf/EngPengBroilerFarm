@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/main_f_btn_upload"
+            style="@style/MainFragmentButtonStyle"
+            android:drawableStart="@drawable/upload_invert_32"
+            android:text="@string/upload" />
+
+        <Button
+            android:id="@+id/main_f_btn_location"
+            style="@style/MainFragmentButtonStyle"
+            android:drawableStart="@drawable/location_invert_32"
+            android:text="@string/location" />
+
+        <Button
+            android:id="@+id/main_f_btn_sync"
+            style="@style/MainFragmentButtonStyle"
+            android:drawableStart="@drawable/sync_invert_32"
+            android:text="@string/sync" />
+
+    </LinearLayout>
+</LinearLayout>

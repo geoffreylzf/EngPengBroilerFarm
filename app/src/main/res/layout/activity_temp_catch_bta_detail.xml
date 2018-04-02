@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:context="my.com.engpeng.engpeng.TempCatchBTADetailActivity" android:baselineAligned="false">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/temp_catch_bta_summary_ll_history"
+                style="@style/TableHeaderLinearLayoutStyle">
+
+                <TextView
+                    style="@style/TableHeaderTextViewStyle"
+                    android:text="@string/num"
+                    android:layout_weight="0.25"/>
+
+                <TextView
+                    style="@style/TableHeaderTextViewStyle"
+                    android:text="@string/house_code_short"
+                    android:layout_weight="0.15"/>
+
+                <TextView
+                    style="@style/TableHeaderTextViewStyle"
+                    android:text="@string/weight"
+                    android:layout_weight="0.6"/>
+
+            </LinearLayout>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/temp_catch_bta_detail_rv"
+                style="@style/RecycleViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/LabelTextViewStyle"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/house_code" />
+
+                    <Spinner
+                        android:id="@+id/temp_catch_bta_detail_sn_house_code"
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="18dp"
+                        android:layout_marginStart="18dp"
+                        android:hint="@string/house_code"
+                        android:prompt="@string/house_code" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout style="@style/TextInputLayoutStyle">
+
+                <EditText
+                    android:id="@+id/temp_catch_bta_detail_et_weight"
+                    style="@style/EditTextStyle"
+                    android:hint="@string/weight_kg"
+                    android:inputType="numberDecimal" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout style="@style/TextInputLayoutStyle">
+
+                <EditText
+                    android:id="@+id/temp_catch_bta_detail_et_qty"
+                    style="@style/EditTextStyle"
+                    android:hint="@string/quantity"
+                    android:selectAllOnFocus="true"
+                    android:inputType="number" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                style="@style/LabelTextViewStyle"
+                android:text="@string/cage_qty" />
+
+            <RadioGroup
+                android:id="@+id/temp_catch_bta_detail_rg_cage_qty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/temp_catch_bta_detail_rd_1_cage"
+                    style="@style/RadioButtonStyle"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:text="@string/cage1" />
+
+                <RadioButton
+                    android:id="@+id/temp_catch_bta_detail_rd_2_cage"
+                    style="@style/RadioButtonStyle"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:text="@string/cage2" />
+
+                <RadioButton
+                    android:id="@+id/temp_catch_bta_detail_rd_3_cage"
+                    style="@style/RadioButtonStyle"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:text="@string/cage3" />
+
+                <RadioButton
+                    android:id="@+id/temp_catch_bta_detail_rd_4_cage"
+                    style="@style/RadioButtonStyle"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:text="@string/cage4" />
+
+                <RadioButton
+                    android:id="@+id/temp_catch_bta_detail_rd_5_cage"
+                    style="@style/RadioButtonStyle"
+                    android:layout_marginEnd="32dp"
+                    android:layout_weight="1"
+                    android:text="@string/cage5" />
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.75"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/LabelTextViewStyle"
+                        android:text="@string/cage_with_cover2"/>
+
+                    <Spinner
+                        android:id="@+id/temp_catch_bta_detail_sn_with_cover_qty"
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="18dp"
+                        android:layout_marginStart="18dp"
+                        android:hint="@string/cage_with_cover"
+                        android:prompt="@string/cage_with_cover" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/temp_catch_bta_detail_btn_save"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="64dp"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/save" />
+
+                <Button
+                    android:id="@+id/temp_catch_bta_detail_btn_save_and_return"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_toStartOf="@+id/temp_catch_bta_detail_btn_save"
+                    android:visibility="gone"
+                    android:text="@string/save_and_return" />
+
+                <Button
+                    android:id="@+id/temp_catch_bta_detail_btn_exit"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_toStartOf="@+id/temp_catch_bta_detail_btn_save_and_return"
+                    android:text="@string/cancel" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>

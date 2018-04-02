@@ -1,0 +1,55 @@
+package my.com.engpeng.engpeng.utilities;
+
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+
+import static my.com.engpeng.engpeng.data.EngPengContract.*;
+
+/**
+ * Created by Admin on 18/1/2018.
+ */
+
+public class DatabaseUtils {
+
+    public static void clearSystemData(SQLiteDatabase db) {
+        db.delete(BranchEntry.TABLE_NAME, null, null);
+        db.delete(HouseEntry.TABLE_NAME, null, null);
+
+        db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + BranchEntry.TABLE_NAME + "'");
+        db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + HouseEntry.TABLE_NAME + "'");
+    }
+
+    public static void clearTransactionData(SQLiteDatabase db) {
+        db.delete(MortalityEntry.TABLE_NAME, null, null);
+        db.delete(TempWeightEntry.TABLE_NAME, null, null);
+        db.delete(TempWeightDetailEntry.TABLE_NAME, null, null);
+        db.delete(WeightEntry.TABLE_NAME, null, null);
+        db.delete(WeightDetailEntry.TABLE_NAME, null, null);
+
+        db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + MortalityEntry.TABLE_NAME + "'");
+        db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + TempWeightEntry.TABLE_NAME + "'");
+        db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + TempWeightDetailEntry.TABLE_NAME + "'");
+        db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + WeightEntry.TABLE_NAME + "'");
+        db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + WeightDetailEntry.TABLE_NAME + "'");
+    }
+
+    public static void insertBranch(SQLiteDatabase db, ContentValues[] cvs) {
+        for (ContentValues cv : cvs) {
+            db.insert(BranchEntry.TABLE_NAME, null, cv);
+        }
+    }
+
+    public static void insertHouse(SQLiteDatabase db, ContentValues[] cvs) {
+        for (ContentValues cv : cvs) {
+            db.insert(HouseEntry.TABLE_NAME, null, cv);
+        }
+    }
+
+    public static void updateUploadedStatus(SQLiteDatabase db) {
+        db.execSQL("UPDATE " + MortalityEntry.TABLE_NAME + " SET " + MortalityEntry.COLUMN_UPLOAD + " = 1");
+        db.execSQL("UPDATE " + CatchBTAEntry.TABLE_NAME + " SET " + CatchBTAEntry.COLUMN_UPLOAD + " = 1");
+        db.execSQL("UPDATE " + WeightEntry.TABLE_NAME + " SET " + WeightEntry.COLUMN_UPLOAD + " = 1");
+    }
+
+
+}

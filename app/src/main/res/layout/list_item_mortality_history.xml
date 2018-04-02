@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/li_mortality_history_ll"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@drawable/list_item_selector"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/li_mortality_history_tv_date"
+        style="@style/TableRowTextViewStyle"
+        android:text="@string/default_date" />
+
+    <TextView
+        android:id="@+id/li_mortality_history_tv_m_q"
+        style="@style/TableRowTextViewStyle"
+        tools:text="@string/default_m_q" />
+
+    <TextView
+        android:id="@+id/li_mortality_history_tv_r_q"
+        style="@style/TableRowTextViewStyle"
+        tools:text="@string/default_r_q" />
+
+    <TextView
+        android:id="@+id/li_mortality_history_tv_upload"
+        style="@style/TableRowTextViewStyle"/>
+
+</LinearLayout>

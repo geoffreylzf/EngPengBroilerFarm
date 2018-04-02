@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/li_bluetooth_device_ll"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@drawable/list_item_selector"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/li_bluetooth_device_tv_name"
+        style="@style/TableRowTextViewStyle"
+        android:textColor="@color/colorAccent"/>
+
+    <TextView
+        android:id="@+id/li_bluetooth_device_tv_address"
+        style="@style/TableRowTextViewStyle"
+        android:textColor="@color/colorAccent"/>
+
+</LinearLayout>

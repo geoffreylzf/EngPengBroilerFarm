@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/main_f_btn_catch_bta"
+            style="@style/MainFragmentButtonStyle"
+            android:drawableStart="@drawable/catch_invert_32"
+            android:text="@string/catching_bta" />
+
+
+        <Button
+            android:id="@+id/main_f_btn_dung"
+            style="@style/MainFragmentButtonStyle"
+            android:text="@string/dung" />
+
+        <Button
+            style="@style/MainFragmentButtonStyle"
+            android:text="@string/wash" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/li_catch_history_ll"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@drawable/list_item_selector"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/li_catch_history_tv_date"
+        style="@style/TableRowTextViewStyle"
+        android:text="@string/default_date" />
+
+    <TextView
+        android:id="@+id/li_catch_history_tv_kfc_q"
+        style="@style/TableRowTextViewStyle"
+        tools:text="@string/default_kfc_q" />
+
+    <TextView
+        android:id="@+id/li_catch_history_tv_a_q"
+        style="@style/TableRowTextViewStyle"
+        tools:text="@string/default_a_q" />
+
+    <TextView
+        android:id="@+id/li_catch_history_tv_b_q"
+        style="@style/TableRowTextViewStyle"
+        tools:text="@string/default_b_q" />
+
+</LinearLayout>

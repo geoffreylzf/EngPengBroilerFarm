@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimaryDark">#FF8F00</color>
+    <color name="colorPrimary">#FFA000</color>
+    <color name="colorPrimaryMedium">#FFB300</color>
+    <color name="colorPrimaryXMedium">#FFCA28</color>
+    <color name="colorPrimaryLight">#FFECB3</color>
+    <color name="colorPrimaryXLight">#FFF8E1</color>
+    <color name="colorLayoutBackground">#FFFFFF</color>
+
+    <color name="colorAccent">#6D4C41</color>
+    <color name="colorAccentXLight">#EFEBE9</color>
+
+    <color name="colorTableHeader">#212121</color>
+    <color name="colorTableRow">#E0E0E0</color>
+
+    <color name="colorTranslucent">#80FFFFFF</color>
+    <color name="colorTransparent">@android:color/transparent</color>
+</resources>

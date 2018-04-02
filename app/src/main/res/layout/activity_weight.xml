@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="my.com.engpeng.engpeng.WeightActivity">
+
+    <LinearLayout
+        android:id="@+id/weight_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:background="@color/colorTableHeader"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:text="@string/type"
+                style="@style/TableHeaderTextViewStyle"/>
+
+            <TextView
+                android:text="@string/weight"
+                style="@style/TableHeaderTextViewStyle" />
+
+            <TextView
+                android:text="@string/qty"
+                style="@style/TableHeaderTextViewStyle" />
+
+            <TextView
+                android:text="@string/avg"
+                style="@style/TableHeaderTextViewStyle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:background="@color/colorTableRow"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:text="@string/male"
+                style="@style/TableRowTextViewStyle"/>
+
+            <TextView
+                android:id="@+id/weight_tv_male_weight"
+                tools:text="@string/default_weight"
+                style="@style/TableRowTextViewStyle"/>
+
+            <TextView
+                android:id="@+id/weight_tv_male_quantity"
+                tools:text="@string/default_quantity"
+                style="@style/TableRowTextViewStyle" />
+
+            <TextView
+                android:id="@+id/weight_tv_male_average"
+                tools:text="@string/default_avg"
+                style="@style/TableRowTextViewStyle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:text="@string/female"
+                style="@style/TableRowTextViewStyle"/>
+
+            <TextView
+                android:id="@+id/weight_tv_female_weight"
+                tools:text="@string/default_weight"
+                style="@style/TableRowTextViewStyle"/>
+
+            <TextView
+                android:id="@+id/weight_tv_female_quantity"
+                tools:text="@string/default_quantity"
+                style="@style/TableRowTextViewStyle" />
+
+            <TextView
+                android:id="@+id/weight_tv_female_average"
+                tools:text="@string/default_avg"
+                style="@style/TableRowTextViewStyle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:background="@color/colorTableRow"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:text="@string/overall"
+                style="@style/TableRowTextViewStyle"/>
+
+            <TextView
+                android:id="@+id/weight_tv_overall_weight"
+                tools:text="@string/default_weight"
+                style="@style/TableRowTextViewStyle" />
+
+            <TextView
+                android:id="@+id/weight_tv_overall_quantity"
+                tools:text="@string/default_quantity"
+                style="@style/TableRowTextViewStyle"/>
+
+            <TextView
+                android:id="@+id/weight_tv_overall_average"
+                tools:text="@string/default_avg"
+                style="@style/TableRowTextViewStyle"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/weight_ll_history"
+        style="@style/FixTableHeaderLinearLayoutStyle"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weight_ll">
+
+        <TextView
+            android:text="@string/section"
+            style="@style/TableHeaderTextViewStyle"/>
+
+        <TextView
+            android:text="@string/weight"
+            style="@style/TableHeaderTextViewStyle"/>
+
+        <TextView
+            android:text="@string/quantity"
+            style="@style/TableHeaderTextViewStyle"/>
+
+        <TextView
+            android:text="@string/gender"
+            style="@style/TableHeaderTextViewStyle" />
+
+    </LinearLayout>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/weight_tv_swipe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weight_ll_history"
+        app:layout_constraintVertical_bias="0.0">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/weight_rv"
+        style="@style/RecycleViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/weight_fab_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_add_white_24px"
+            app:fabSize="normal"
+            app:layout_anchor="@id/weight_rv"
+            app:layout_anchorGravity="bottom|right|end"/>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <TextView
+        android:id="@+id/weight_tv_swipe"
+        style="@style/SwipeTextViewStyle"
+        android:text="@string/hint_swipe_to_delete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

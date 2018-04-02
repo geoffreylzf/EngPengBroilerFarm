@@ -1,0 +1,222 @@
+package my.com.engpeng.engpeng.data;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import my.com.engpeng.engpeng.data.EngPengContract.*;
+
+/**
+ * Created by Admin on 4/1/2018.
+ */
+
+public class EngPengDbHelper extends SQLiteOpenHelper {
+    private static final String DATABASE_NAME = "engpeng.db";
+    private static final int DATABASE_VERSION = 8; //20180320
+    //DB VER 7 20180317
+    //DB VER 8 20180320
+
+    public EngPengDbHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+
+        sqLiteDatabase.execSQL(SQL_CREATE_BRANCH_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_BRANCH_HOUSE_SETUP_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_MORTALITY_TABLE);
+
+        sqLiteDatabase.execSQL(SQL_CREATE_CATCH_BTA_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_CATCH_BTA_DETAIL_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_TEMP_CATCH_BTA_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_TEMP_CATCH_BTA_DETAIL_TABLE);
+
+        sqLiteDatabase.execSQL(SQL_CREATE_TEMP_WEIGHT_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_TEMP_WEIGHT_DETAIL_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_WEIGHT_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_WEIGHT_DETAIL_TABLE);
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVer, int newVer) {
+
+        if (oldVer <= 5) {
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS catch");
+
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS catch_bta");
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS catch_bta_detail");
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS temp_catch_bta");
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS temp_catch_bta_detail");
+
+            sqLiteDatabase.execSQL(SQL_CREATE_CATCH_BTA_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_CATCH_BTA_DETAIL_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_TEMP_CATCH_BTA_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_TEMP_CATCH_BTA_DETAIL_TABLE);
+
+        }
+
+        if (oldVer <= 6) {
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS weight");
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS weight_detail");
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS temp_weight");
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS temp_weight_detail");
+
+            sqLiteDatabase.execSQL(SQL_CREATE_WEIGHT_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_WEIGHT_DETAIL_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_TEMP_WEIGHT_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_TEMP_WEIGHT_DETAIL_TABLE);
+
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS temp_catch_bta");
+            sqLiteDatabase.execSQL(SQL_CREATE_TEMP_CATCH_BTA_TABLE);
+
+            sqLiteDatabase.execSQL("BEGIN TRANSACTION;");
+            sqLiteDatabase.execSQL("CREATE TABLE catch_bta_backup (_id INTEGER PRIMARY KEY AUTOINCREMENT,company_id INTEGER,location_id INTEGER, record_date DATE, type TEXT, doc_number INTEGER, doc_type TEXT, truck_code TEXT, upload INTEGER DEFAULT 0, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP );");
+            sqLiteDatabase.execSQL("INSERT INTO catch_bta_backup SELECT _id, company_id, location_id, record_date, type, doc_number, doc_type, truck_code, upload, timestamp FROM catch_bta;");
+            sqLiteDatabase.execSQL("DROP TABLE catch_bta;");
+            sqLiteDatabase.execSQL("CREATE TABLE catch_bta (_id INTEGER PRIMARY KEY AUTOINCREMENT,company_id INTEGER,location_id INTEGER, record_date DATE, type TEXT, doc_number INTEGER, doc_type TEXT, truck_code TEXT, upload INTEGER DEFAULT 0, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP );");
+            sqLiteDatabase.execSQL("INSERT INTO catch_bta SELECT _id, company_id, location_id, record_date, type, doc_number, doc_type, truck_code, upload, timestamp FROM catch_bta_backup;");
+            sqLiteDatabase.execSQL("DROP TABLE catch_bta_backup;");
+            sqLiteDatabase.execSQL("COMMIT;");
+        }
+
+        if(oldVer <= 7 ){
+            sqLiteDatabase.execSQL("ALTER TABLE catch_bta ADD COLUMN print_count INTEGER DEFAULT 0");
+        }
+    }
+
+    private final String SQL_CREATE_BRANCH_TABLE = "CREATE TABLE " + BranchEntry.TABLE_NAME + " (" +
+            BranchEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            BranchEntry.COLUMN_ERP_ID + " INTEGER," +
+            BranchEntry.COLUMN_BRANCH_CODE + " TEXT NOT NULL, " +
+            BranchEntry.COLUMN_BRANCH_NAME + " TEXT NOT NULL, " +
+            BranchEntry.COLUMN_COMPANY_ID + " INTEGER NOT NULL " +
+            "); ";
+
+    private final String SQL_CREATE_BRANCH_HOUSE_SETUP_TABLE = "CREATE TABLE " + HouseEntry.TABLE_NAME + " (" +
+            HouseEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            HouseEntry.COLUMN_LOCATION_ID + " INTEGER NOT NULL," +
+            HouseEntry.COLUMN_HOUSE_CODE + " INTEGER NOT NULL " +
+            "); ";
+
+    private final String SQL_CREATE_MORTALITY_TABLE = "CREATE TABLE " + MortalityEntry.TABLE_NAME + " (" +
+            MortalityEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            MortalityEntry.COLUMN_COMPANY_ID + " INTEGER NOT NULL," +
+            MortalityEntry.COLUMN_LOCATION_ID + " INTEGER NOT NULL, " +
+            MortalityEntry.COLUMN_HOUSE_CODE + " INTEGER NOT NULL, " +
+            MortalityEntry.COLUMN_RECORD_DATE + " DATE NOT NULL, " +
+            MortalityEntry.COLUMN_M_Q + " INTEGER NOT NULL, " +
+            MortalityEntry.COLUMN_R_Q + " INTEGER NOT NULL, " +
+            MortalityEntry.COLUMN_UPLOAD + " INTEGER DEFAULT 0, " +
+            MortalityEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP " +
+            "); ";
+
+    private final String SQL_CREATE_CATCH_BTA_TABLE = "CREATE TABLE " + CatchBTAEntry.TABLE_NAME + " (" +
+            CatchBTAEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            CatchBTAEntry.COLUMN_COMPANY_ID + " INTEGER," +
+            CatchBTAEntry.COLUMN_LOCATION_ID + " INTEGER, " +
+            CatchBTAEntry.COLUMN_RECORD_DATE + " DATE, " +
+            CatchBTAEntry.COLUMN_TYPE + " TEXT, " +
+            CatchBTAEntry.COLUMN_DOC_NUMBER + " INTEGER, " +
+            CatchBTAEntry.COLUMN_DOC_TYPE + " TEXT, " +
+            CatchBTAEntry.COLUMN_TRUCK_CODE + " TEXT, " +
+            CatchBTAEntry.COLUMN_PRINT_COUNT + " INTEGER DEFAULT 0, " +
+            CatchBTAEntry.COLUMN_UPLOAD + " INTEGER DEFAULT 0, " +
+            CatchBTAEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP " +
+            "); ";
+
+    private final String SQL_CREATE_CATCH_BTA_DETAIL_TABLE = "CREATE TABLE " + CatchBTADetailEntry.TABLE_NAME + " (" +
+            CatchBTADetailEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            CatchBTADetailEntry.COLUMN_CATCH_BTA_ID + " INTEGER," +
+            CatchBTADetailEntry.COLUMN_WEIGHT + " REAL, " +
+            CatchBTADetailEntry.COLUMN_QTY + " INTEGER, " +
+            CatchBTADetailEntry.COLUMN_HOUSE_CODE + " INTEGER, " +
+            CatchBTADetailEntry.COLUMN_CAGE_QTY + " INTEGER, " +
+            CatchBTADetailEntry.COLUMN_WITH_COVER_QTY + " INTEGER DEFAULT 0 " +
+            "); ";
+
+    private final String SQL_CREATE_TEMP_CATCH_BTA_TABLE = "CREATE TABLE " + TempCatchBTAEntry.TABLE_NAME + " (" +
+            TempCatchBTAEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            TempCatchBTAEntry.COLUMN_COMPANY_ID + " INTEGER," +
+            TempCatchBTAEntry.COLUMN_LOCATION_ID + " INTEGER, " +
+            TempCatchBTAEntry.COLUMN_RECORD_DATE + " DATE, " +
+            TempCatchBTAEntry.COLUMN_TYPE + " TEXT, " +
+            TempCatchBTAEntry.COLUMN_DOC_NUMBER + " INTEGER, " +
+            TempCatchBTAEntry.COLUMN_DOC_TYPE + " TEXT, " +
+            TempCatchBTAEntry.COLUMN_TRUCK_CODE + " TEXT " +
+            "); ";
+
+    private final String SQL_CREATE_TEMP_CATCH_BTA_DETAIL_TABLE = "CREATE TABLE " + TempCatchBTADetailEntry.TABLE_NAME + " (" +
+            TempCatchBTADetailEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            TempCatchBTADetailEntry.COLUMN_WEIGHT + " REAL, " +
+            TempCatchBTADetailEntry.COLUMN_QTY + " INTEGER, " +
+            TempCatchBTADetailEntry.COLUMN_HOUSE_CODE + " INTEGER, " +
+            TempCatchBTADetailEntry.COLUMN_CAGE_QTY + " INTEGER, " +
+            TempCatchBTADetailEntry.COLUMN_WITH_COVER_QTY + " INTEGER DEFAULT 0 " +
+            "); ";
+
+    private final String SQL_CREATE_TEMP_WEIGHT_TABLE = "CREATE TABLE " + TempWeightEntry.TABLE_NAME + " (" +
+            TempWeightEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            TempWeightEntry.COLUMN_COMPANY_ID + " INTEGER," +
+            TempWeightEntry.COLUMN_LOCATION_ID + " INTEGER, " +
+            TempWeightEntry.COLUMN_HOUSE_CODE + " INTEGER, " +
+            TempWeightEntry.COLUMN_DAY + " INTEGER, " +
+            TempWeightEntry.COLUMN_RECORD_DATE + " DATE, " +
+            TempWeightEntry.COLUMN_RECORD_TIME + " TIME, " +
+            TempWeightEntry.COLUMN_FEED + " TEXT " +
+            "); ";
+
+    private final String SQL_CREATE_TEMP_WEIGHT_DETAIL_TABLE = "CREATE TABLE " + TempWeightDetailEntry.TABLE_NAME + " (" +
+            TempWeightDetailEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            TempWeightDetailEntry.COLUMN_SECTION + " INTEGER," +
+            TempWeightDetailEntry.COLUMN_WEIGHT + " INTEGER, " +
+            TempWeightDetailEntry.COLUMN_QTY + " INTEGER, " +
+            TempWeightDetailEntry.COLUMN_GENDER + " TEXT " +
+            "); ";
+
+    private final String SQL_CREATE_WEIGHT_TABLE = "CREATE TABLE " + WeightEntry.TABLE_NAME + " (" +
+            WeightEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            WeightEntry.COLUMN_COMPANY_ID + " INTEGER," +
+            WeightEntry.COLUMN_LOCATION_ID + " INTEGER, " +
+            WeightEntry.COLUMN_HOUSE_CODE + " INTEGER, " +
+            WeightEntry.COLUMN_DAY + " INTEGER, " +
+            WeightEntry.COLUMN_RECORD_DATE + " DATE, " +
+            WeightEntry.COLUMN_RECORD_TIME + " TIME, " +
+            WeightEntry.COLUMN_FEED + " TEXT, " +
+            WeightEntry.COLUMN_UPLOAD + " INTEGER DEFAULT 0, " +
+            WeightEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP " +
+            "); ";
+
+    private final String SQL_CREATE_WEIGHT_DETAIL_TABLE = "CREATE TABLE " + WeightDetailEntry.TABLE_NAME + " (" +
+            WeightDetailEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            WeightDetailEntry.COLUMN_WEIGHT_ID + " INTEGER," +
+            WeightDetailEntry.COLUMN_SECTION + " INTEGER," +
+            WeightDetailEntry.COLUMN_WEIGHT + " INTEGER, " +
+            WeightDetailEntry.COLUMN_QTY + " INTEGER, " +
+            WeightDetailEntry.COLUMN_GENDER + " TEXT " +
+            "); ";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
