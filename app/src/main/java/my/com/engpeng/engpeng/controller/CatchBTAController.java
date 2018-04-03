@@ -100,6 +100,30 @@ public class CatchBTAController {
         return db.delete(CatchBTAEntry.TABLE_NAME, CatchBTAEntry._ID + "=" + id, null) > 0;
     }
 
+    public static void removeUploaded(SQLiteDatabase db) {
+        String selection = CatchBTAEntry.COLUMN_UPLOAD + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(1),
+        };
+
+        Cursor cursor = db.query(
+                CatchBTAEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        while(cursor.moveToNext()){
+            long catch_bta_id = cursor.getLong(cursor.getColumnIndex(CatchBTAEntry._ID));
+            remove(db, catch_bta_id);
+            CatchBTADetailController.removeByCatchBTAId(db, catch_bta_id);
+        }
+    }
+
     public static int getCount(SQLiteDatabase db, int upload) {
         String selection = CatchBTAEntry.COLUMN_UPLOAD + " = ? ";
 
@@ -158,7 +182,7 @@ public class CatchBTAController {
             json += "\"" + CatchBTAEntry.COLUMN_TRUCK_CODE + "\": \"" + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_TRUCK_CODE)) + "\",";
             json += "\"" + CatchBTAEntry.COLUMN_PRINT_COUNT + "\": " + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_PRINT_COUNT)) + ",";
             json += "\"" + CatchBTAEntry.COLUMN_TIMESTAMP + "\": \"" + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_TIMESTAMP)) + "\",";
-            json += CatchBTADetailController.getUploadJsonByCatchBTAId(db, cursor.getLong(cursor.getColumnIndex(WeightEntry._ID)));
+            json += CatchBTADetailController.getUploadJsonByCatchBTAId(db, cursor.getLong(cursor.getColumnIndex(CatchBTAEntry._ID)));
             if (cursor.getPosition() == (cursor.getCount() - 1)) {
                 json += "}";
             } else {

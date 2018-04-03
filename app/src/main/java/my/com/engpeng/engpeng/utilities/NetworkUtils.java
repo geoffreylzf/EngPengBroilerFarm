@@ -96,8 +96,6 @@ public class NetworkUtils {
             wr.write(data);
             wr.flush();
 
-            Log.i("GEO RESPONSE CODE", urlConnection.getResponseCode() + " ");
-
             InputStream in = urlConnection.getInputStream();
             Scanner scanner = new Scanner(in);
             scanner.useDelimiter("\\A");

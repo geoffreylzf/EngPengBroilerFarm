@@ -2,11 +2,15 @@ package my.com.engpeng.engpeng.utilities;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
+
+import my.com.engpeng.engpeng.controller.CatchBTAController;
+import my.com.engpeng.engpeng.controller.CatchBTADetailController;
 
 import static my.com.engpeng.engpeng.data.EngPengContract.*;
 
@@ -35,6 +39,19 @@ public class JsonUtils {
     private static final String M_Q = "m_q";
     private static final String R_Q = "r_q";
     private static final String TIMESTAMP = "timestamp";
+
+    private static final String CATCH_BTA = "mobile_catch_bta";
+    private static final String TYPE = "type";
+    private static final String DOC_NUMBER = "doc_number";
+    private static final String DOC_TYPE = "doc_type";
+    private static final String TRUCK_CODE = "truck_code";
+    private static final String PRINT_COUNT = "print_code";
+
+    private static final String CATCH_BTA_DETAIL = "mobile_catch_bta_detail";
+    private static final String WEIGHT = "weight";
+    private static final String QTY = "qty";
+    private static final String CAGE_QTY = "cage_qty";
+    private static final String WITH_COVER_QTY = "with_cover_qty";
 
     public static boolean getAuthentication(String jsonStr) {
         try {
@@ -141,6 +158,44 @@ public class JsonUtils {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public static void saveCatchBTAHistory(String jsonStr, SQLiteDatabase db){
+        try{
+            JSONObject json = new JSONObject(jsonStr);
+            JSONArray jsonArray = json.getJSONArray(CATCH_BTA);
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject catch_bta = jsonArray.getJSONObject(i);
+
+                ContentValues cv = new ContentValues();
+                cv.put(CatchBTAEntry.COLUMN_COMPANY_ID, catch_bta.getInt(COMPANY_ID));
+                cv.put(CatchBTAEntry.COLUMN_LOCATION_ID, catch_bta.getInt(LOCATION_ID));
+                cv.put(CatchBTAEntry.COLUMN_RECORD_DATE, catch_bta.getString(RECORD_DATE));
+                cv.put(CatchBTAEntry.COLUMN_TYPE, catch_bta.getString(TYPE));
+                cv.put(CatchBTAEntry.COLUMN_DOC_NUMBER, catch_bta.getInt(DOC_NUMBER));
+                cv.put(CatchBTAEntry.COLUMN_DOC_TYPE, catch_bta.getString(DOC_TYPE));
+                cv.put(CatchBTAEntry.COLUMN_TRUCK_CODE, catch_bta.getString(TRUCK_CODE));
+                cv.put(CatchBTAEntry.COLUMN_TIMESTAMP, catch_bta.getString(TIMESTAMP));
+                cv.put(CatchBTAEntry.COLUMN_UPLOAD, 1);
+
+                long catch_bta_id = db.insert(CatchBTAEntry.TABLE_NAME, null, cv);
+
+                JSONArray jsonArrayDetail = catch_bta.getJSONArray(CATCH_BTA_DETAIL);
+                for (int x = 0; x < jsonArrayDetail.length(); x++){
+                    JSONObject catch_bta_detail = jsonArrayDetail.getJSONObject(x);
+                    CatchBTADetailController.add(db,
+                            catch_bta_id,
+                            catch_bta_detail.getDouble(WEIGHT),
+                            catch_bta_detail.getInt(QTY),
+                            catch_bta_detail.getInt(HOUSE_CODE),
+                            catch_bta_detail.getInt(CAGE_QTY),
+                            catch_bta_detail.getInt(WITH_COVER_QTY));
+                }
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

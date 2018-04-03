@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
+import my.com.engpeng.engpeng.controller.CatchBTAController;
 import my.com.engpeng.engpeng.controller.MortalityController;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
 import my.com.engpeng.engpeng.loader.AppLoader;
@@ -117,7 +118,7 @@ public class LocationInfoActivity extends AppCompatActivity
 
     @Override
     public void afterLoaderDone(String json) {
-        Log.i("afterLoaderDone", json);
+        //Log.i("afterLoaderDone", json);
         progressDialog.hide();
         if (json != null && !json.equals("")) {
 
@@ -135,6 +136,9 @@ public class LocationInfoActivity extends AppCompatActivity
 
                 MortalityController.removeUploaded(db);
                 DatabaseUtils.insertMortality(db, cvs_m);
+
+                CatchBTAController.removeUploaded(db);
+                JsonUtils.saveCatchBTAHistory(json, db);
 
                 finish();
                 this.startActivity(new Intent(this, CompanyListActivity.class));
