@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "374278403628-0klo5dviue5b0qhmi1nvb3rmo4kvf79c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "my.com.engpeng.engpeng",
+            "certificate_hash": "154e22d3b4fb302a882fa89cdb1dd493b19c753e"
+          }
+        },
+        {
           "client_id": "374278403628-fs2aa9iiifj5vrgqmn7i3avs9npv7pgf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
