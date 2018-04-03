@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "374278403628",
+    "firebase_url": "https://api-8042125542052091293-208932.firebaseio.com",
+    "project_id": "api-8042125542052091293-208932",
+    "storage_bucket": "api-8042125542052091293-208932.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374278403628:android:58f15477ed065561",
+        "android_client_info": {
+          "package_name": "my.com.engpeng.engpeng"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "374278403628-fs2aa9iiifj5vrgqmn7i3avs9npv7pgf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "my.com.engpeng.engpeng",
+            "certificate_hash": "4aeac4d19352e5a214eebac5b676f9728f5b69b3"
+          }
+        },
+        {
+          "client_id": "374278403628-qh7elj2hmig0milvmcqlc8i47jbl6vc2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKgDKjSaWX1DkQpJ7-yLrk_sDsjo-017g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "374278403628-qh7elj2hmig0milvmcqlc8i47jbl6vc2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374278403628:android:ba0f07893dca3bed",
+        "android_client_info": {
+          "package_name": "my.com.engpeng.epfarmreport"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "374278403628-0qmu81ffo1aqc73nnpp5crcv883oug6l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "my.com.engpeng.epfarmreport",
+            "certificate_hash": "4aeac4d19352e5a214eebac5b676f9728f5b69b3"
+          }
+        },
+        {
+          "client_id": "374278403628-qh7elj2hmig0milvmcqlc8i47jbl6vc2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKgDKjSaWX1DkQpJ7-yLrk_sDsjo-017g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "374278403628-qh7elj2hmig0milvmcqlc8i47jbl6vc2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

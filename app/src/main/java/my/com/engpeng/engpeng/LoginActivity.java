@@ -108,6 +108,7 @@ public class LoginActivity extends AppCompatActivity
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 updateUI(account);
             } catch (ApiException e) {
+                UIUtils.showToastMessage(this, "Error : "+e.toString());
                 updateUI(null);
             }
         }
@@ -151,7 +152,7 @@ public class LoginActivity extends AppCompatActivity
     }
 
     private void attemptLogin() {
-        if (mSignInEmail == null || mSignInEmail.isEmpty()) {
+        /*if (mSignInEmail == null || mSignInEmail.isEmpty()) {
             UIUtils.showToastMessage(this, "Please sign in google account before login");
             return;
         }
@@ -159,7 +160,7 @@ public class LoginActivity extends AppCompatActivity
         if (!(mSignInEmail.equals("ep.it.apps@gmail.com") || mSignInEmail.equals("geoffreylzf@gmail.com"))) {
             UIUtils.showToastMessage(this, "Invalid google account");
             return;
-        }
+        }*/
 
         if (etUsername.getText().length() == 0) {
             etUsername.setError(getString(R.string.error_field_required));
