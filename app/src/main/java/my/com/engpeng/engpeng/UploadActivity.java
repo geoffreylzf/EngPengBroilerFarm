@@ -79,7 +79,7 @@ public class UploadActivity extends AppCompatActivity
         int catch_bta_count = CatchBTAController.getCount(db, 0);
         int weight_count = WeightController.getCount(db, 0);
 
-        ttl_row = mortality_count + catch_bta_count+ weight_count;
+        ttl_row = mortality_count + catch_bta_count + weight_count;
 
         tvMortality.setText(String.valueOf(mortality_count));
         tvCatchBTA.setText(String.valueOf(catch_bta_count));
@@ -116,7 +116,6 @@ public class UploadActivity extends AppCompatActivity
     }
 
 
-
     private void upload() {
         String test = "";
         String data = "";
@@ -146,7 +145,7 @@ public class UploadActivity extends AppCompatActivity
         queryBundle.putString(AppLoader.LOADER_EXTRA_PASSWORD, password);
         queryBundle.putString(AppLoader.LOADER_EXTRA_DATA, data);
 
-        if(cbLocal.isChecked()){
+        if (cbLocal.isChecked()) {
             queryBundle.putBoolean(AppLoader.LOADER_IS_LOCAL, true);
         }
 
@@ -175,8 +174,8 @@ public class UploadActivity extends AppCompatActivity
     public void afterLoaderDone(String json) {
         progressDialog.hide();
         if (json != null && !json.equals("")) {
-            boolean status = JsonUtils.getStatus(this, json);
-            int row = JsonUtils.getUploadRow(this, json);
+            boolean status = JsonUtils.getStatus(json);
+            int row = JsonUtils.getUploadRow(json);
             if (status) {
                 DatabaseUtils.updateUploadedStatus(db);
                 UIUtils.getMessageDialog(this, "Info", "Upload success, insert " + row + " row").show();

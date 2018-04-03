@@ -214,7 +214,7 @@ public class LoginActivity extends AppCompatActivity
     public void afterLoaderDone(String json) {
         progressDialog.hide();
         if (json != null && !json.equals("")) {
-            if (JsonUtils.getAuthentication(this, json)) {
+            if (JsonUtils.getAuthentication( json)) {
                 SharedPreferencesUtils.saveUsernamePassword(this, username, password);
                 Global.setupGlobalVariables(this, db);
                 finish();

@@ -2,6 +2,7 @@ package my.com.engpeng.engpeng.utilities;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import static my.com.engpeng.engpeng.data.EngPengContract.*;
 
@@ -34,14 +35,26 @@ public class DatabaseUtils {
     }
 
     public static void insertBranch(SQLiteDatabase db, ContentValues[] cvs) {
-        for (ContentValues cv : cvs) {
-            db.insert(BranchEntry.TABLE_NAME, null, cv);
+        if (cvs != null) {
+            for (ContentValues cv : cvs) {
+                db.insert(BranchEntry.TABLE_NAME, null, cv);
+            }
         }
     }
 
     public static void insertHouse(SQLiteDatabase db, ContentValues[] cvs) {
-        for (ContentValues cv : cvs) {
-            db.insert(HouseEntry.TABLE_NAME, null, cv);
+        if (cvs != null) {
+            for (ContentValues cv : cvs) {
+                db.insert(HouseEntry.TABLE_NAME, null, cv);
+            }
+        }
+    }
+
+    public static void insertMortality(SQLiteDatabase db, ContentValues[] cvs) {
+        if (cvs != null) {
+            for (ContentValues cv : cvs) {
+                db.insert(MortalityEntry.TABLE_NAME, null, cv);
+            }
         }
     }
 

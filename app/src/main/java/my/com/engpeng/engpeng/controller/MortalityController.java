@@ -188,6 +188,10 @@ public class MortalityController {
         return db.delete(MortalityEntry.TABLE_NAME, MortalityEntry._ID + "=" + id, null) > 0;
     }
 
+    public static boolean removeUploaded(SQLiteDatabase db) {
+        return db.delete(MortalityEntry.TABLE_NAME, MortalityEntry.COLUMN_UPLOAD + "=" + 1, null) > 0;
+    }
+
     public static int getCount(SQLiteDatabase db, int upload) {
         String selection = MortalityEntry.COLUMN_UPLOAD + " = ? ";
 

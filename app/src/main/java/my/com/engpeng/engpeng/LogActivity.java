@@ -97,7 +97,7 @@ public class LogActivity extends AppCompatActivity
     public void afterLoaderDone(String json) {
         progressDialog.hide();
         if (json != null && !json.equals("")) {
-            boolean status = JsonUtils.getStatus(this, json);
+            boolean status = JsonUtils.getStatus( json);
             if (status) {
                 UIUtils.getMessageDialog(this, "Info", "Send log success").show();
             } else {

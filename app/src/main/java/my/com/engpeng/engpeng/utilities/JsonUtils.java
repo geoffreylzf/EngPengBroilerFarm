@@ -30,7 +30,13 @@ public class JsonUtils {
     private static final String LOCATION_ID = "location_id";
     private static final String HOUSE_CODE = "house_code";
 
-    public static boolean getAuthentication(Context context, String jsonStr) {
+    private static final String MORTALITY = "mobile_mortality";
+    private static final String RECORD_DATE = "record_date";
+    private static final String M_Q = "m_q";
+    private static final String R_Q = "r_q";
+    private static final String TIMESTAMP = "timestamp";
+
+    public static boolean getAuthentication(String jsonStr) {
         try {
             JSONObject json = new JSONObject(jsonStr);
 
@@ -53,7 +59,7 @@ public class JsonUtils {
         }
     }
 
-    public static ContentValues[] getBranchContentValues(Context context, String jsonStr) {
+    public static ContentValues[] getBranchContentValues(String jsonStr) {
         try {
             JSONObject json = new JSONObject(jsonStr);
             JSONArray jsonArray = json.getJSONArray(BRANCH);
@@ -84,7 +90,7 @@ public class JsonUtils {
         }
     }
 
-    public static ContentValues[] getHouseContentValues(Context context, String jsonStr) {
+    public static ContentValues[] getHouseContentValues(String jsonStr) {
         try {
             JSONObject json = new JSONObject(jsonStr);
             JSONArray jsonArray = json.getJSONArray(HOUSE);
@@ -110,7 +116,35 @@ public class JsonUtils {
         }
     }
 
-    public static boolean getStatus(Context context, String jsonStr) {
+    public static ContentValues[] getMortalityContentValues(String jsonStr) {
+        try {
+            JSONObject json = new JSONObject(jsonStr);
+            JSONArray jsonArray = json.getJSONArray(MORTALITY);
+            ContentValues[] cvs = new ContentValues[jsonArray.length()];
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject mortality = jsonArray.getJSONObject(i);
+                ContentValues cv = new ContentValues();
+
+                cv.put(MortalityEntry.COLUMN_COMPANY_ID, mortality.getInt(COMPANY_ID));
+                cv.put(MortalityEntry.COLUMN_HOUSE_CODE, mortality.getInt(HOUSE_CODE));
+                cv.put(MortalityEntry.COLUMN_LOCATION_ID, mortality.getInt(LOCATION_ID));
+                cv.put(MortalityEntry.COLUMN_M_Q, mortality.getInt(M_Q));
+                cv.put(MortalityEntry.COLUMN_R_Q, mortality.getInt(R_Q));
+                cv.put(MortalityEntry.COLUMN_RECORD_DATE, mortality.getString(RECORD_DATE));
+                cv.put(MortalityEntry.COLUMN_TIMESTAMP, mortality.getString(TIMESTAMP));
+                cv.put(MortalityEntry.COLUMN_UPLOAD, 1);
+
+                cvs[i] = cv;
+            }
+            return cvs;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static boolean getStatus(String jsonStr) {
         try {
             JSONObject json = new JSONObject(jsonStr);
 
@@ -130,7 +164,7 @@ public class JsonUtils {
         }
     }
 
-    public static int getUploadRow(Context context, String jsonStr) {
+    public static int getUploadRow(String jsonStr) {
         try {
             JSONObject json = new JSONObject(jsonStr);
 

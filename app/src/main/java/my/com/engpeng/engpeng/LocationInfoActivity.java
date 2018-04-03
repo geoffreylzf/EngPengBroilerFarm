@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
+import my.com.engpeng.engpeng.controller.MortalityController;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
 import my.com.engpeng.engpeng.loader.AppLoader;
 import my.com.engpeng.engpeng.loader.LocationInfoAsyncTaskLoader;
@@ -53,9 +54,9 @@ public class LocationInfoActivity extends AppCompatActivity
         setupListener();
 
         loader = new AppLoader(this);
-        if(direct_run_location_info){
+        if (direct_run_location_info) {
             getLocationInfo();
-        }else{
+        } else {
             getSupportLoaderManager().initLoader(Global.LOCATION_INFO_LOADER_ID, null, loader);
         }
     }
@@ -64,19 +65,19 @@ public class LocationInfoActivity extends AppCompatActivity
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               getLocationInfo();
+                getLocationInfo();
             }
         });
     }
 
-    private void setupIntent(){
+    private void setupIntent() {
         Intent intentStart = getIntent();
         if (intentStart.hasExtra(I_KEY_DIRECT_RUN)) {
-            direct_run_location_info = intentStart.getBooleanExtra(I_KEY_DIRECT_RUN,  false);
+            direct_run_location_info = intentStart.getBooleanExtra(I_KEY_DIRECT_RUN, false);
         }
     }
 
-    private void getLocationInfo(){
+    private void getLocationInfo() {
         String username = sUsername;
         String password = sPassword;
 
@@ -84,7 +85,7 @@ public class LocationInfoActivity extends AppCompatActivity
         queryBundle.putString(AppLoader.LOADER_EXTRA_USERNAME, username);
         queryBundle.putString(AppLoader.LOADER_EXTRA_PASSWORD, password);
 
-        if(cbLocal.isChecked()){
+        if (cbLocal.isChecked()) {
             queryBundle.putBoolean(AppLoader.LOADER_IS_LOCAL, true);
         }
 
@@ -116,11 +117,13 @@ public class LocationInfoActivity extends AppCompatActivity
 
     @Override
     public void afterLoaderDone(String json) {
+        Log.i("afterLoaderDone", json);
         progressDialog.hide();
         if (json != null && !json.equals("")) {
 
-            ContentValues[] cvs_b = JsonUtils.getBranchContentValues(this, json);
-            ContentValues[] cvs_h = JsonUtils.getHouseContentValues(this, json);
+            ContentValues[] cvs_b = JsonUtils.getBranchContentValues(json);
+            ContentValues[] cvs_h = JsonUtils.getHouseContentValues(json);
+            ContentValues[] cvs_m = JsonUtils.getMortalityContentValues(json);
 
             if (cvs_b != null && cvs_b.length != 0 && cvs_h != null && cvs_h.length != 0) {
 
@@ -129,6 +132,9 @@ public class LocationInfoActivity extends AppCompatActivity
 
                 DatabaseUtils.insertBranch(db, cvs_b);
                 DatabaseUtils.insertHouse(db, cvs_h);
+
+                MortalityController.removeUploaded(db);
+                DatabaseUtils.insertMortality(db, cvs_m);
 
                 finish();
                 this.startActivity(new Intent(this, CompanyListActivity.class));
