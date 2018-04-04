@@ -122,29 +122,32 @@ public class LocationInfoActivity extends AppCompatActivity
         progressDialog.hide();
         if (json != null && !json.equals("")) {
 
-            ContentValues[] cvs_b = JsonUtils.getBranchContentValues(json);
-            ContentValues[] cvs_h = JsonUtils.getHouseContentValues(json);
-            ContentValues[] cvs_m = JsonUtils.getMortalityContentValues(json);
+            if (JsonUtils.getAuthentication(this, json)) {
 
-            if (cvs_b != null && cvs_b.length != 0 && cvs_h != null && cvs_h.length != 0) {
+                ContentValues[] cvs_b = JsonUtils.getBranchContentValues(json);
+                ContentValues[] cvs_h = JsonUtils.getHouseContentValues(json);
+                ContentValues[] cvs_m = JsonUtils.getMortalityContentValues(json);
 
-                DatabaseUtils.clearSystemData(db);
-                SharedPreferencesUtils.clearCompanyIdLocationId(LocationInfoActivity.this);
+                if (cvs_b != null && cvs_b.length != 0 && cvs_h != null && cvs_h.length != 0) {
 
-                DatabaseUtils.insertBranch(db, cvs_b);
-                DatabaseUtils.insertHouse(db, cvs_h);
+                    DatabaseUtils.clearSystemData(db);
+                    SharedPreferencesUtils.clearCompanyIdLocationId(LocationInfoActivity.this);
 
-                MortalityController.removeUploaded(db);
-                DatabaseUtils.insertMortality(db, cvs_m);
+                    DatabaseUtils.insertBranch(db, cvs_b);
+                    DatabaseUtils.insertHouse(db, cvs_h);
 
-                CatchBTAController.removeUploaded(db);
-                JsonUtils.saveCatchBTAHistory(json, db);
+                    MortalityController.removeUploaded(db);
+                    DatabaseUtils.insertMortality(db, cvs_m);
 
-                finish();
-                this.startActivity(new Intent(this, CompanyListActivity.class));
+                    CatchBTAController.removeUploaded(db);
+                    JsonUtils.saveCatchBTAHistory(json, db);
 
-            } else {
-                UIUtils.getMessageDialog(this, "Error", "Failed to get location info!").show();
+                    finish();
+                    this.startActivity(new Intent(this, CompanyListActivity.class));
+
+                } else {
+                    UIUtils.getMessageDialog(this, "Error", "Failed to get location info!").show();
+                }
             }
 
         } else {

@@ -26,7 +26,7 @@ public class NetworkUtils {
 
     final static String DEPLOYMENT_URL = "http://epgroup.dlinkddns.com:5035/eperp/";
     final static String ENGPENG_BASE_URL = DEPLOYMENT_URL;
-    final static String LOCAL_URL = "http://192.168.8.2:8833/eperp/";
+    final static String LOCAL_URL = "http://192.168.8.1:8833/eperp/";
     final static String PARAM_MODULE = "r";
 
     final public static String MODULE_AUTH_LOGIN = "MobileAuth/Login";

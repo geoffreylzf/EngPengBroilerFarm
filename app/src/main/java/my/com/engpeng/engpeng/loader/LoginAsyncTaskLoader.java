@@ -55,6 +55,7 @@ public class LoginAsyncTaskLoader extends AsyncTaskLoader<String> {
 
         String username = args.getString(AppLoader.LOADER_EXTRA_USERNAME);
         String password = args.getString(AppLoader.LOADER_EXTRA_PASSWORD);
+        String data = args.getString(AppLoader.LOADER_EXTRA_DATA);
 
         boolean is_local = args.getBoolean(AppLoader.LOADER_IS_LOCAL, false);
 
@@ -62,7 +63,7 @@ public class LoginAsyncTaskLoader extends AsyncTaskLoader<String> {
         String result = null;
 
         try {
-            result = NetworkUtils.getResponseFromHttpUrl(url, username, password);
+            result = NetworkUtils.sendPostToHttpUrl(url, username, password, data);
         } catch (IOException e) {
             e.printStackTrace();
         }

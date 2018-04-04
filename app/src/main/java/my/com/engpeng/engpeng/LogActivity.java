@@ -97,11 +97,13 @@ public class LogActivity extends AppCompatActivity
     public void afterLoaderDone(String json) {
         progressDialog.hide();
         if (json != null && !json.equals("")) {
-            boolean status = JsonUtils.getStatus( json);
-            if (status) {
-                UIUtils.getMessageDialog(this, "Info", "Send log success").show();
-            } else {
-                UIUtils.getMessageDialog(this, "Error", "Failed to send log!").show();
+            if (JsonUtils.getAuthentication(this, json)) {
+                boolean status = JsonUtils.getStatus(json);
+                if (status) {
+                    UIUtils.getMessageDialog(this, "Info", "Send log success").show();
+                } else {
+                    UIUtils.getMessageDialog(this, "Error", "Failed to send log!").show();
+                }
             }
         } else {
             UIUtils.getMessageDialog(this, "Error", "Failed to send log! (Internet problem)").show();

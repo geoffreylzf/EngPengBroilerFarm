@@ -90,11 +90,11 @@ public class LoginActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(LoginActivity.this);
-                if(account != null){
+                if (account != null) {
                     mGoogleSignInClient.signOut();
                     updateUI(GoogleSignIn.getLastSignedInAccount(LoginActivity.this));
                     UIUtils.showToastMessage(LoginActivity.this, "Sign out from google account");
-                }else{
+                } else {
                     Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                     startActivityForResult(signInIntent, RC_SIGN_IN);
                 }
@@ -118,8 +118,8 @@ public class LoginActivity extends AppCompatActivity
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 updateUI(account);
             } catch (ApiException e) {
-                if(e.getStatusCode() != 12501){
-                    UIUtils.showToastMessage(this, "Error : "+e.toString());
+                if (e.getStatusCode() != 12501) {
+                    UIUtils.showToastMessage(this, "Error : " + e.toString());
                 }
                 updateUI(null);
             }
@@ -132,7 +132,7 @@ public class LoginActivity extends AppCompatActivity
             setGoogleSignInButtonText(mSignInButton, account.getEmail() + " (Sign out)");
         } else {
             mSignInEmail = null;
-            setGoogleSignInButtonText(mSignInButton,  "Sign in");
+            setGoogleSignInButtonText(mSignInButton, "Sign in");
         }
     }
 
@@ -158,11 +158,11 @@ public class LoginActivity extends AppCompatActivity
         });
     }
 
-    private void setupVersion(){
+    private void setupVersion() {
         tvVersion = findViewById(R.id.login_tv_version);
         try {
             PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
-            tvVersion.setText("Ver"+pInfo.versionName);
+            tvVersion.setText("Ver" + pInfo.versionName);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -176,11 +176,6 @@ public class LoginActivity extends AppCompatActivity
     private void attemptLogin() {
         if (mSignInEmail == null || mSignInEmail.isEmpty()) {
             UIUtils.showToastMessage(this, "Please sign in google account before login");
-            return;
-        }
-
-        if (!(mSignInEmail.equals("ep.it.apps@gmail.com") || mSignInEmail.equals("geoffreylzf@gmail.com"))) {
-            UIUtils.showToastMessage(this, "Invalid google account");
             return;
         }
 
@@ -200,6 +195,7 @@ public class LoginActivity extends AppCompatActivity
         Bundle queryBundle = new Bundle();
         queryBundle.putString(AppLoader.LOADER_EXTRA_USERNAME, username);
         queryBundle.putString(AppLoader.LOADER_EXTRA_PASSWORD, password);
+        queryBundle.putString(AppLoader.LOADER_EXTRA_DATA, "&email="+mSignInEmail);
 
         if (cbLocal.isChecked()) {
             queryBundle.putBoolean(AppLoader.LOADER_IS_LOCAL, true);
@@ -236,19 +232,18 @@ public class LoginActivity extends AppCompatActivity
     public void afterLoaderDone(String json) {
         progressDialog.hide();
         if (json != null && !json.equals("")) {
-            if (JsonUtils.getAuthentication( json)) {
-                SharedPreferencesUtils.saveUsernamePassword(this, username, password);
-                Global.setupGlobalVariables(this, db);
-                finish();
+            if (JsonUtils.getAuthentication(this, json)) {
+                if(JsonUtils.getLoginAuthentication(this, json)){
+                    SharedPreferencesUtils.saveUsernamePassword(this, username, password);
+                    Global.setupGlobalVariables(this, db);
+                    finish();
 
-                if (BranchController.getAllCompany(db).getCount() == 0) {
-                    Intent syncIntent = new Intent(this, LocationInfoActivity.class);
-                    syncIntent.putExtra(I_KEY_DIRECT_RUN, true);
-                    startActivity(syncIntent);
+                    if (BranchController.getAllCompany(db).getCount() == 0) {
+                        Intent syncIntent = new Intent(this, LocationInfoActivity.class);
+                        syncIntent.putExtra(I_KEY_DIRECT_RUN, true);
+                        startActivity(syncIntent);
+                    }
                 }
-
-            } else {
-                UIUtils.showToastMessage(this, "Login Failed! (Check username or password)");
             }
         } else {
             UIUtils.showToastMessage(this, "Connection Failed!");

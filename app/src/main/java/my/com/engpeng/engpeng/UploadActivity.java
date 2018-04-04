@@ -174,14 +174,16 @@ public class UploadActivity extends AppCompatActivity
     public void afterLoaderDone(String json) {
         progressDialog.hide();
         if (json != null && !json.equals("")) {
-            boolean status = JsonUtils.getStatus(json);
-            int row = JsonUtils.getUploadRow(json);
-            if (status) {
-                DatabaseUtils.updateUploadedStatus(db);
-                UIUtils.getMessageDialog(this, "Info", "Upload success, insert " + row + " row").show();
-                setupSummary();
-            } else {
-                UIUtils.getMessageDialog(this, "Error", "Failed to upload!").show();
+            if (JsonUtils.getAuthentication(this, json)) {
+                boolean status = JsonUtils.getStatus(json);
+                int row = JsonUtils.getUploadRow(json);
+                if (status) {
+                    DatabaseUtils.updateUploadedStatus(db);
+                    UIUtils.getMessageDialog(this, "Info", "Upload success, insert " + row + " row").show();
+                    setupSummary();
+                } else {
+                    UIUtils.getMessageDialog(this, "Error", "Failed to upload!").show();
+                }
             }
         } else {
             UIUtils.getMessageDialog(this, "Error", "Failed to upload! (Internet problem)").show();
