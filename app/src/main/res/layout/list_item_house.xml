@@ -1,36 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/li_house_ll"
-    android:layout_width="match_parent"
-    android:layout_height="56dp"
-    android:paddingLeft="16dp"
-    android:gravity="center_vertical"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:background="@drawable/list_item_selector">
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="56dp">
 
-    <TextView
-        android:id="@+id/house_code_circle_text_view"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:background="@drawable/farm"
-        android:fontFamily="sans-serif"
-        android:gravity="center"
-        android:textColor="@android:color/white"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/house_code_text_view"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/li_house_ll"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="0dp"
-        android:layout_weight="1"
-        android:fontFamily="sans-serif"
-        tools:text="@string/house_default_code"
-        android:textSize="16sp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+        android:layout_height="56dp"
+        android:layout_weight="2"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@drawable/list_item_selector">
 
+        <TextView
+            android:id="@+id/house_code_circle_text_view"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/farm"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/house_code_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="0dp"
+            android:fontFamily="sans-serif"
+            tools:text="@string/house_default_code"
+            android:textSize="16sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/li_house_history"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="@string/history"
+        style="@style/ButtonStyle"/>
 
 </LinearLayout>

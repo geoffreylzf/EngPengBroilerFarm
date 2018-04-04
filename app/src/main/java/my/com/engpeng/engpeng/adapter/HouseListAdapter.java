@@ -8,12 +8,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import my.com.engpeng.engpeng.MortalityActivity;
+import my.com.engpeng.engpeng.MortalityHistoryActivity;
 import my.com.engpeng.engpeng.R;
 import my.com.engpeng.engpeng.TempWeightHeadActivity;
+import my.com.engpeng.engpeng.WeightHistoryActivity;
 import my.com.engpeng.engpeng.controller.MortalityController;
 import my.com.engpeng.engpeng.controller.WeightController;
 
@@ -59,10 +62,14 @@ public class HouseListAdapter extends RecyclerView.Adapter<HouseListAdapter.Hous
                     + MortalityController.getLastMRByCLHU(mdb, company_id, location_id, house_code)
                     + ")");
         } else if (module.equals(MODULE_WEIGHT)) {
-            holder.tvHouseCode.setText("#" + String.valueOf(house_code) + "   (" + WeightController.getLastDayByCLHU(mdb, company_id, location_id, house_code, 0) + ")");
+            holder.tvHouseCode.setText("#" + String.valueOf(house_code)
+                    + "   (" + WeightController.getLastDayByCLHU(mdb, company_id, location_id, house_code, 0)
+                    + ")");
         }
 
         holder.itemView.setTag(String.valueOf(house_code));
+        holder.ll.setTag(String.valueOf(house_code));
+        holder.btnHistory.setTag(String.valueOf(house_code));
 
         /*if (position % 2 == 0) {
             holder.ll.setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryXLight));
@@ -80,14 +87,16 @@ public class HouseListAdapter extends RecyclerView.Adapter<HouseListAdapter.Hous
 
         LinearLayout ll;
         TextView tvHouseCode, tvCircleHouseCode;
+        Button btnHistory;
 
         public HouseViewHolder(View itemView) {
             super(itemView);
             ll = itemView.findViewById(R.id.li_house_ll);
             tvCircleHouseCode = itemView.findViewById(R.id.house_code_circle_text_view);
             tvHouseCode = itemView.findViewById(R.id.house_code_text_view);
+            btnHistory = itemView.findViewById(R.id.li_house_history);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            ll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (module.equals(MODULE_MORTALITY)) {
@@ -102,6 +111,24 @@ public class HouseListAdapter extends RecyclerView.Adapter<HouseListAdapter.Hous
                         tempWeightHeadIntent.putExtra(I_KEY_HOUSE_CODE, Integer.parseInt((String) view.getTag()));
                         mContext.startActivity(tempWeightHeadIntent);
 
+                    }
+                }
+            });
+
+            btnHistory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (module.equals(MODULE_MORTALITY)) {
+
+                        Intent mortalityHistoryIntent = new Intent(mContext, MortalityHistoryActivity.class);
+                        mortalityHistoryIntent.putExtra(I_KEY_HOUSE_CODE, Integer.parseInt((String) view.getTag()));
+                        mContext.startActivity(mortalityHistoryIntent);
+
+                    }  else if (module.equals(MODULE_WEIGHT)) {
+
+                        Intent weightHistoryIntent = new Intent(mContext, WeightHistoryActivity.class);
+                        weightHistoryIntent.putExtra(I_KEY_HOUSE_CODE, Integer.parseInt((String) view.getTag()));
+                        mContext.startActivity(weightHistoryIntent);
                     }
                 }
             });

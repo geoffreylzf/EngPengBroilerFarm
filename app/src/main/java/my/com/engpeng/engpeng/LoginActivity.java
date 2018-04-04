@@ -2,6 +2,8 @@ package my.com.engpeng.engpeng;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -38,6 +40,7 @@ public class LoginActivity extends AppCompatActivity
         implements AppLoader.AppLoaderListener, LoginAsyncTaskLoader.LoginAsyncTaskLoaderListener {
 
     private EditText etUsername, etPassword;
+    private TextView tvVersion;
     private CheckBox cbLocal;
     private Dialog progressDialog;
     private Button btnLogin;
@@ -70,6 +73,7 @@ public class LoginActivity extends AppCompatActivity
 
         progressDialog = UIUtils.getProgressDialog(this);
         setupListener();
+        setupVersion();
 
         loader = new AppLoader(this);
         getSupportLoaderManager().initLoader(Global.LOGIN_LOADER_ID, null, loader);
@@ -85,9 +89,15 @@ public class LoginActivity extends AppCompatActivity
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mGoogleSignInClient.signOut();
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, RC_SIGN_IN);
+                GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(LoginActivity.this);
+                if(account != null){
+                    mGoogleSignInClient.signOut();
+                    updateUI(GoogleSignIn.getLastSignedInAccount(LoginActivity.this));
+                    UIUtils.showToastMessage(LoginActivity.this, "Sign out from google account");
+                }else{
+                    Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                    startActivityForResult(signInIntent, RC_SIGN_IN);
+                }
             }
         });
     }
@@ -108,7 +118,9 @@ public class LoginActivity extends AppCompatActivity
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 updateUI(account);
             } catch (ApiException e) {
-                UIUtils.showToastMessage(this, "Error : "+e.toString());
+                if(e.getStatusCode() != 12501){
+                    UIUtils.showToastMessage(this, "Error : "+e.toString());
+                }
                 updateUI(null);
             }
         }
@@ -144,6 +156,16 @@ public class LoginActivity extends AppCompatActivity
                 attemptLogin();
             }
         });
+    }
+
+    private void setupVersion(){
+        tvVersion = findViewById(R.id.login_tv_version);
+        try {
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            tvVersion.setText("Ver"+pInfo.versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

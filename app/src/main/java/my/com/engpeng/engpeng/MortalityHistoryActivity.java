@@ -44,7 +44,7 @@ public class MortalityHistoryActivity extends AppCompatActivity {
 
         setupRecycleView();
 
-        setTitle("Mortality History");
+        setTitle("Mortality History for " + sLocationName + " H#" + String.valueOf(house_code));
     }
 
     public void setupRecycleView() {

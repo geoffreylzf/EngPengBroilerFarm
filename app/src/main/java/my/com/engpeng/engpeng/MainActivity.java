@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView navTvCompanyName, navTvLocationName, navTvLoginAs;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
-    private Button btnUpload;
+    private Button btnLocation, btnUpload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         db = dbHelper.getWritableDatabase();
 
         btnUpload = findViewById(R.id.main_btn_upload);
+        btnLocation = findViewById(R.id.main_btn_location);
         tvLocationName = findViewById(R.id.main_tv_location_name);
 
         setupVersion();
@@ -79,6 +80,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, UploadActivity.class));
+            }
+        });
+
+        btnLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent locationListIntent = new Intent(MainActivity.this, LocationListActivity.class);
+                locationListIntent.putExtra(I_KEY_COMPANY, String.valueOf(sCompanyId));
+                startActivity(locationListIntent);
             }
         });
     }

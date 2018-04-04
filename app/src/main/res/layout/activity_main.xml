@@ -50,6 +50,7 @@
                 android:layout_below="@id/main_abl"
                 android:background="@color/colorPrimary"
                 android:elevation="6dp"
+                app:tabMaxWidth="0dp"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
             <android.support.v4.view.ViewPager
@@ -60,16 +61,33 @@
 
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/main_btn_upload"
-            style="@style/ButtonStyle"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="@string/upload2"
-            android:drawableTop="@drawable/upload_invert_64"
-            app:layout_constraintBottom_toTopOf="@+id/main_ll_status" />
+            app:layout_constraintBottom_toTopOf="@+id/main_ll_status" >
 
+            <Button
+                android:id="@+id/main_btn_location"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                style="@style/ButtonStyle"
+                android:layout_margin="4dp"
+                android:text="@string/location"
+                android:drawableTop="@drawable/ic_place_black_24px"/>
+
+            <Button
+                android:id="@+id/main_btn_upload"
+                style="@style/ButtonStyle"
+                android:layout_margin="4dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/upload2"
+                android:drawableTop="@drawable/ic_cloud_upload_black_24px"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/main_ll_status"
