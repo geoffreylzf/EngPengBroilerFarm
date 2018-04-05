@@ -118,7 +118,7 @@ public class LocationInfoActivity extends AppCompatActivity
 
     @Override
     public void afterLoaderDone(String json) {
-        //Log.i("afterLoaderDone", json);
+        //Log.i("afterLoaderDone", ""+json);
         progressDialog.hide();
         if (json != null && !json.equals("")) {
 

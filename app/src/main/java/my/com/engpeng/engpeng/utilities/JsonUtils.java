@@ -3,6 +3,7 @@ package my.com.engpeng.engpeng.utilities;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -46,7 +47,7 @@ public class JsonUtils {
     private static final String DOC_NUMBER = "doc_number";
     private static final String DOC_TYPE = "doc_type";
     private static final String TRUCK_CODE = "truck_code";
-    private static final String PRINT_COUNT = "print_code";
+    private static final String PRINT_COUNT = "print_count";
 
     private static final String CATCH_BTA_DETAIL = "mobile_catch_bta_detail";
     private static final String WEIGHT = "weight";
@@ -216,6 +217,7 @@ public class JsonUtils {
                 cv.put(CatchBTAEntry.COLUMN_UPLOAD, 1);
 
                 long catch_bta_id = db.insert(CatchBTAEntry.TABLE_NAME, null, cv);
+                Log.i("Catch BTA ID", String.valueOf(catch_bta_id));
 
                 JSONArray jsonArrayDetail = catch_bta.getJSONArray(CATCH_BTA_DETAIL);
                 for (int x = 0; x < jsonArrayDetail.length(); x++) {
