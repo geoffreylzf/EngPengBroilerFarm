@@ -54,19 +54,16 @@ public class WeightController {
     public static Cursor getAllByCLHU(SQLiteDatabase db,
                                       int company_id,
                                       int location_id,
-                                      int house_code,
-                                      int upload) {
+                                      int house_code) {
 
         String selection = WeightEntry.COLUMN_COMPANY_ID + " = ? AND " +
                 WeightEntry.COLUMN_LOCATION_ID + " = ? AND " +
-                WeightEntry.COLUMN_HOUSE_CODE + " = ? AND " +
-                WeightEntry.COLUMN_UPLOAD + " = ? ";
+                WeightEntry.COLUMN_HOUSE_CODE + " = ? ";
 
         String[] selectionArgs = new String[]{
                 String.valueOf(company_id),
                 String.valueOf(location_id),
                 String.valueOf(house_code),
-                String.valueOf(upload),
         };
 
         return db.query(
@@ -76,35 +73,28 @@ public class WeightController {
                 selectionArgs,
                 null,
                 null,
-                WeightEntry.COLUMN_RECORD_DATE + " DESC"
+                WeightEntry._ID + " DESC"
         );
     }
 
     public static String getLastDayByCLHU(SQLiteDatabase db,
                                           int company_id,
                                           int location_id,
-                                          int house_code,
-                                          int upload) {
-
-        String[] columns = new String[]{
-                "MAX(" + WeightEntry.COLUMN_RECORD_DATE + ") AS " + WeightEntry.COLUMN_RECORD_DATE,
-        };
+                                          int house_code) {
 
         String selection = WeightEntry.COLUMN_COMPANY_ID + " = ? AND " +
                 WeightEntry.COLUMN_LOCATION_ID + " = ? AND " +
-                WeightEntry.COLUMN_HOUSE_CODE + " = ? AND " +
-                WeightEntry.COLUMN_UPLOAD + " = ? ";
+                WeightEntry.COLUMN_HOUSE_CODE + " = ? ";
 
         String[] selectionArgs = new String[]{
                 String.valueOf(company_id),
                 String.valueOf(location_id),
                 String.valueOf(house_code),
-                String.valueOf(upload),
         };
 
         Cursor cursor = db.query(
                 WeightEntry.TABLE_NAME,
-                columns,
+                null,
                 selection,
                 selectionArgs,
                 null,
@@ -114,16 +104,45 @@ public class WeightController {
 
         String msg = "No Record";
 
-        cursor.moveToFirst();
-        String date = cursor.getString(cursor.getColumnIndex(WeightEntry.COLUMN_RECORD_DATE));
-        if (date != null) {
-            msg = EPDateUtils.getDateDiffDesc(msg, date);
+        if(cursor.moveToFirst()){
+            String date = cursor.getString(cursor.getColumnIndex(WeightEntry.COLUMN_RECORD_DATE));
+            if (date != null) {
+                msg = EPDateUtils.getDateDiffDesc(msg, date);
+                if (cursor.getInt(cursor.getColumnIndex(WeightEntry.COLUMN_UPLOAD)) == 1){
+                    msg += "   -   Uploaded";
+                }
+            }
         }
+
         return msg;
     }
 
     public static boolean remove(SQLiteDatabase db, long id) {
         return db.delete(WeightEntry.TABLE_NAME, WeightEntry._ID + "=" + id, null) > 0;
+    }
+
+    public static void removeUploaded(SQLiteDatabase db) {
+        String selection = WeightEntry.COLUMN_UPLOAD + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(1),
+        };
+
+        Cursor cursor = db.query(
+                WeightEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        while(cursor.moveToNext()){
+            long weight_id = cursor.getLong(cursor.getColumnIndex(WeightEntry._ID));
+            remove(db, weight_id);
+            WeightDetailController.removeByWeightId(db, weight_id);
+        }
     }
 
     public static int getCount(SQLiteDatabase db, int upload) {

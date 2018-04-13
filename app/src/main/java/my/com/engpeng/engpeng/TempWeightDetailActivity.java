@@ -1,21 +1,29 @@
 package my.com.engpeng.engpeng;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import my.com.engpeng.engpeng.adapter.TempCatchBTADetailAdapter;
+import my.com.engpeng.engpeng.adapter.TempWeightDetailAdapter;
+import my.com.engpeng.engpeng.controller.TempCatchBTADetailController;
 import my.com.engpeng.engpeng.controller.TempWeightDetailController;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
 
 import static my.com.engpeng.engpeng.Global.I_KEY_COMPANY;
+import static my.com.engpeng.engpeng.Global.I_KEY_CONTINUE_NEXT;
 import static my.com.engpeng.engpeng.Global.I_KEY_HOUSE_CODE;
 import static my.com.engpeng.engpeng.Global.I_KEY_LOCATION;
+import static my.com.engpeng.engpeng.Global.I_KEY_QTY;
 import static my.com.engpeng.engpeng.Global.I_KEY_SECTION;
 
 public class TempWeightDetailActivity extends AppCompatActivity {
@@ -24,6 +32,8 @@ public class TempWeightDetailActivity extends AppCompatActivity {
     private EditText etSection, etWeight, etQty;
     private RadioGroup rgGender;
     private SQLiteDatabase db;
+    private TempWeightDetailAdapter adapter;
+    private RecyclerView rv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +52,10 @@ public class TempWeightDetailActivity extends AppCompatActivity {
 
         setTitle("New Body Weight Detail");
 
+        setupRecycleView();
         setupStartIntent();
         setupListener();
+        etWeight.requestFocus();
     }
 
     private void setupListener() {
@@ -112,6 +124,11 @@ public class TempWeightDetailActivity extends AppCompatActivity {
                 }
 
                 TempWeightDetailController.add(db, section, weight, qty, gender);
+
+                Intent intent = new Intent();
+                intent.putExtra(I_KEY_CONTINUE_NEXT, true);
+                setResult(RESULT_OK, intent);
+
                 finish();
             }
         });
@@ -129,5 +146,18 @@ public class TempWeightDetailActivity extends AppCompatActivity {
         if (intentStart.hasExtra(I_KEY_SECTION)) {
             etSection.setText(String.valueOf(intentStart.getIntExtra(I_KEY_SECTION, 0)));
         }
+        if (intentStart.hasExtra(I_KEY_QTY)) {
+            etQty.setText(String.valueOf(intentStart.getIntExtra(I_KEY_QTY, 0)));
+        }
+    }
+
+    private void setupRecycleView() {
+        rv = this.findViewById(R.id.temp_weight_detail_rv);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+
+        Cursor cursor = TempWeightDetailController.getAll(db);
+
+        adapter = new TempWeightDetailAdapter(this, cursor);
+        rv.setAdapter(adapter);
     }
 }

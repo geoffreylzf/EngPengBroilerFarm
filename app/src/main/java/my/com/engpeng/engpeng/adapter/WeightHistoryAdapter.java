@@ -46,10 +46,17 @@ public class WeightHistoryAdapter extends RecyclerView.Adapter<WeightHistoryAdap
         String feed = cursor.getString(cursor.getColumnIndex(WeightEntry.COLUMN_FEED));
         String day = cursor.getString(cursor.getColumnIndex(WeightEntry.COLUMN_DAY));
 
+        int is_upload = cursor.getInt(cursor.getColumnIndex(WeightEntry.COLUMN_UPLOAD));
+        String upload_str = "No";
+        if(is_upload == 1){
+            upload_str = "Yes";
+        }
+
         holder.tvDate.setText(date);
         holder.tvTime.setText(time);
         holder.tvFeed.setText(feed);
         holder.tvDay.setText(day);
+        holder.tvUpload.setText(upload_str);
 
         holder.itemView.setTag(id);
 
@@ -75,7 +82,7 @@ public class WeightHistoryAdapter extends RecyclerView.Adapter<WeightHistoryAdap
 
     class WeightViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvDate, tvTime, tvFeed, tvDay;
+        TextView tvDate, tvTime, tvFeed, tvDay, tvUpload;
         LinearLayout ll;
 
         public WeightViewHolder(View itemView) {
@@ -85,6 +92,7 @@ public class WeightHistoryAdapter extends RecyclerView.Adapter<WeightHistoryAdap
             tvTime = itemView.findViewById(R.id.li_weight_history_tv_time);
             tvFeed = itemView.findViewById(R.id.li_weight_history_tv_feed);
             tvDay = itemView.findViewById(R.id.li_weight_history_tv_day);
+            tvUpload = itemView.findViewById(R.id.li_weight_history_tv_upload);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

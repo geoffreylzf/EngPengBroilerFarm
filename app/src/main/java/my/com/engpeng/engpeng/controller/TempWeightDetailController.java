@@ -136,27 +136,24 @@ public class TempWeightDetailController {
         );
     }
 
-    public static int getMaxSection(SQLiteDatabase db) {
-
-        String[] columns = new String[]{
-                "MAX(" + TempWeightDetailEntry.COLUMN_SECTION + ") AS " + TempWeightDetailEntry.COLUMN_SECTION,
-        };
+    public static Cursor getLastRecord(SQLiteDatabase db) {
 
         Cursor cursor = db.query(
-                TempWeightDetailEntry.TABLE_NAME,
-                columns,
+                EngPengContract.TempWeightDetailEntry.TABLE_NAME,
                 null,
                 null,
                 null,
                 null,
-                TempWeightDetailEntry.COLUMN_SECTION + " DESC"
+                null,
+                EngPengContract.TempWeightDetailEntry._ID + " DESC"
         );
 
-        cursor.moveToFirst();
-        int maxSection = cursor.getInt(cursor.getColumnIndex(TempWeightDetailEntry.COLUMN_SECTION));
-        return maxSection;
+        if (cursor.moveToFirst()) {
+            return cursor;
+        } else {
+            return null;
+        }
     }
-
 
     public static boolean remove(SQLiteDatabase db, long id) {
         return db.delete(TempWeightDetailEntry.TABLE_NAME, TempWeightDetailEntry._ID + "=" + id, null) > 0;

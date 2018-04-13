@@ -3,7 +3,6 @@ package my.com.engpeng.engpeng.utilities;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,6 +10,7 @@ import org.json.JSONObject;
 import java.net.HttpURLConnection;
 
 import my.com.engpeng.engpeng.controller.CatchBTADetailController;
+import my.com.engpeng.engpeng.controller.WeightDetailController;
 
 import static my.com.engpeng.engpeng.data.EngPengContract.*;
 
@@ -36,24 +36,33 @@ public class JsonUtils {
     private static final String LOCATION_ID = "location_id";
     private static final String HOUSE_CODE = "house_code";
 
-    private static final String MORTALITY = "mobile_mortality";
+    private static final String MOBILE_MORTALITY = "mobile_mortality";
     private static final String RECORD_DATE = "record_date";
     private static final String M_Q = "m_q";
     private static final String R_Q = "r_q";
     private static final String TIMESTAMP = "timestamp";
 
-    private static final String CATCH_BTA = "mobile_catch_bta";
+    private static final String MOBILE_CATCH_BTA = "mobile_catch_bta";
     private static final String TYPE = "type";
     private static final String DOC_NUMBER = "doc_number";
     private static final String DOC_TYPE = "doc_type";
     private static final String TRUCK_CODE = "truck_code";
     private static final String PRINT_COUNT = "print_count";
 
-    private static final String CATCH_BTA_DETAIL = "mobile_catch_bta_detail";
+    private static final String MOBILE_CATCH_BTA_DETAIL = "mobile_catch_bta_detail";
     private static final String WEIGHT = "weight";
     private static final String QTY = "qty";
     private static final String CAGE_QTY = "cage_qty";
     private static final String WITH_COVER_QTY = "with_cover_qty";
+
+    private static final String MOBILE_WEIGHT = "mobile_weight";
+    private static final String DAY = "day";
+    private static final String RECORD_TIME = "record_time";
+    private static final String FEED = "feed";
+
+    private static final String MOBILE_WEIGHT_DETAIL = "mobile_weight_detail";
+    private static final String SECTION = "section";
+    private static final String GENDER = "gender";
 
     public static boolean getAuthentication(Context context, String jsonStr) {
         try {
@@ -171,7 +180,7 @@ public class JsonUtils {
     public static ContentValues[] getMortalityContentValues(String jsonStr) {
         try {
             JSONObject json = new JSONObject(jsonStr);
-            JSONArray jsonArray = json.getJSONArray(MORTALITY);
+            JSONArray jsonArray = json.getJSONArray(MOBILE_MORTALITY);
             ContentValues[] cvs = new ContentValues[jsonArray.length()];
 
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -199,7 +208,7 @@ public class JsonUtils {
     public static void saveCatchBTAHistory(String jsonStr, SQLiteDatabase db) {
         try {
             JSONObject json = new JSONObject(jsonStr);
-            JSONArray jsonArray = json.getJSONArray(CATCH_BTA);
+            JSONArray jsonArray = json.getJSONArray(MOBILE_CATCH_BTA);
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject catch_bta = jsonArray.getJSONObject(i);
@@ -217,9 +226,8 @@ public class JsonUtils {
                 cv.put(CatchBTAEntry.COLUMN_UPLOAD, 1);
 
                 long catch_bta_id = db.insert(CatchBTAEntry.TABLE_NAME, null, cv);
-                Log.i("Catch BTA ID", String.valueOf(catch_bta_id));
 
-                JSONArray jsonArrayDetail = catch_bta.getJSONArray(CATCH_BTA_DETAIL);
+                JSONArray jsonArrayDetail = catch_bta.getJSONArray(MOBILE_CATCH_BTA_DETAIL);
                 for (int x = 0; x < jsonArrayDetail.length(); x++) {
                     JSONObject catch_bta_detail = jsonArrayDetail.getJSONObject(x);
                     CatchBTADetailController.add(db,
@@ -232,6 +240,42 @@ public class JsonUtils {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveWeightHistory(String jsonStr, SQLiteDatabase db){
+        try{
+            JSONObject json = new JSONObject(jsonStr);
+            JSONArray jsonArray = json.getJSONArray(MOBILE_WEIGHT);
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject weight = jsonArray.getJSONObject(i);
+
+                ContentValues cv = new ContentValues();
+                cv.put(WeightEntry.COLUMN_COMPANY_ID, weight.getInt(COMPANY_ID));
+                cv.put(WeightEntry.COLUMN_LOCATION_ID, weight.getInt(LOCATION_ID));
+                cv.put(WeightEntry.COLUMN_HOUSE_CODE, weight.getInt(HOUSE_CODE));
+                cv.put(WeightEntry.COLUMN_DAY, weight.getInt(DAY));
+                cv.put(WeightEntry.COLUMN_RECORD_DATE, weight.getString(RECORD_DATE));
+                cv.put(WeightEntry.COLUMN_RECORD_TIME, weight.getString(RECORD_TIME));
+                cv.put(WeightEntry.COLUMN_FEED, weight.getString(FEED));
+                cv.put(WeightEntry.COLUMN_TIMESTAMP, weight.getString(TIMESTAMP));
+                cv.put(WeightEntry.COLUMN_UPLOAD, 1);
+
+                long weight_id = db.insert(WeightEntry.TABLE_NAME, null, cv);
+                JSONArray jsonArrayDetail = weight.getJSONArray(MOBILE_WEIGHT_DETAIL);
+                for (int x = 0; x < jsonArrayDetail.length(); x++) {
+                    JSONObject weight_detail = jsonArrayDetail.getJSONObject(x);
+                    WeightDetailController.add(db,
+                            weight_id,
+                            weight_detail.getInt(SECTION),
+                            weight_detail.getInt(WEIGHT),
+                            weight_detail.getInt(QTY),
+                            weight_detail.getString(GENDER));
+                }
+            }
+        }catch (Exception e){
             e.printStackTrace();
         }
     }

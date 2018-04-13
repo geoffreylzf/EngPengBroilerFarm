@@ -54,7 +54,7 @@ public class WeightHistoryActivity extends AppCompatActivity {
         RecyclerView rv = this.findViewById(R.id.weight_history_rv_list);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-        Cursor cursor = WeightController.getAllByCLHU(db, company_id, location_id, house_code, 0);
+        Cursor cursor = WeightController.getAllByCLHU(db, company_id, location_id, house_code);
 
         adapter = new WeightHistoryAdapter(this, cursor);
         rv.setAdapter(adapter);
@@ -76,6 +76,6 @@ public class WeightHistoryActivity extends AppCompatActivity {
     }
 
     private void refreshRecycleView(){
-        adapter.swapCursor(WeightController.getAllByCLHU(db, company_id, location_id, house_code, 0));
+        adapter.swapCursor(WeightController.getAllByCLHU(db, company_id, location_id, house_code));
     }
 }

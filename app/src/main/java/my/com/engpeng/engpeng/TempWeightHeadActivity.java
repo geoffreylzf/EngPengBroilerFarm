@@ -135,6 +135,7 @@ public class TempWeightHeadActivity extends AppCompatActivity {
                                 calender.set(Calendar.HOUR_OF_DAY, h);
                                 calender.set(Calendar.MINUTE, m);
                                 tvTime.setText(sdfTime.format(calender.getTime()));
+                                timeStr = sdfTime.format(calender.getTime());
                             }
                         }, hour, minute, false);
                 tpd.show();

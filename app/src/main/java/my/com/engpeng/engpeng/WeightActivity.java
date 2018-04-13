@@ -21,6 +21,7 @@ import my.com.engpeng.engpeng.adapter.WeightAdapter;
 import my.com.engpeng.engpeng.controller.WeightController;
 import my.com.engpeng.engpeng.controller.WeightDetailController;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
+import my.com.engpeng.engpeng.utilities.UIUtils;
 
 import static my.com.engpeng.engpeng.Global.I_KEY_SECTION;
 import static my.com.engpeng.engpeng.Global.I_KEY_WEIGHT;
@@ -37,6 +38,7 @@ public class WeightActivity extends AppCompatActivity {
     private RecyclerView rv;
     private long weight_id;
     private String date, time, feed, day;
+    private boolean is_upload = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +109,17 @@ public class WeightActivity extends AppCompatActivity {
         time = cursor.getString(cursor.getColumnIndex(WeightEntry.COLUMN_RECORD_TIME));
         feed = cursor.getString(cursor.getColumnIndex(WeightEntry.COLUMN_FEED));
         day = cursor.getString(cursor.getColumnIndex(WeightEntry.COLUMN_DAY));
-        setTitle("Body Weight - " + date + " - " + time + " - " + feed +" - Day " + day);
+
+        int upload = cursor.getInt(cursor.getColumnIndex(WeightEntry.COLUMN_UPLOAD));
+        if (upload == 1) {
+            is_upload = true;
+        }
+        String title = "BW - " + date + " - " + time + " - " + feed +" - Day " + day;
+
+        if (is_upload) {
+            title += " (Uploaded)";
+        }
+        setTitle(title);
     }
 
     private void setupSummary() {
@@ -152,7 +164,7 @@ public class WeightActivity extends AppCompatActivity {
         adapter = new WeightAdapter(this, cursor);
         rv.setAdapter(adapter);
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        /*(new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
@@ -184,7 +196,7 @@ public class WeightActivity extends AppCompatActivity {
 
 
             }
-        }).attachToRecyclerView(rv);
+        }).attachToRecyclerView(rv);*/
 
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -214,26 +226,31 @@ public class WeightActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_weight_delete) {
-            AlertDialog alertDialog = new AlertDialog.Builder(WeightActivity.this).create();
-            alertDialog.setTitle("Delete This Body Weight?");
-            alertDialog.setMessage("This action can't be undo. Do you still want to delete this body weight?");
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "DELETE",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            WeightController.remove(db, weight_id);
-                            WeightDetailController.removeByWeightId(db, weight_id);
-                            dialog.dismiss();
-                            finish();
-                        }
-                    });
-            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
-            return true;
+            if (is_upload) {
+                UIUtils.getMessageDialog(WeightActivity.this, "Delete Failed", "Uploaded data is unable to delete").show();
+            } else {
+                AlertDialog alertDialog = new AlertDialog.Builder(WeightActivity.this).create();
+                alertDialog.setTitle("Delete This Body Weight?");
+                alertDialog.setMessage("This action can't be undo. Do you still want to delete this body weight?");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "DELETE",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                WeightController.remove(db, weight_id);
+                                WeightDetailController.removeByWeightId(db, weight_id);
+                                dialog.dismiss();
+                                finish();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+                return true;
+            }
+
         }
         return super.onOptionsItemSelected(item);
     }

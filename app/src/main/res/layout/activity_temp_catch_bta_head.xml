@@ -122,7 +122,9 @@
                 style="@style/RadioButtonStyle"
                 android:layout_marginStart="32dp"
                 android:layout_weight="1"
-                android:text="@string/bta_op" />
+                android:text="@string/bta_op"
+                android:visibility="gone" />
+
         </RadioGroup>
 
         <TextView

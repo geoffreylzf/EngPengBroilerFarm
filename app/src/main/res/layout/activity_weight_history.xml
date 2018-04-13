@@ -30,6 +30,10 @@
             android:text="@string/day"
             style="@style/TableHeaderTextViewStyle"/>
 
+        <TextView
+            android:text="@string/uploaded"
+            style="@style/TableHeaderTextViewStyle"/>
+
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

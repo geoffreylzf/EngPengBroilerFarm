@@ -63,7 +63,7 @@ public class HouseListAdapter extends RecyclerView.Adapter<HouseListAdapter.Hous
                     + ")");
         } else if (module.equals(MODULE_WEIGHT)) {
             holder.tvHouseCode.setText("#" + String.valueOf(house_code)
-                    + "   (" + WeightController.getLastDayByCLHU(mdb, company_id, location_id, house_code, 0)
+                    + "   (" + WeightController.getLastDayByCLHU(mdb, company_id, location_id, house_code)
                     + ")");
         }
 

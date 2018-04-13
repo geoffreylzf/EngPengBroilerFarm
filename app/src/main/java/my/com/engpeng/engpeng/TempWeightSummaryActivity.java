@@ -37,6 +37,7 @@ public class TempWeightSummaryActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private TempWeightSummaryAdapter adapter;
     private RecyclerView rv;
+    private static int REQUEST_CODE_CONTINUE_NEXT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,14 +144,15 @@ public class TempWeightSummaryActivity extends AppCompatActivity {
     private void callTempWeightDetail() {
         Intent weightDetailIntent = new Intent(TempWeightSummaryActivity.this, TempWeightDetailActivity.class);
 
-        int section = TempWeightDetailController.getMaxSection(db);
-        if (section == 0) {
-            section = 1;
+        Cursor cursorLastDetail = TempWeightDetailController.getLastRecord(db);
+        if (cursorLastDetail != null) {
+            weightDetailIntent.putExtra(I_KEY_SECTION,  cursorLastDetail.getInt(cursorLastDetail.getColumnIndex(TempWeightDetailEntry.COLUMN_SECTION)));
+            weightDetailIntent.putExtra(I_KEY_QTY,  cursorLastDetail.getInt(cursorLastDetail.getColumnIndex(TempWeightDetailEntry.COLUMN_QTY)));
+        }else{
+            weightDetailIntent.putExtra(I_KEY_SECTION, 1);
         }
 
-        weightDetailIntent.putExtra(I_KEY_SECTION, section);
-
-        startActivity(weightDetailIntent);
+        startActivityForResult(weightDetailIntent, REQUEST_CODE_CONTINUE_NEXT);
     }
 
     private void setupSummary() {
@@ -274,5 +276,18 @@ public class TempWeightSummaryActivity extends AppCompatActivity {
                     }
                 });
         alertDialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_CONTINUE_NEXT) {
+            if(resultCode == RESULT_OK) {
+                boolean is_continue = data.getBooleanExtra(I_KEY_CONTINUE_NEXT, false);
+                if(is_continue){
+                    callTempWeightDetail();
+                }
+            }
+        }
     }
 }

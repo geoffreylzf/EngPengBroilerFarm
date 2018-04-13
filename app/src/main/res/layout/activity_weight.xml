@@ -10,8 +10,8 @@
         android:id="@+id/weight_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_margin="16dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,20 +23,20 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:text="@string/type"
-                style="@style/TableHeaderTextViewStyle"/>
+                style="@style/TableHeaderTextViewStyle"
+                android:text="@string/type" />
 
             <TextView
-                android:text="@string/weight"
-                style="@style/TableHeaderTextViewStyle" />
+                style="@style/TableHeaderTextViewStyle"
+                android:text="@string/weight" />
 
             <TextView
-                android:text="@string/qty"
-                style="@style/TableHeaderTextViewStyle" />
+                style="@style/TableHeaderTextViewStyle"
+                android:text="@string/qty" />
 
             <TextView
-                android:text="@string/avg"
-                style="@style/TableHeaderTextViewStyle" />
+                style="@style/TableHeaderTextViewStyle"
+                android:text="@string/avg" />
 
         </LinearLayout>
 
@@ -47,23 +47,23 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:text="@string/male"
-                style="@style/TableRowTextViewStyle"/>
+                style="@style/TableRowTextViewStyle"
+                android:text="@string/male" />
 
             <TextView
                 android:id="@+id/weight_tv_male_weight"
-                tools:text="@string/default_weight"
-                style="@style/TableRowTextViewStyle"/>
+                style="@style/TableRowTextViewStyle"
+                tools:text="@string/default_weight" />
 
             <TextView
                 android:id="@+id/weight_tv_male_quantity"
-                tools:text="@string/default_quantity"
-                style="@style/TableRowTextViewStyle" />
+                style="@style/TableRowTextViewStyle"
+                tools:text="@string/default_quantity" />
 
             <TextView
                 android:id="@+id/weight_tv_male_average"
-                tools:text="@string/default_avg"
-                style="@style/TableRowTextViewStyle" />
+                style="@style/TableRowTextViewStyle"
+                tools:text="@string/default_avg" />
 
         </LinearLayout>
 
@@ -73,23 +73,23 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:text="@string/female"
-                style="@style/TableRowTextViewStyle"/>
+                style="@style/TableRowTextViewStyle"
+                android:text="@string/female" />
 
             <TextView
                 android:id="@+id/weight_tv_female_weight"
-                tools:text="@string/default_weight"
-                style="@style/TableRowTextViewStyle"/>
+                style="@style/TableRowTextViewStyle"
+                tools:text="@string/default_weight" />
 
             <TextView
                 android:id="@+id/weight_tv_female_quantity"
-                tools:text="@string/default_quantity"
-                style="@style/TableRowTextViewStyle" />
+                style="@style/TableRowTextViewStyle"
+                tools:text="@string/default_quantity" />
 
             <TextView
                 android:id="@+id/weight_tv_female_average"
-                tools:text="@string/default_avg"
-                style="@style/TableRowTextViewStyle" />
+                style="@style/TableRowTextViewStyle"
+                tools:text="@string/default_avg" />
 
         </LinearLayout>
 
@@ -100,23 +100,23 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:text="@string/overall"
-                style="@style/TableRowTextViewStyle"/>
+                style="@style/TableRowTextViewStyle"
+                android:text="@string/overall" />
 
             <TextView
                 android:id="@+id/weight_tv_overall_weight"
-                tools:text="@string/default_weight"
-                style="@style/TableRowTextViewStyle" />
+                style="@style/TableRowTextViewStyle"
+                tools:text="@string/default_weight" />
 
             <TextView
                 android:id="@+id/weight_tv_overall_quantity"
-                tools:text="@string/default_quantity"
-                style="@style/TableRowTextViewStyle"/>
+                style="@style/TableRowTextViewStyle"
+                tools:text="@string/default_quantity" />
 
             <TextView
                 android:id="@+id/weight_tv_overall_average"
-                tools:text="@string/default_avg"
-                style="@style/TableRowTextViewStyle"/>
+                style="@style/TableRowTextViewStyle"
+                tools:text="@string/default_avg" />
 
         </LinearLayout>
 
@@ -134,20 +134,20 @@
         app:layout_constraintTop_toBottomOf="@+id/weight_ll">
 
         <TextView
-            android:text="@string/section"
-            style="@style/TableHeaderTextViewStyle"/>
+            style="@style/TableHeaderTextViewStyle"
+            android:text="@string/section" />
 
         <TextView
-            android:text="@string/weight"
-            style="@style/TableHeaderTextViewStyle"/>
+            style="@style/TableHeaderTextViewStyle"
+            android:text="@string/weight" />
 
         <TextView
-            android:text="@string/quantity"
-            style="@style/TableHeaderTextViewStyle"/>
+            style="@style/TableHeaderTextViewStyle"
+            android:text="@string/quantity" />
 
         <TextView
-            android:text="@string/gender"
-            style="@style/TableHeaderTextViewStyle" />
+            style="@style/TableHeaderTextViewStyle"
+            android:text="@string/gender" />
 
     </LinearLayout>
 
@@ -164,11 +164,11 @@
         app:layout_constraintTop_toBottomOf="@+id/weight_ll_history"
         app:layout_constraintVertical_bias="0.0">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/weight_rv"
-        style="@style/RecycleViewStyle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/weight_rv"
+            style="@style/RecycleViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/weight_fab_add"
@@ -177,10 +177,11 @@
             android:layout_margin="24dp"
             android:clickable="true"
             android:focusable="true"
+            android:visibility="gone"
             android:src="@drawable/ic_add_white_24px"
             app:fabSize="normal"
             app:layout_anchor="@id/weight_rv"
-            app:layout_anchorGravity="bottom|right|end"/>
+            app:layout_anchorGravity="bottom|right|end" />
 
     </android.support.design.widget.CoordinatorLayout>
 
@@ -188,6 +189,7 @@
         android:id="@+id/weight_tv_swipe"
         style="@style/SwipeTextViewStyle"
         android:text="@string/hint_swipe_to_delete"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

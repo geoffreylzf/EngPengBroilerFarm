@@ -10,22 +10,22 @@
 
     <TextView
         android:id="@+id/li_weight_history_tv_date"
-        style="@style/TableRowTextViewStyle"
-        tools:text="@string/default_date" />
+        style="@style/TableRowTextViewStyle"/>
 
     <TextView
         android:id="@+id/li_weight_history_tv_time"
-        style="@style/TableRowTextViewStyle"
-        tools:text="@string/default_time" />
+        style="@style/TableRowTextViewStyle" />
 
     <TextView
         android:id="@+id/li_weight_history_tv_feed"
-        style="@style/TableRowTextViewStyle"
-        tools:text="@string/default_feed"/>
+        style="@style/TableRowTextViewStyle"/>
 
     <TextView
         android:id="@+id/li_weight_history_tv_day"
-        style="@style/TableRowTextViewStyle"
-        tools:text="@string/default_day"/>
+        style="@style/TableRowTextViewStyle"/>
+
+    <TextView
+        android:id="@+id/li_weight_history_tv_upload"
+        style="@style/TableRowTextViewStyle"/>
 
 </LinearLayout>
