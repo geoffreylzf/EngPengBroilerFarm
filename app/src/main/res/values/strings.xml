@@ -68,7 +68,8 @@
     <string name="overall">Overall</string>
     <string name="type">Type</string>
     <string name="continue_">Continue</string>
-    <string name="Finish">Finish</string>
+    <string name="finish">Finish</string>
+    <string name="finish_catch_2">Finish (Selesai Penangkapan)</string>
     <string name="exit">Exit</string>
     <string name="time">Time</string>
     <string name="name">Name</string>

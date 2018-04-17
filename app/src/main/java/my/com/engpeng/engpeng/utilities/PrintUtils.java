@@ -103,6 +103,9 @@ public class PrintUtils {
                 secondColumnRow = (int) halfRow;
             }
 
+            double weight_per_house = 0;
+            int qty_per_house = 0;
+
             for (int x = 0; x < firstColumnRow; x++) {
                 cursorCatchBTADetail.moveToPosition(x);
                 String num = formatNumber(3, x + 1);
@@ -116,13 +119,14 @@ public class PrintUtils {
                 ttl_qty += Integer.parseInt(qty);
                 ttl_wgt += weight;
 
+                weight_per_house += weight;
+                qty_per_house += Integer.parseInt(qty);
 
                 ttl_cage += cage_qty;
                 ttl_cage_with_cover += with_cover_qty;
                 ttl_wgt_cage_with_cover += with_cover_qty * WEIGHT_COVER_WITH_CAGE;
                 ttl_cage_without_cover += without_cover_qty;
                 ttl_wgt_cage_without_cover += without_cover_qty * WEIGHT_COVER_WITHOUT_CAGE;
-
 
                 String leftColumn = btaTableRow(num, weight, qty);
 
@@ -141,6 +145,9 @@ public class PrintUtils {
                     ttl_qty += Integer.parseInt(qty2);
                     ttl_wgt += weight2;
 
+                    weight_per_house += weight2;
+                    qty_per_house += Integer.parseInt(qty2);
+
                     ttl_cage += cage_qty2;
                     ttl_cage_with_cover += with_cover_qty2;
                     ttl_wgt_cage_with_cover += with_cover_qty2 * WEIGHT_COVER_WITH_CAGE;
@@ -155,6 +162,7 @@ public class PrintUtils {
             }
 
             text += formatLine(halfLine("") + "|" + halfLine(""));
+            text += formatLine(halfLine(" WGT: " + String.format("%.2f", weight_per_house) + " kg") + "|" + halfLine(" QTY: " + qty_per_house + " heads"));
             text += formatLine(halfLine(PRINT_HALF_SEPERATOR) + "|" + halfLine(PRINT_HALF_SEPERATOR));
         }
         text += formatLine("");
