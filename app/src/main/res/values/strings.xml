@@ -7,6 +7,7 @@
     <string name="house_code">House Code</string>
     <string name="house_code_short">H#</string>
     <string name="gender_short">G#</string>
+    <string name="section_short">S#</string>
     <string name="num">#</string>
     <string name="cage_with_cover">Cage with Cover</string>
     <string name="cage_with_cover2">Cage with Cover (Ada Tutupan)</string>

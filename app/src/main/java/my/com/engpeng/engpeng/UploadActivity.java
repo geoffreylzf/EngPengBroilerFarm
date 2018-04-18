@@ -117,7 +117,6 @@ public class UploadActivity extends AppCompatActivity
 
 
     private void upload() {
-        String test = "";
         String data = "";
         try {
             String mortality_json = MortalityController.getUploadJson(db, 0);
@@ -125,7 +124,6 @@ public class UploadActivity extends AppCompatActivity
                     + URLEncoder.encode(mortality_json, NetworkUtils.ENCODE);
 
             String catch_bta_json = CatchBTAController.getUploadJson(db, 0);
-            test = catch_bta_json;
             data += "&" + URLEncoder.encode(EngPengContract.CatchBTAEntry.TABLE_NAME, NetworkUtils.ENCODE) + "="
                     + URLEncoder.encode(catch_bta_json, NetworkUtils.ENCODE);
 

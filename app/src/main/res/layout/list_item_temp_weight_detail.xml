@@ -11,16 +11,21 @@
     <TextView
         android:id="@+id/li_temp_weight_detail_tv_no"
         style="@style/TableRowTextViewStyle"
-        android:layout_weight="0.25"/>
+        android:layout_weight="0.2"/>
+
+    <TextView
+        android:id="@+id/li_temp_weight_detail_tv_section"
+        style="@style/TableRowTextViewStyle"
+        android:layout_weight="0.2"/>
 
     <TextView
         android:id="@+id/li_temp_weight_detail_tv_gender"
         style="@style/TableRowTextViewStyle"
-        android:layout_weight="0.15"/>
+        android:layout_weight="0.2"/>
 
     <TextView
         android:id="@+id/li_temp_weight_detail_tv_weight"
         style="@style/TableRowTextViewStyle"
-        android:layout_weight="0.60"/>
+        android:layout_weight="0.4"/>
 
 </LinearLayout>

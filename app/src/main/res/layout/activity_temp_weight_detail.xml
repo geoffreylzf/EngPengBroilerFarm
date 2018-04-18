@@ -14,7 +14,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
+            android:layout_weight="0.35"
             android:orientation="vertical">
 
             <LinearLayout
@@ -23,17 +23,22 @@
 
                 <TextView
                     style="@style/TableHeaderTextViewStyle"
-                    android:layout_weight="0.25"
+                    android:layout_weight="0.2"
                     android:text="@string/num" />
 
                 <TextView
                     style="@style/TableHeaderTextViewStyle"
-                    android:layout_weight="0.15"
+                    android:layout_weight="0.2"
+                    android:text="@string/section_short" />
+
+                <TextView
+                    style="@style/TableHeaderTextViewStyle"
+                    android:layout_weight="0.2"
                     android:text="@string/gender_short" />
 
                 <TextView
                     style="@style/TableHeaderTextViewStyle"
-                    android:layout_weight="0.6"
+                    android:layout_weight="0.4"
                     android:text="@string/weight" />
 
             </LinearLayout>
@@ -49,7 +54,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.75"
+            android:layout_weight="0.65"
             android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout style="@style/TextInputLayoutStyle">

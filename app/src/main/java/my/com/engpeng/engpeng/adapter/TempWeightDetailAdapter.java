@@ -37,10 +37,12 @@ public class TempWeightDetailAdapter extends RecyclerView.Adapter<TempWeightDeta
         if (!cursor.moveToPosition(position)) return;
 
         long id = cursor.getLong(cursor.getColumnIndex(EngPengContract.TempWeightDetailEntry._ID));
+        String section = cursor.getString(cursor.getColumnIndex(EngPengContract.TempWeightDetailEntry.COLUMN_SECTION));
         String weight = cursor.getString(cursor.getColumnIndex(EngPengContract.TempWeightDetailEntry.COLUMN_WEIGHT));
         String gender = cursor.getString(cursor.getColumnIndex(EngPengContract.TempWeightDetailEntry.COLUMN_GENDER));
 
         holder.tvNo.setText((cursor.getCount() - position) + "");
+        holder.tvSection.setText(section);
         holder.tvWeight.setText(weight);
         holder.tvGender.setText(gender);
 
@@ -61,13 +63,14 @@ public class TempWeightDetailAdapter extends RecyclerView.Adapter<TempWeightDeta
 
     class TempWeightDetailViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvNo, tvWeight, tvGender;
+        TextView tvNo, tvSection, tvWeight, tvGender;
         LinearLayout ll;
 
         public TempWeightDetailViewHolder(View itemView) {
             super(itemView);
             ll = itemView.findViewById(R.id.li_temp_weight_detail_ll);
             tvNo = itemView.findViewById(R.id.li_temp_weight_detail_tv_no);
+            tvSection = itemView.findViewById(R.id.li_temp_weight_detail_tv_section);
             tvWeight = itemView.findViewById(R.id.li_temp_weight_detail_tv_weight);
             tvGender = itemView.findViewById(R.id.li_temp_weight_detail_tv_gender);
         }

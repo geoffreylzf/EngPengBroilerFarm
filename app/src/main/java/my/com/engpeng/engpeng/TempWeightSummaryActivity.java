@@ -120,12 +120,28 @@ public class TempWeightSummaryActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //check detail
                 if (TempWeightDetailController.getTotalQty(db) > 0) {
-                    saveWeight();
 
-                    Intent houseListIntent = new Intent(TempWeightSummaryActivity.this, HouseListActivity.class);
-                    houseListIntent.putExtra(I_KEY_MODULE, MODULE_WEIGHT);
-                    houseListIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(houseListIntent);
+                    AlertDialog alertDialog = new AlertDialog.Builder(TempWeightSummaryActivity.this).create();
+                    alertDialog.setTitle("Confirm to save?");
+                    alertDialog.setMessage("Edit is unable after save, please check carefully before save.");
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "SAVE",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    saveWeight();
+
+                                    Intent houseListIntent = new Intent(TempWeightSummaryActivity.this, HouseListActivity.class);
+                                    houseListIntent.putExtra(I_KEY_MODULE, MODULE_WEIGHT);
+                                    houseListIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(houseListIntent);
+                                }
+                            });
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
 
                 } else {
                     Toast toast = new Toast(TempWeightSummaryActivity.this);

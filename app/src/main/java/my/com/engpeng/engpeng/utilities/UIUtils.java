@@ -23,6 +23,7 @@ public class UIUtils {
         progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         progressDialog.getWindow().setBackgroundDrawableResource(R.color.colorTranslucent);
         progressDialog.setContentView(view);
+        progressDialog.setCancelable(false);
         return progressDialog;
     }
 
