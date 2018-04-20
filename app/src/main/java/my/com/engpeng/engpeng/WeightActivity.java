@@ -21,10 +21,16 @@ import my.com.engpeng.engpeng.adapter.WeightAdapter;
 import my.com.engpeng.engpeng.controller.WeightController;
 import my.com.engpeng.engpeng.controller.WeightDetailController;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
+import my.com.engpeng.engpeng.utilities.PrintUtils;
 import my.com.engpeng.engpeng.utilities.UIUtils;
 
+import static my.com.engpeng.engpeng.Global.I_KEY_ID;
+import static my.com.engpeng.engpeng.Global.I_KEY_MODULE;
+import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_TEXT;
 import static my.com.engpeng.engpeng.Global.I_KEY_SECTION;
 import static my.com.engpeng.engpeng.Global.I_KEY_WEIGHT;
+import static my.com.engpeng.engpeng.Global.MODULE_CATCH_BTA;
+import static my.com.engpeng.engpeng.Global.MODULE_WEIGHT;
 import static my.com.engpeng.engpeng.data.EngPengContract.*;
 
 public class WeightActivity extends AppCompatActivity {
@@ -250,7 +256,15 @@ public class WeightActivity extends AppCompatActivity {
                 alertDialog.show();
                 return true;
             }
+        }
+        if (id == R.id.action_weight_print) {
+            String printText = PrintUtils.printWeight(db, weight_id);
 
+            Intent ppIntent = new Intent(WeightActivity.this, PrintPreviewActivity.class);
+            ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
+            ppIntent.putExtra(I_KEY_MODULE, MODULE_WEIGHT);
+            ppIntent.putExtra(I_KEY_ID, weight_id);
+            startActivity(ppIntent);
         }
         return super.onOptionsItemSelected(item);
     }

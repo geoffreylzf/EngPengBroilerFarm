@@ -22,6 +22,7 @@ import my.com.engpeng.engpeng.controller.TempWeightDetailController;
 import my.com.engpeng.engpeng.controller.WeightController;
 import my.com.engpeng.engpeng.controller.WeightDetailController;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
+import my.com.engpeng.engpeng.utilities.PrintUtils;
 
 import static my.com.engpeng.engpeng.Global.*;
 import static my.com.engpeng.engpeng.data.EngPengContract.*;
@@ -127,12 +128,20 @@ public class TempWeightSummaryActivity extends AppCompatActivity {
                     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "SAVE",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    saveWeight();
+                                    long weight_id = saveWeight();
 
                                     Intent houseListIntent = new Intent(TempWeightSummaryActivity.this, HouseListActivity.class);
                                     houseListIntent.putExtra(I_KEY_MODULE, MODULE_WEIGHT);
                                     houseListIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(houseListIntent);
+
+                                    String printText = PrintUtils.printWeight(db, weight_id);
+
+                                    Intent ppIntent = new Intent(TempWeightSummaryActivity.this, PrintPreviewActivity.class);
+                                    ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
+                                    ppIntent.putExtra(I_KEY_MODULE, MODULE_WEIGHT);
+                                    ppIntent.putExtra(I_KEY_ID, weight_id);
+                                    startActivity(ppIntent);
                                 }
                             });
                     alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
@@ -246,7 +255,7 @@ public class TempWeightSummaryActivity extends AppCompatActivity {
         adapter.swapCursor(TempWeightDetailController.getAll(db));
     }
 
-    private void saveWeight() {
+    private Long saveWeight() {
         Cursor tempHead = TempWeightController.getAll(db);
         Cursor tempDetail = TempWeightDetailController.getAll(db);
 
@@ -272,6 +281,8 @@ public class TempWeightSummaryActivity extends AppCompatActivity {
 
             WeightDetailController.add(db, weight_id, section, wgt, qty, gender);
         }
+
+        return weight_id;
     }
 
     @Override

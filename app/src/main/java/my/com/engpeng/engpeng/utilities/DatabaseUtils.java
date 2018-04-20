@@ -15,9 +15,11 @@ public class DatabaseUtils {
     public static void clearSystemData(SQLiteDatabase db) {
         db.delete(BranchEntry.TABLE_NAME, null, null);
         db.delete(HouseEntry.TABLE_NAME, null, null);
+        db.delete(StandardWeightEntry.TABLE_NAME, null, null);
 
         db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + BranchEntry.TABLE_NAME + "'");
         db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + HouseEntry.TABLE_NAME + "'");
+        db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + StandardWeightEntry.TABLE_NAME + "'");
     }
 
     public static void clearTransactionData(SQLiteDatabase db) {
@@ -54,6 +56,14 @@ public class DatabaseUtils {
         if (cvs != null) {
             for (ContentValues cv : cvs) {
                 db.insert(MortalityEntry.TABLE_NAME, null, cv);
+            }
+        }
+    }
+
+    public static void insertStandardWeight(SQLiteDatabase db, ContentValues[] cvs) {
+        if (cvs != null) {
+            for (ContentValues cv : cvs) {
+                db.insert(StandardWeightEntry.TABLE_NAME, null, cv);
             }
         }
     }

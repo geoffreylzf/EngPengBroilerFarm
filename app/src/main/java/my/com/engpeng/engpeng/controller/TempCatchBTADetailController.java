@@ -112,4 +112,21 @@ public class TempCatchBTADetailController {
     public static void delete(SQLiteDatabase db) {
         db.delete(EngPengContract.TempCatchBTADetailEntry.TABLE_NAME, null, null);
     }
+
+    public static Cursor getById(SQLiteDatabase db, Long id) {
+        String selection = EngPengContract.TempCatchBTADetailEntry._ID + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(id),
+        };
+        return db.query(
+                EngPengContract.TempCatchBTADetailEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+    }
 }

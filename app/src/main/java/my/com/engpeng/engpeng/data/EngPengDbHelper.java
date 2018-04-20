@@ -13,9 +13,10 @@ import my.com.engpeng.engpeng.data.EngPengContract.*;
 
 public class EngPengDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "engpeng.db";
-    private static final int DATABASE_VERSION = 8; //20180320
+    private static final int DATABASE_VERSION = 9; //20180320
     //DB VER 7 20180317
     //DB VER 8 20180320
+    //DB VER 9 20180418
 
     public EngPengDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -38,6 +39,7 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_CREATE_WEIGHT_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_WEIGHT_DETAIL_TABLE);
 
+        sqLiteDatabase.execSQL(SQL_CREATE_STANDARD_WEIGHT_TABLE);
     }
 
     @Override
@@ -84,6 +86,10 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
 
         if(oldVer <= 7 ){
             sqLiteDatabase.execSQL("ALTER TABLE catch_bta ADD COLUMN print_count INTEGER DEFAULT 0");
+        }
+
+        if(oldVer <= 8 ){
+            sqLiteDatabase.execSQL(SQL_CREATE_STANDARD_WEIGHT_TABLE);
         }
     }
 
@@ -196,6 +202,13 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
             WeightDetailEntry.COLUMN_WEIGHT + " INTEGER, " +
             WeightDetailEntry.COLUMN_QTY + " INTEGER, " +
             WeightDetailEntry.COLUMN_GENDER + " TEXT " +
+            "); ";
+
+    private final String SQL_CREATE_STANDARD_WEIGHT_TABLE = "CREATE TABLE " + StandardWeightEntry.TABLE_NAME + " (" +
+            StandardWeightEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            StandardWeightEntry.COLUMN_TYPE + " TEXT," +
+            StandardWeightEntry.COLUMN_DAY + " INTEGER," +
+            StandardWeightEntry.COLUMN_AVG_WEIGHT + " INTEGER " +
             "); ";
 }
 

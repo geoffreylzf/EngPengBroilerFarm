@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,10 +22,14 @@ import android.widget.Toast;
 import my.com.engpeng.engpeng.adapter.TempCatchBTASummaryAdapter;
 import my.com.engpeng.engpeng.controller.CatchBTAController;
 import my.com.engpeng.engpeng.controller.CatchBTADetailController;
+import my.com.engpeng.engpeng.controller.MortalityController;
 import my.com.engpeng.engpeng.controller.TempCatchBTAController;
 import my.com.engpeng.engpeng.controller.TempCatchBTADetailController;
+import my.com.engpeng.engpeng.controller.WeightController;
+import my.com.engpeng.engpeng.controller.WeightDetailController;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
 import my.com.engpeng.engpeng.utilities.PrintUtils;
+import my.com.engpeng.engpeng.utilities.UIUtils;
 
 import static my.com.engpeng.engpeng.Global.I_KEY_CAGE_QTY;
 import static my.com.engpeng.engpeng.Global.I_KEY_COMPANY;
@@ -35,6 +42,7 @@ import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_TEXT;
 import static my.com.engpeng.engpeng.Global.I_KEY_QTY;
 import static my.com.engpeng.engpeng.Global.I_KEY_WITH_COVER_QTY;
 import static my.com.engpeng.engpeng.Global.MODULE_CATCH_BTA;
+import static my.com.engpeng.engpeng.Global.MODULE_WEIGHT;
 import static my.com.engpeng.engpeng.Global.sLocationName;
 import static my.com.engpeng.engpeng.data.EngPengContract.*;
 
@@ -190,10 +198,42 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                long id = (long) viewHolder.itemView.getTag();
-                TempCatchBTADetailController.remove(db, id);
-                refreshRecycleView();
-                setupTtlSummary();
+                final long id = (long) viewHolder.itemView.getTag();
+
+                Cursor cursorDetail = TempCatchBTADetailController.getById(db, id);
+                cursorDetail.moveToFirst();
+                double weight = cursorDetail.getDouble(cursorDetail.getColumnIndex(TempCatchBTADetailEntry.COLUMN_WEIGHT));
+                int qty = cursorDetail.getInt(cursorDetail.getColumnIndex(TempCatchBTADetailEntry.COLUMN_QTY));
+                int house_code = cursorDetail.getInt(cursorDetail.getColumnIndex(TempCatchBTADetailEntry.COLUMN_HOUSE_CODE));
+                int cage_qty = cursorDetail.getInt(cursorDetail.getColumnIndex(TempCatchBTADetailEntry.COLUMN_CAGE_QTY));
+                int with_cover_qty = cursorDetail.getInt(cursorDetail.getColumnIndex(TempCatchBTADetailEntry.COLUMN_WITH_COVER_QTY));
+
+                AlertDialog alertDialog = new AlertDialog.Builder(TempCatchBTASummaryActivity.this).create();
+                alertDialog.setTitle("Delete Swiped Catch BTA Data ?");
+                String message = "Weight(kg) : " + weight + "\n";
+                message += "Quantity : " + qty + "\n";
+                message += "House : " + house_code + "\n";
+                message += "Cage Qty : " + cage_qty + "\n";
+                message += "With Cover Qty : " + with_cover_qty + "\n\n";
+
+                alertDialog.setMessage(message + "This action can't be undo. Do you still want to delete swiped catch BTA data ?");
+                alertDialog.setCancelable(false);
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "DELETE",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                TempCatchBTADetailController.remove(db, id);
+                                refreshRecycleView();
+                                setupTtlSummary();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                refreshRecycleView();
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
             }
         }).attachToRecyclerView(rv);
 
@@ -217,22 +257,7 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        AlertDialog alertDialog = new AlertDialog.Builder(TempCatchBTASummaryActivity.this).create();
-        alertDialog.setTitle("Discard entered data?");
-        alertDialog.setMessage("Back will discard entered data. Do you still want to back to previous screen?");
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "DISCARD",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        TempCatchBTASummaryActivity.this.finish();
-                    }
-                });
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
+        //Do nothing
     }
 
     public void setupSummary() {
@@ -314,5 +339,36 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.temp_catch_bta_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_temp_catch_bta_discard) {
+            AlertDialog alertDialog = new AlertDialog.Builder(TempCatchBTASummaryActivity.this).create();
+            alertDialog.setTitle("Discard entered data?");
+            alertDialog.setMessage("Back will discard entered data. Do you still want to back to previous screen?");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "DISCARD",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            TempCatchBTASummaryActivity.this.finish();
+                        }
+                    });
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -128,6 +128,7 @@ public class LocationInfoActivity extends AppCompatActivity
                 ContentValues[] cvs_b = JsonUtils.getBranchContentValues(json);
                 ContentValues[] cvs_h = JsonUtils.getHouseContentValues(json);
                 ContentValues[] cvs_m = JsonUtils.getMortalityContentValues(json);
+                ContentValues[] cvs_sw = JsonUtils.getStandardWeightContentValues(json);
 
                 if (cvs_b != null && cvs_b.length != 0 && cvs_h != null && cvs_h.length != 0) {
 
@@ -136,6 +137,7 @@ public class LocationInfoActivity extends AppCompatActivity
 
                     DatabaseUtils.insertBranch(db, cvs_b);
                     DatabaseUtils.insertHouse(db, cvs_h);
+                    DatabaseUtils.insertStandardWeight(db, cvs_sw);
 
                     MortalityController.removeUploaded(db);
                     DatabaseUtils.insertMortality(db, cvs_m);

@@ -101,10 +101,6 @@ public class BluetoothAdapter extends RecyclerView.Adapter<BluetoothAdapter.Blue
                     String address = (String) view.getTag();
                     BluetoothConnection conn = new BluetoothConnection();
                     conn.initPrint(context, address, printText, BluetoothAdapter.this);
-
-                    Cursor cursor = CatchBTAController.getById(db, id);
-                    cursor.moveToFirst();
-                    Log.i("printcount", cursor.getInt(cursor.getColumnIndex(EngPengContract.CatchBTAEntry.COLUMN_PRINT_COUNT))+"");
                 }
             });
         }

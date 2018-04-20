@@ -122,4 +122,11 @@ public class EngPengContract {
         public static final String COLUMN_QTY = "qty";
         public static final String COLUMN_GENDER = "gender";
     }
+
+    public static final class StandardWeightEntry implements BaseColumns {
+        public static final String TABLE_NAME = "standard_weight";
+        public static final String COLUMN_TYPE = "type";
+        public static final String COLUMN_DAY = "day";
+        public static final String COLUMN_AVG_WEIGHT = "avg_weight";
+    }
 }

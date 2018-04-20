@@ -229,5 +229,54 @@ public class WeightDetailController {
         return json;
     }
 
+    public static int[] getSectionByWeightId(SQLiteDatabase db, Long weight_id) {
 
+        String[] columns = new String[]{
+                "DISTINCT(" + WeightDetailEntry.COLUMN_SECTION + ") AS " + WeightDetailEntry.COLUMN_SECTION,
+        };
+
+        String selection = WeightDetailEntry.COLUMN_WEIGHT_ID + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(weight_id),
+        };
+
+        Cursor cursor = db.query(
+                WeightDetailEntry.TABLE_NAME,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                WeightDetailEntry.COLUMN_SECTION
+        );
+
+        int[] sectionArr = new int[cursor.getCount()];
+        for (int i = 0; i <cursor.getCount(); i++){
+            cursor.moveToNext();
+            sectionArr[i] = cursor.getInt(cursor.getColumnIndex(WeightDetailEntry.COLUMN_SECTION));
+        }
+        return sectionArr;
+    }
+
+    public static Cursor getAllByWeightIdSection(SQLiteDatabase db, Long weight_id, int section) {
+
+        String selection = WeightDetailEntry.COLUMN_WEIGHT_ID + " = ? AND " +
+                WeightDetailEntry.COLUMN_SECTION + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(weight_id),
+                String.valueOf(section),
+        };
+
+        return db.query(
+                WeightDetailEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                WeightDetailEntry._ID
+        );
+    }
 }

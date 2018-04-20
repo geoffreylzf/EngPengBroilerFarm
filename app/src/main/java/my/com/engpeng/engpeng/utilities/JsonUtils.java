@@ -3,6 +3,7 @@ package my.com.engpeng.engpeng.utilities;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -63,6 +64,10 @@ public class JsonUtils {
     private static final String MOBILE_WEIGHT_DETAIL = "mobile_weight_detail";
     private static final String SECTION = "section";
     private static final String GENDER = "gender";
+
+    private static final String STANDARD_WEIGHT = "standard_weight";
+    private static final String AVG_WEIGHT = "avg_weight";
+
 
     public static boolean getAuthentication(Context context, String jsonStr) {
         try {
@@ -195,6 +200,29 @@ public class JsonUtils {
                 cv.put(MortalityEntry.COLUMN_RECORD_DATE, mortality.getString(RECORD_DATE));
                 cv.put(MortalityEntry.COLUMN_TIMESTAMP, mortality.getString(TIMESTAMP));
                 cv.put(MortalityEntry.COLUMN_UPLOAD, 1);
+
+                cvs[i] = cv;
+            }
+            return cvs;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ContentValues[] getStandardWeightContentValues(String jsonStr) {
+        try {
+            JSONObject json = new JSONObject(jsonStr);
+            JSONArray jsonArray = json.getJSONArray(STANDARD_WEIGHT);
+            ContentValues[] cvs = new ContentValues[jsonArray.length()];
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject sw = jsonArray.getJSONObject(i);
+                ContentValues cv = new ContentValues();
+
+                cv.put(StandardWeightEntry.COLUMN_TYPE, sw.getString(TYPE));
+                cv.put(StandardWeightEntry.COLUMN_DAY, sw.getInt(DAY));
+                cv.put(StandardWeightEntry.COLUMN_AVG_WEIGHT, sw.getInt(AVG_WEIGHT));
 
                 cvs[i] = cv;
             }

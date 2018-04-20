@@ -77,6 +77,7 @@ public class MortalityHistoryActivity extends AppCompatActivity {
                     AlertDialog alertDialog = new AlertDialog.Builder(MortalityHistoryActivity.this).create();
                     alertDialog.setTitle("Delete Swiped Mortality Data ?");
                     alertDialog.setMessage("This action can't be undo. Do you still want to delete swiped mortality data ?");
+                    alertDialog.setCancelable(false);
                     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "DELETE",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
