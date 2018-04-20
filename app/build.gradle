@@ -6,7 +6,7 @@ android {
         applicationId "my.com.engpeng.engpeng"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 34
+        versionCode 36
         //12-4.7 - 20180320
         //13-4.8 - 20180321
         //14-4.9 - 20180326
@@ -22,7 +22,8 @@ android {
         //30-4.18.2 - 20180417
         //31-4.18.3 - 20180418
         //34-4.18.6 - 20180418
-        versionName "4.18.6"
+        //36-4.19.0 - 20180420
+        versionName "4.19.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

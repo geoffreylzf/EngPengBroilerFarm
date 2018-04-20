@@ -86,14 +86,14 @@
             <EditText
                 android:id="@+id/temp_catch_bta_head_et_doc_number"
                 style="@style/EditTextStyle"
-                android:hint="@string/doc_number"
+                android:hint="@string/doc_number2"
                 android:inputType="number" />
 
         </android.support.design.widget.TextInputLayout>
 
         <TextView
             style="@style/LabelTextViewStyle"
-            android:text="@string/destination" />
+            android:text="@string/destination2" />
 
         <RadioGroup
             android:id="@+id/temp_catch_bta_head_rg_destination"
@@ -129,7 +129,7 @@
 
         <TextView
             style="@style/LabelTextViewStyle"
-            android:text="@string/type" />
+            android:text="@string/type2" />
 
         <RadioGroup
             android:id="@+id/temp_catch_bta_head_rg_type"
@@ -167,7 +167,7 @@
             <EditText
                 android:id="@+id/temp_catch_bta_head_et_truck_code"
                 style="@style/EditTextStyle"
-                android:hint="@string/truck_code"
+                android:hint="@string/truck_code2"
                 android:inputType="textCapCharacters|textNoSuggestions" />
 
         </android.support.design.widget.TextInputLayout>
@@ -186,7 +186,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:text="@string/start"
+                android:text="@string/start2"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="64dp"/>
         </RelativeLayout>

@@ -14,7 +14,7 @@
             android:title="@string/location" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/communicate">
         <menu>
             <group android:checkableBehavior="single">
                 <item
@@ -29,7 +29,7 @@
         </menu>
     </item>
 
-    <item android:title="Session">
+    <item android:title="@string/session">
         <menu>
             <group android:checkableBehavior="single">
                 <item

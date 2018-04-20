@@ -123,9 +123,9 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
                 if (TempCatchBTADetailController.getAll(db).getCount() > 0) {
 
                     AlertDialog alertDialog = new AlertDialog.Builder(TempCatchBTASummaryActivity.this).create();
-                    alertDialog.setTitle("Confirm to save?");
-                    alertDialog.setMessage("Edit is unable after save, please check carefully before save.");
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "SAVE",
+                    alertDialog.setTitle("Confirm to save? (Simpan?)");
+                    alertDialog.setMessage("Edit is unable after save, please check carefully before save.\n(Pengubahan dihalang selepas simpan, pastikan semua betul sebelum simpan.)");
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "SAVE (SIMPAN)",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     long catch_bta_id = saveCatchBTA();
@@ -144,7 +144,7 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
 
                                 }
                             });
-                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL(BALIK)",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
@@ -218,7 +218,7 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
 
                 alertDialog.setMessage(message + "This action can't be undo. Do you still want to delete swiped catch BTA data ?");
                 alertDialog.setCancelable(false);
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "DELETE",
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "DELETE(BUANG)",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 TempCatchBTADetailController.remove(db, id);
@@ -226,7 +226,7 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
                                 setupTtlSummary();
                             }
                         });
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL(BALIK)",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 refreshRecycleView();
@@ -353,15 +353,16 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.action_temp_catch_bta_discard) {
             AlertDialog alertDialog = new AlertDialog.Builder(TempCatchBTASummaryActivity.this).create();
-            alertDialog.setTitle("Discard entered data?");
-            alertDialog.setMessage("Back will discard entered data. Do you still want to back to previous screen?");
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "DISCARD",
+            alertDialog.setTitle("Discard entered data? (Buang rekod tangkap ini?)");
+            alertDialog.setMessage("Discard entered data will not recover. Do you still want to discard?\n" +
+                    "(Rekod tangkap yang dibuang tidak akan kembali, anda pasti mahu buang?)");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "DISCARD(BUANG)",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             TempCatchBTASummaryActivity.this.finish();
                         }
                     });
-            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL(BALIK)",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();

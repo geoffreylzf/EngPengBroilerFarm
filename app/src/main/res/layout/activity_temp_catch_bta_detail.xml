@@ -66,7 +66,7 @@
                         style="@style/LabelTextViewStyle"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
-                        android:text="@string/house_code" />
+                        android:text="@string/house_code2" />
 
                     <Spinner
                         android:id="@+id/temp_catch_bta_detail_sn_house_code"
@@ -92,7 +92,7 @@
                 <EditText
                     android:id="@+id/temp_catch_bta_detail_et_weight"
                     style="@style/EditTextStyle"
-                    android:hint="@string/weight_kg"
+                    android:hint="@string/weight_kg2"
                     android:inputType="numberDecimal" />
 
             </android.support.design.widget.TextInputLayout>
@@ -102,7 +102,7 @@
                 <EditText
                     android:id="@+id/temp_catch_bta_detail_et_qty"
                     style="@style/EditTextStyle"
-                    android:hint="@string/quantity"
+                    android:hint="@string/quantity2"
                     android:selectAllOnFocus="true"
                     android:inputType="number" />
 
@@ -110,7 +110,7 @@
 
             <TextView
                 style="@style/LabelTextViewStyle"
-                android:text="@string/cage_qty" />
+                android:text="@string/cage_qty2" />
 
             <RadioGroup
                 android:id="@+id/temp_catch_bta_detail_rg_cage_qty"
@@ -207,7 +207,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="64dp"
                     android:layout_marginTop="32dp"
-                    android:text="@string/save" />
+                    android:text="@string/save2" />
 
                 <Button
                     android:id="@+id/temp_catch_bta_detail_btn_save_and_return"
@@ -228,7 +228,7 @@
                     android:layout_marginEnd="32dp"
                     android:layout_marginTop="32dp"
                     android:layout_toStartOf="@+id/temp_catch_bta_detail_btn_save_and_return"
-                    android:text="@string/cancel" />
+                    android:text="@string/cancel2" />
             </RelativeLayout>
 
         </LinearLayout>
