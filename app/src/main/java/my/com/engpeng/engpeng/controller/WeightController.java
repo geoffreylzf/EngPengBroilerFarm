@@ -77,6 +77,26 @@ public class WeightController {
         );
     }
 
+    public static Cursor getAllByDate(SQLiteDatabase db,
+                                      String record_date) {
+
+        String selection = WeightEntry.COLUMN_RECORD_DATE + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(record_date),
+        };
+
+        return db.query(
+                WeightEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                WeightEntry._ID + " DESC"
+        );
+    }
+
     public static String getLastDayByCLHU(SQLiteDatabase db,
                                           int company_id,
                                           int location_id,
