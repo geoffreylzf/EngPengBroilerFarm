@@ -148,6 +148,10 @@ public class MainActivity extends AppCompatActivity {
 
                     startActivity(new Intent(MainActivity.this, LocationInfoActivity.class));
 
+                } else if (id == R.id.nav_weight_report) {
+
+                    startActivity(new Intent(MainActivity.this, WeightReportActivity.class));
+
                 } else if (id == R.id.nav_logout) {
 
                     startActivity(new Intent(MainActivity.this, LogoutActivity.class));

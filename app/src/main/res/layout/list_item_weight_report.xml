@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/li_weight_report_ll"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@drawable/list_item_selector"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/li_weight_report_tv_loc"
+        style="@style/TableRowTextViewStyle"/>
+
+    <TextView
+        android:id="@+id/li_weight_report_tv_hse"
+        style="@style/TableRowTextViewStyle" />
+
+    <TextView
+        android:id="@+id/li_weight_report_tv_day"
+        style="@style/TableRowTextViewStyle"/>
+
+    <TextView
+        android:id="@+id/li_weight_report_tv_m_avg"
+        style="@style/TableRowTextViewStyle"/>
+
+    <TextView
+        android:id="@+id/li_weight_report_tv_f_avg"
+        style="@style/TableRowTextViewStyle"/>
+
+    <TextView
+        android:id="@+id/li_weight_report_tv_avg"
+        style="@style/TableRowTextViewStyle"/>
+
+</LinearLayout>

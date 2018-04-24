@@ -5,6 +5,7 @@
     <string name="mortality_title">Mortality &amp; Reject</string>
     <string name="house_list_title">Select House</string>
     <string name="house_code">House Code</string>
+    <string name="hse">Hse</string>
     <string name="house_code2">House Code (No. Kadang)</string>
     <string name="house_code_short">H#</string>
     <string name="gender_short">G#</string>
@@ -48,8 +49,10 @@
     <string name="change_location">Change Location</string>
     <string name="company">Company</string>
     <string name="communicate">Communicate</string>
+    <string name="report">Report</string>
     <string name="session">Session</string>
     <string name="location">Location</string>
+    <string name="loc">Loc</string>
     <string name="history">History</string>
     <string name="date">Date</string>
     <string name="document">Document</string>
@@ -74,7 +77,10 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="weight">Weight</string>
+    <string name="wgt">Wgt</string>
     <string name="avg">Avg</string>
+    <string name="m_avg">M Avg</string>
+    <string name="f_avg">F Avg</string>
     <string name="qty">Qty</string>
     <string name="overall">Overall</string>
     <string name="type">Type</string>

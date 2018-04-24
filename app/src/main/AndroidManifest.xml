@@ -44,6 +44,7 @@
         <activity android:name=".UploadActivity" />
         <activity android:name=".WeightDetailActivity" />
         <activity android:name=".LogActivity" />
+
         <service
             android:name=".jobService.ReminderFirebaseJobService"
             android:exported="false">
@@ -63,7 +64,8 @@
             android:name=".BluetoothActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Dialog" />
-        <activity android:name=".PrintPreviewActivity"/>
+        <activity android:name=".PrintPreviewActivity" />
+        <activity android:name=".WeightReportActivity"></activity>
     </application>
 
 </manifest>
