@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="my.com.engpeng.engpeng.TempCatchBTASummaryActivity">
+    tools:context="my.com.engpeng.engpeng.TempFeedInSummaryActivity">
 
     <LinearLayout
-        android:id="@+id/temp_catch_bta_summary_ll"
+        android:id="@+id/temp_feed_in_summary_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/temp_catch_bta_summary_tv_location_name"
+            android:id="@+id/temp_feed_in_summary_tv_location_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Location :"
@@ -35,54 +35,22 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/temp_catch_bta_summary_tv_doc_number"
+                    android:id="@+id/temp_feed_in_summary_tv_doc_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Doc Number :" />
 
                 <TextView
-                    android:id="@+id/temp_catch_bta_summary_tv_destination"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Destination :" />
-
-                <TextView
-                    android:id="@+id/temp_catch_bta_summary_tv_type"
+                    android:id="@+id/temp_feed_in_summary_tv_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Type :" />
 
                 <TextView
-                    android:id="@+id/temp_catch_bta_summary_tv_truck_code"
+                    android:id="@+id/temp_feed_in_summary_tv_truck_code"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Truck Code :" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/temp_catch_bta_summary_tv_ttl_weight"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Total Weight :" />
-
-                <TextView
-                    android:id="@+id/temp_catch_bta_summary_tv_ttl_qty"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Total Quantity :" />
-
-                <TextView
-                    android:id="@+id/temp_catch_bta_summary_tv_ttl_record"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Total Cage :" />
 
             </LinearLayout>
 
@@ -91,7 +59,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/temp_catch_bta_summary_ll_history"
+        android:id="@+id/temp_feed_in_summary_ll_history"
         style="@style/TableHeaderLinearLayoutStyle"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
@@ -99,31 +67,25 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/temp_catch_bta_summary_ll">
+        app:layout_constraintTop_toBottomOf="@+id/temp_feed_in_summary_ll">
 
         <TextView
             style="@style/TableHeaderTextViewStyle"
-            android:layout_weight="0.5" />
+            android:layout_weight="0.25" />
 
         <TextView
             style="@style/TableHeaderTextViewStyle"
-            android:text="@string/weight_kg" />
+            android:text="@string/house_code"
+            android:layout_weight="0.5"/>
 
         <TextView
             style="@style/TableHeaderTextViewStyle"
-            android:text="@string/quantity" />
+            android:text="@string/sku_code" />
 
         <TextView
             style="@style/TableHeaderTextViewStyle"
-            android:text="@string/house_code" />
-
-        <TextView
-            style="@style/TableHeaderTextViewStyle"
-            android:text="@string/cage_qty" />
-
-        <TextView
-            style="@style/TableHeaderTextViewStyle"
-            android:text="@string/with_cover" />
+            android:text="@string/quantity"
+            android:layout_weight="0.5"/>
 
     </LinearLayout>
 
@@ -132,22 +94,22 @@
         android:layout_height="0dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/temp_catch_bta_summary_tv_swipe"
+        app:layout_constraintBottom_toTopOf="@+id/temp_feed_in_summary_tv_swipe"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/temp_catch_bta_summary_ll_history"
+        app:layout_constraintTop_toBottomOf="@+id/temp_feed_in_summary_ll_history"
         app:layout_constraintVertical_bias="0.0">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/temp_catch_bta_summary_rv"
+            android:id="@+id/temp_feed_in_summary_rv"
             style="@style/RecycleViewStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/temp_catch_bta_summary_fab_add"
+            android:id="@+id/temp_feed_in_summary_fab_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="24dp"
@@ -155,42 +117,42 @@
             android:focusable="true"
             android:src="@drawable/ic_add_white_24px"
             app:fabSize="normal"
-            app:layout_anchor="@id/temp_catch_bta_summary_rv"
+            app:layout_anchor="@id/temp_feed_in_summary_rv"
             app:layout_anchorGravity="bottom|right|end" />
 
     </android.support.design.widget.CoordinatorLayout>
 
     <TextView
-        android:id="@+id/temp_catch_bta_summary_tv_swipe"
+        android:id="@+id/temp_feed_in_summary_tv_swipe"
         style="@style/SwipeTextViewStyle"
         android:text="@string/hint_swipe_to_delete"
-        app:layout_constraintBottom_toTopOf="@+id/temp_catch_bta_summary_v_divider"
+        app:layout_constraintBottom_toTopOf="@+id/temp_feed_in_summary_v_divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <View
-        android:id="@+id/temp_catch_bta_summary_v_divider"
+        android:id="@+id/temp_feed_in_summary_v_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="32dp"
         android:background="@android:color/darker_gray"
-        app:layout_constraintBottom_toTopOf="@+id/temp_catch_bta_summary_btn_end"
+        app:layout_constraintBottom_toTopOf="@+id/temp_feed_in_summary_btn_end"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/temp_catch_bta_summary_btn_end"
+        android:id="@+id/temp_feed_in_summary_btn_end"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:layout_marginEnd="64dp"
         android:layout_marginTop="32dp"
-        android:text="@string/finish_catch_2"
+        android:text="@string/finish_feed_2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

@@ -154,7 +154,7 @@ public class CatchBTAActivity extends AppCompatActivity {
 
                 AlertDialog alertDialog = new AlertDialog.Builder(CatchBTAActivity.this).create();
                 alertDialog.setTitle("Delete This Catch BTA?");
-                alertDialog.setMessage("This action can't be undo. Do you still want to delete this body weight?");
+                alertDialog.setMessage("This action can't be undo. Do you still want to delete this feed_in?");
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "DELETE",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {

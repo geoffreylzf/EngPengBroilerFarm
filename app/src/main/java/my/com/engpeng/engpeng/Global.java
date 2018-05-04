@@ -55,6 +55,11 @@ public class Global {
     public static final String I_KEY_WITH_COVER_QTY = "I_KEY_WITH_COVER_QTY";
     public static final String I_KEY_CONTINUE_NEXT = "I_KEY_CONTINUE_NEXT";
     public static final String I_KEY_ID = "I_KEY_ID";
+    public static final String I_KEY_DOC_NUMBER = "I_KEY_DOC_NUMBER";
+    public static final String I_KEY_TYPE = "I_KEY_TYPE";
+    public static final String I_KEY_TRUCK_CODE = "I_KEY_TRUCK_CODE";
+    public static final String I_KEY_RECORD_DATE = "I_KEY_RECORD_DATE";
+    public static final String I_KEY_ID_LIST = "I_KEY_ID_LIST";
 
     //Preferences param keys
     public static final String P_KEY_USERNAME = "P_KEY_USERNAME";

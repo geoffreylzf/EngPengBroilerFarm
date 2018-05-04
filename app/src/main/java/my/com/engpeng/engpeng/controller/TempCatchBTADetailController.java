@@ -104,6 +104,27 @@ public class TempCatchBTADetailController {
         return totalQty;
     }
 
+    public static int getTotalCage(SQLiteDatabase db) {
+
+        String[] columns = new String[]{
+                "SUM(" + EngPengContract.TempCatchBTADetailEntry.COLUMN_CAGE_QTY + ") AS " + EngPengContract.TempCatchBTADetailEntry.COLUMN_CAGE_QTY,
+        };
+
+        Cursor cursor = db.query(
+                EngPengContract.TempCatchBTADetailEntry.TABLE_NAME,
+                columns,
+                null,
+                null,
+                null,
+                null,
+                EngPengContract.TempCatchBTADetailEntry.COLUMN_QTY + " DESC"
+        );
+
+        cursor.moveToFirst();
+        int totalCage = cursor.getInt(cursor.getColumnIndex(EngPengContract.TempCatchBTADetailEntry.COLUMN_CAGE_QTY));
+        return totalCage;
+    }
+
     public static boolean remove(SQLiteDatabase db, long id) {
         return db.delete(EngPengContract.TempCatchBTADetailEntry.TABLE_NAME, EngPengContract.TempCatchBTADetailEntry._ID + "=" + id, null) > 0;
     }

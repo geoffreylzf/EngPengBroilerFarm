@@ -5,6 +5,8 @@
     <string name="mortality_title">Mortality &amp; Reject</string>
     <string name="house_list_title">Select House</string>
     <string name="house_code">House Code</string>
+    <string name="sku_code">SKU Code</string>
+    <string name="sku">Stock Keeping Unit</string>
     <string name="hse">Hse</string>
     <string name="house_code2">House Code (No. Kadang)</string>
     <string name="house_code_short">H#</string>
@@ -57,6 +59,8 @@
     <string name="date">Date</string>
     <string name="document">Document</string>
     <string name="submit">Submit</string>
+    <string name="lorry_bag">Lorry (bag)</string>
+    <string name="silo_mt">Silo (mt)</string>
     <string name="kfc">KFC</string>
     <string name="grade_a">Grade A</string>
     <string name="grade_c">Grade C</string>
@@ -66,9 +70,12 @@
     <string name="enter_new">Enter New</string>
     <string name="day">Day</string>
     <string name="feed">Feed</string>
+    <string name="feed_in">Feed In</string>
+    <string name="feed_out">Feed Out</string>
     <string name="new_body_weight">New Body Weight</string>
     <string name="start">Start</string>
     <string name="start2">Start (Mula)</string>
+    <string name="continue2">Continue (Terus)</string>
     <string name="section">Section</string>
     <string name="weight_g">Weight (g)</string>
     <string name="quantity">Quantity</string>
@@ -88,6 +95,7 @@
     <string name="continue_">Continue</string>
     <string name="finish">Finish</string>
     <string name="finish_catch_2">Finish (Selesai Penangkapan)</string>
+    <string name="finish_feed_2">Finish (Selesai Letak Feed)</string>
     <string name="exit">Exit</string>
     <string name="time">Time</string>
     <string name="name">Name</string>

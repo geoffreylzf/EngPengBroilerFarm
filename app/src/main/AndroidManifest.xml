@@ -65,7 +65,12 @@
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Dialog" />
         <activity android:name=".PrintPreviewActivity" />
-        <activity android:name=".WeightReportActivity"></activity>
+        <activity android:name=".WeightReportActivity" />
+        <activity android:name=".TempFeedInHeadActivity" />
+        <activity android:name=".TempFeedInItemSelectionActivity" />
+        <activity android:name=".TempFeedInSummaryActivity" />
+        <activity android:name=".TempFeedInDetailActivity" />
+        <activity android:name=".FeedInHistoryActivity"></activity>
     </application>
 
 </manifest>

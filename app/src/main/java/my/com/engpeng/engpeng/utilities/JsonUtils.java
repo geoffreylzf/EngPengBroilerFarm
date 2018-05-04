@@ -68,6 +68,11 @@ public class JsonUtils {
     private static final String STANDARD_WEIGHT = "standard_weight";
     private static final String AVG_WEIGHT = "avg_weight";
 
+    private static final String FEED_ITEM = "feed_item";
+    private static final String SKU_CODE = "sku_code";
+    private static final String SKU_NAME = "sku_name";
+    private static final String ITEM_UOM_ID = "item_uom_id";
+
 
     public static boolean getAuthentication(Context context, String jsonStr) {
         try {
@@ -223,6 +228,32 @@ public class JsonUtils {
                 cv.put(StandardWeightEntry.COLUMN_TYPE, sw.getString(TYPE));
                 cv.put(StandardWeightEntry.COLUMN_DAY, sw.getInt(DAY));
                 cv.put(StandardWeightEntry.COLUMN_AVG_WEIGHT, sw.getInt(AVG_WEIGHT));
+
+                cvs[i] = cv;
+            }
+            return cvs;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ContentValues[] getFeedItemContentValues(String jsonStr) {
+        try {
+            JSONObject json = new JSONObject(jsonStr);
+            JSONArray jsonArray = json.getJSONArray(FEED_ITEM);
+            ContentValues[] cvs = new ContentValues[jsonArray.length()];
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject fi = jsonArray.getJSONObject(i);
+                ContentValues cv = new ContentValues();
+
+                cv.put(FeedItemEntry.COLUMN_ERP_ID, fi.getInt(ID));
+                cv.put(FeedItemEntry.COLUMN_SKU_CODE, fi.getString(SKU_CODE));
+                cv.put(FeedItemEntry.COLUMN_SKU_NAME, fi.getString(SKU_NAME));
+                cv.put(FeedItemEntry.COLUMN_ITEM_UOM_ID, fi.getInt(ITEM_UOM_ID));
+
+                Log.i("fi.getString(SKU_CODE)", fi.getString(SKU_CODE));
 
                 cvs[i] = cv;
             }

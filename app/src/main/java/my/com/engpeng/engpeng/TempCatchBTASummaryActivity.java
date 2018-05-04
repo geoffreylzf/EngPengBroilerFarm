@@ -290,11 +290,11 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
     public void setupTtlSummary(){
         int ttlQty = TempCatchBTADetailController.getTotalQty(db);
         double ttlWeight = TempCatchBTADetailController.getTotalWeight(db);
-        int ttlCage = TempCatchBTADetailController.getAll(db).getCount();
+        int ttlCage = TempCatchBTADetailController.getTotalCage(db);
 
         tvTtlQty.setText("Total Quantity : " + ttlQty);
         tvTtlWeight.setText("Total Weight : " + String.format("%.2f", ttlWeight) + " Kg");
-        tvTtlRecord.setText("Total Record : " + ttlCage + "");
+        tvTtlRecord.setText("Total Cage : " + ttlCage + "");
 
     }
 

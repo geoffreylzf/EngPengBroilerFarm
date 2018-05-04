@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.main_tl);
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.farm_data)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.harvest)));
-        //tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.goods_received)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.feed)));
         //tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.farm_management)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
