@@ -1,84 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TempFeedInDetailActivity">
 
-    <TextView
-        android:id="@+id/temp_feed_in_detail_tv_house"
-        style="@style/LabelTextViewStyle"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/house_code2"
-        android:layout_toStartOf="@+id/centerShim"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/temp_feed_in_detail_rv_house"
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/centerShim"
-        android:layout_below="@+id/temp_feed_in_detail_tv_house"/>
+        android:layout_weight="0.3">
 
-    <View
-        android:id="@+id/centerShim"
+        <TextView
+            android:id="@+id/temp_feed_in_detail_tv_house"
+            style="@style/LabelTextViewStyle"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/house_code2" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/temp_feed_in_detail_rv_house"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/temp_feed_in_detail_tv_house" />
+
+        <View
+            android:id="@+id/centerShim"
+            android:layout_height="match_parent"
+            android:layout_width="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_alignEnd="@id/temp_feed_in_detail_rv_house"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_width="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_centerHorizontal="true"/>
+        android:layout_weight="0.7">
 
-    <TextView
-        android:id="@+id/temp_feed_in_detail_tv_feed"
-        style="@style/LabelTextViewStyle"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_toEndOf="@+id/centerShim"
-        android:text="@string/feed"/>
+        <TextView
+            android:id="@+id/temp_feed_in_detail_tv_feed"
+            style="@style/LabelTextViewStyle"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/feed" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/temp_feed_in_detail_rv_feed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/centerShim"
-        android:layout_below="@+id/temp_feed_in_detail_tv_feed"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/temp_feed_in_detail_rv_feed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/temp_feed_in_detail_tv_feed" />
 
-    <android.support.design.widget.TextInputLayout
-        style="@style/TextInputLayoutStyle"
-        android:id="@+id/temp_feed_in_detail_til_qty"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/centerShim"
-        android:layout_below="@id/temp_feed_in_detail_rv_feed">
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/temp_feed_in_detail_til_qty"
+            style="@style/TextInputLayoutStyle"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/temp_feed_in_detail_rv_feed">
 
-        <EditText
-            android:id="@+id/temp_feed_in_detail_et_qty"
-            style="@style/EditTextStyle"
-            android:inputType="numberDecimal" />
+            <EditText
+                android:id="@+id/temp_feed_in_detail_et_qty"
+                style="@style/EditTextStyle"
+                android:inputType="numberDecimal" />
 
-    </android.support.design.widget.TextInputLayout>
+        </android.support.design.widget.TextInputLayout>
 
-    <Button
-        android:id="@+id/temp_feed_in_detail_btn_save"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/temp_feed_in_detail_til_qty"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/save2" />
+        <Button
+            android:id="@+id/temp_feed_in_detail_btn_save"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/temp_feed_in_detail_til_qty"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/save2" />
 
-    <Button
-        android:id="@+id/temp_feed_in_detail_btn_exit"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_toStartOf="@+id/temp_feed_in_detail_btn_save"
-        android:layout_below="@id/temp_feed_in_detail_til_qty"
-        android:text="@string/cancel2" />
+        <Button
+            android:id="@+id/temp_feed_in_detail_btn_exit"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/temp_feed_in_detail_til_qty"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_toStartOf="@+id/temp_feed_in_detail_btn_save"
+            android:text="@string/cancel2" />
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

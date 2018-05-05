@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import java.net.HttpURLConnection;
 
 import my.com.engpeng.engpeng.controller.CatchBTADetailController;
+import my.com.engpeng.engpeng.controller.FeedInDetailController;
 import my.com.engpeng.engpeng.controller.WeightDetailController;
 
 import static my.com.engpeng.engpeng.data.EngPengContract.*;
@@ -72,7 +73,6 @@ public class JsonUtils {
     private static final String SKU_CODE = "sku_code";
     private static final String SKU_NAME = "sku_name";
     private static final String ITEM_UOM_ID = "item_uom_id";
-
 
     public static boolean getAuthentication(Context context, String jsonStr) {
         try {
@@ -335,6 +335,41 @@ public class JsonUtils {
                 }
             }
         }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveFeedInHistory(String jsonStr, SQLiteDatabase db) {
+        try {
+            JSONObject json = new JSONObject(jsonStr);
+            JSONArray jsonArray = json.getJSONArray("mobile_feed_in");
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject feed_in = jsonArray.getJSONObject(i);
+
+                ContentValues cv = new ContentValues();
+                cv.put(FeedInEntry.COLUMN_COMPANY_ID, feed_in.getInt("company_id"));
+                cv.put(FeedInEntry.COLUMN_LOCATION_ID, feed_in.getInt("location_id"));
+                cv.put(FeedInEntry.COLUMN_RECORD_DATE, feed_in.getString("record_date"));
+                cv.put(FeedInEntry.COLUMN_TYPE, feed_in.getString("type"));
+                cv.put(FeedInEntry.COLUMN_DOC_NUMBER, feed_in.getInt("doc_number"));
+                cv.put(FeedInEntry.COLUMN_TRUCK_CODE, feed_in.getString("truck_code"));
+                cv.put(FeedInEntry.COLUMN_TIMESTAMP, feed_in.getString("timestamp"));
+                cv.put(FeedInEntry.COLUMN_UPLOAD, 1);
+
+                long feed_in_id = db.insert(FeedInEntry.TABLE_NAME, null, cv);
+
+                JSONArray jsonArrayDetail = feed_in.getJSONArray("mobile_feed_in_detail");
+                for (int x = 0; x < jsonArrayDetail.length(); x++) {
+                    JSONObject feed_in_detail = jsonArrayDetail.getJSONObject(x);
+                    FeedInDetailController.add(db,
+                            feed_in_id,
+                            feed_in_detail.getInt("house_code"),
+                            feed_in_detail.getInt("item_packing_id"),
+                            feed_in_detail.getDouble("qty"));
+                }
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

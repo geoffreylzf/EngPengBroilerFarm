@@ -14,6 +14,7 @@ import my.com.engpeng.engpeng.HouseListActivity;
 import my.com.engpeng.engpeng.R;
 import my.com.engpeng.engpeng.TempCatchBTAHeadActivity;
 import my.com.engpeng.engpeng.TempFeedInHeadActivity;
+import my.com.engpeng.engpeng.TempFeedTransferHeadActivity;
 import my.com.engpeng.engpeng.utilities.UIUtils;
 
 import static my.com.engpeng.engpeng.Global.I_KEY_MODULE;
@@ -33,7 +34,7 @@ public class MainTabFeedFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main_tab_feed, container, false);
 
         Button btnFeedIn = view.findViewById(R.id.main_f_btn_feed_in);
-        Button btnFeedOut = view.findViewById(R.id.main_f_btn_feed_out);
+        Button btnFeedOut = view.findViewById(R.id.main_f_btn_feed_transfer);
 
         btnFeedIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +42,18 @@ public class MainTabFeedFragment extends Fragment {
                 if (sCompanyId != 0 && sLocationId != 0) {
                     Intent tempFeedInHeadIntent = new Intent(getActivity(), TempFeedInHeadActivity.class);
                     startActivity(tempFeedInHeadIntent);
+                } else {
+                    alertDialog.show();
+                }
+            }
+        });
+
+        btnFeedOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sCompanyId != 0 && sLocationId != 0) {
+                    Intent tempFeedTransferHeadIntent = new Intent(getActivity(), TempFeedTransferHeadActivity.class);
+                    startActivity(tempFeedTransferHeadIntent);
                 } else {
                     alertDialog.show();
                 }

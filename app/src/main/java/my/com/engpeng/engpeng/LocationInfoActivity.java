@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 
 import my.com.engpeng.engpeng.controller.CatchBTAController;
+import my.com.engpeng.engpeng.controller.FeedInController;
 import my.com.engpeng.engpeng.controller.MortalityController;
 import my.com.engpeng.engpeng.controller.WeightController;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
@@ -149,6 +150,9 @@ public class LocationInfoActivity extends AppCompatActivity
 
                     WeightController.removeUploaded(db);
                     JsonUtils.saveWeightHistory(json, db);
+
+                    FeedInController.removeUploaded(db);
+                    JsonUtils.saveFeedInHistory(json, db);
 
                     finish();
                     this.startActivity(new Intent(this, CompanyListActivity.class));

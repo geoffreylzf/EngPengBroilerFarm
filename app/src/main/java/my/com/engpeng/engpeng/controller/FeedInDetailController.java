@@ -46,4 +46,38 @@ public class FeedInDetailController {
     public static boolean removeByFeedInId(SQLiteDatabase db, long id) {
         return db.delete(FeedInDetailEntry.TABLE_NAME, FeedInDetailEntry.COLUMN_FEED_IN_ID + "=" + id, null) > 0;
     }
+
+    public static String getUploadJsonByFeedInId(SQLiteDatabase db, Long feed_in) {
+        String selection = FeedInDetailEntry.COLUMN_FEED_IN_ID + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(feed_in),
+        };
+
+        Cursor cursor = db.query(
+                FeedInDetailEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                FeedInDetailEntry._ID + " DESC"
+        );
+
+        String json = " \"" + FeedInDetailEntry.TABLE_NAME + "\": [";
+        while (cursor.moveToNext()) {
+            json += "{";
+            json += "\"" + FeedInDetailEntry.COLUMN_HOUSE_CODE + "\": " + cursor.getString(cursor.getColumnIndex(FeedInDetailEntry.COLUMN_HOUSE_CODE)) + ",";
+            json += "\"" + FeedInDetailEntry.COLUMN_ITEM_PACKING_ID + "\": " + cursor.getString(cursor.getColumnIndex(FeedInDetailEntry.COLUMN_ITEM_PACKING_ID)) + ",";
+            json += "\"" + FeedInDetailEntry.COLUMN_QTY + "\": " + cursor.getString(cursor.getColumnIndex(FeedInDetailEntry.COLUMN_QTY)) + "";
+            json += "";
+            if (cursor.getPosition() == (cursor.getCount() - 1)) {
+                json += "}";
+            } else {
+                json += "},";
+            }
+        }
+        json += "]";
+        return json;
+    }
 }

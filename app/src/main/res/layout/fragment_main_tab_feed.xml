@@ -11,20 +11,14 @@
         <Button
             android:id="@+id/main_f_btn_feed_in"
             style="@style/MainFragmentButtonStyle"
-            android:drawableStart="@drawable/ic_file_download_white_24px"
-            android:text="@string/feed_in" />
+            android:drawableTop="@drawable/download_24"
+            android:text="@string/feed_delivery_in" />
 
         <Button
-            android:id="@+id/main_f_btn_feed_out"
+            android:id="@+id/main_f_btn_feed_transfer"
             style="@style/MainFragmentButtonStyle"
-            android:drawableStart="@drawable/ic_file_upload_white_24px"
-            android:text="@string/feed_out" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="4dp"
-            android:layout_weight="1" />
+            android:drawableTop="@drawable/transfer_24"
+            android:text="@string/feed_hse_to_hse_transfer"/>
 
     </LinearLayout>
 

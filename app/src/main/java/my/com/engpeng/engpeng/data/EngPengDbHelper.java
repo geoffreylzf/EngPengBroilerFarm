@@ -13,7 +13,7 @@ import my.com.engpeng.engpeng.data.EngPengContract.*;
 
 public class EngPengDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "engpeng.db";
-    private static final int DATABASE_VERSION = 10; //20180320
+    private static final int DATABASE_VERSION = 10;
     //DB VER 7 20180317
     //DB VER 8 20180320
     //DB VER 9 20180418

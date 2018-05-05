@@ -70,7 +70,9 @@
         <activity android:name=".TempFeedInItemSelectionActivity" />
         <activity android:name=".TempFeedInSummaryActivity" />
         <activity android:name=".TempFeedInDetailActivity" />
-        <activity android:name=".FeedInHistoryActivity"></activity>
+        <activity android:name=".FeedInHistoryActivity" />
+        <activity android:name=".TempFeedTransferHeadActivity" />
+        <activity android:name=".TempFeedTransferDetailActivity"></activity>
     </application>
 
 </manifest>

@@ -97,6 +97,21 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:text="@string/feed_in"
+                    style="@style/TableRowTextViewStyle"/>
+
+                <TextView
+                    android:id="@+id/upload_tv_feed_in"
+                    style="@style/TableRowTextViewStyle"/>
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>

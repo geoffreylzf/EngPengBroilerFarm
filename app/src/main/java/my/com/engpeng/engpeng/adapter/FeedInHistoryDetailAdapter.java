@@ -43,9 +43,13 @@ public class FeedInHistoryDetailAdapter extends RecyclerView.Adapter<FeedInHisto
         String qty = cursor.getString(cursor.getColumnIndex(EngPengContract.FeedInDetailEntry.COLUMN_QTY));
 
         Cursor cFeedItem = FeedItemController.getByErpId(db, item_packing_id);
-        cFeedItem.moveToFirst();
-        String sku_code = cFeedItem.getString(cFeedItem.getColumnIndex(EngPengContract.FeedItemEntry.COLUMN_SKU_CODE));
-        String sku_name = cFeedItem.getString(cFeedItem.getColumnIndex(EngPengContract.FeedItemEntry.COLUMN_SKU_NAME));
+
+        String sku_code = "Unknown SKU Code (ID: " + item_packing_id + ")";
+        String sku_name = "Unknown SKU Name";
+        if (cFeedItem.moveToFirst()) {
+            sku_code = cFeedItem.getString(cFeedItem.getColumnIndex(EngPengContract.FeedItemEntry.COLUMN_SKU_CODE));
+            sku_name = cFeedItem.getString(cFeedItem.getColumnIndex(EngPengContract.FeedItemEntry.COLUMN_SKU_NAME));
+        }
 
         holder.tvNo.setText((cursor.getCount() - position) + "");
         holder.tvHouseCode.setText(house_code);

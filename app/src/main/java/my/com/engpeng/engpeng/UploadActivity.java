@@ -9,6 +9,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import java.net.URLEncoder;
 
 import my.com.engpeng.engpeng.controller.CatchBTAController;
+import my.com.engpeng.engpeng.controller.FeedInController;
 import my.com.engpeng.engpeng.controller.MortalityController;
 import my.com.engpeng.engpeng.controller.WeightController;
 import my.com.engpeng.engpeng.data.EngPengContract;
@@ -37,7 +39,7 @@ import static my.com.engpeng.engpeng.Global.sUsername;
 public class UploadActivity extends AppCompatActivity
         implements AppLoader.AppLoaderListener, UploadAsyncTaskLoader.UploadAsyncTaskLoaderListener {
 
-    private TextView tvMortality, tvCatchBTA, tvWeight;
+    private TextView tvMortality, tvCatchBTA, tvWeight, tvFeedIn;
     private Button btnUpload;
     private CheckBox cbLocal;
     private Dialog progressDialog;
@@ -53,6 +55,7 @@ public class UploadActivity extends AppCompatActivity
         tvMortality = findViewById(R.id.upload_tv_mortality);
         tvCatchBTA = findViewById(R.id.upload_tv_catch_bta);
         tvWeight = findViewById(R.id.upload_tv_weight);
+        tvFeedIn = findViewById(R.id.upload_tv_feed_in);
         cbLocal = findViewById(R.id.upload_cb_local);
         btnUpload = findViewById(R.id.upload_btn_upload);
         progressDialog = UIUtils.getProgressDialog(this);
@@ -78,12 +81,14 @@ public class UploadActivity extends AppCompatActivity
         int mortality_count = MortalityController.getCount(db, 0);
         int catch_bta_count = CatchBTAController.getCount(db, 0);
         int weight_count = WeightController.getCount(db, 0);
+        int feed_in_count = FeedInController.getCount(db, 0);
 
-        ttl_row = mortality_count + catch_bta_count + weight_count;
+        ttl_row = mortality_count + catch_bta_count + weight_count + feed_in_count;
 
         tvMortality.setText(String.valueOf(mortality_count));
         tvCatchBTA.setText(String.valueOf(catch_bta_count));
         tvWeight.setText(String.valueOf(weight_count));
+        tvFeedIn.setText(String.valueOf(feed_in_count));
     }
 
     private void setupListener() {
@@ -130,6 +135,10 @@ public class UploadActivity extends AppCompatActivity
             String weight_json = WeightController.getUploadJson(db, 0);
             data += "&" + URLEncoder.encode(EngPengContract.WeightEntry.TABLE_NAME, NetworkUtils.ENCODE) + "="
                     + URLEncoder.encode(weight_json, NetworkUtils.ENCODE);
+
+            String feed_in_json = FeedInController.getUploadJson(db, 0);
+            data += "&" + URLEncoder.encode(EngPengContract.FeedInEntry.TABLE_NAME, NetworkUtils.ENCODE) + "="
+                    + URLEncoder.encode(feed_in_json, NetworkUtils.ENCODE);
 
         } catch (Exception e) {
             e.printStackTrace();

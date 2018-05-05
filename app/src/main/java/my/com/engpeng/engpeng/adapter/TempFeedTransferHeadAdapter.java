@@ -12,28 +12,27 @@ import android.widget.TextView;
 import java.util.List;
 
 import my.com.engpeng.engpeng.R;
-import my.com.engpeng.engpeng.model.FeedItem;
 import my.com.engpeng.engpeng.model.HouseCode;
 
-public class TempFeedInDetailHouseAdapter extends RecyclerView.Adapter<TempFeedInDetailHouseAdapter.HouseViewHolder> {
+public class TempFeedTransferHeadAdapter extends RecyclerView.Adapter<TempFeedTransferHeadAdapter.HouseViewHolder> {
 
     private Context mContext;
     private List<HouseCode> mHouseList;
 
-    public TempFeedInDetailHouseAdapter(Context context, List<HouseCode> houseList) {
+    public TempFeedTransferHeadAdapter(Context context, List<HouseCode> houseList) {
         this.mContext = context;
         this.mHouseList = houseList;
     }
 
     @Override
-    public HouseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TempFeedTransferHeadAdapter.HouseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater li = LayoutInflater.from(mContext);
-        View view = li.inflate(R.layout.list_item_temp_feed_in_detail_house, parent, false);
-        return new TempFeedInDetailHouseAdapter.HouseViewHolder(view);
+        View view = li.inflate(R.layout.list_item_temp_feed_transfer_head, parent, false);
+        return new TempFeedTransferHeadAdapter.HouseViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final TempFeedInDetailHouseAdapter.HouseViewHolder holder, int position) {
+    public void onBindViewHolder(final TempFeedTransferHeadAdapter.HouseViewHolder holder, int position) {
         final HouseCode hc = mHouseList.get(position);
         holder.tvHouseCode.setText("#" + hc.getHouseCode());
         holder.view.setBackgroundColor(hc.getIsSelect() ?
@@ -46,7 +45,7 @@ public class TempFeedInDetailHouseAdapter extends RecyclerView.Adapter<TempFeedI
                 resetHouseList();
                 hc.setIsSelect(!hc.getIsSelect());
 
-                TempFeedInDetailHouseAdapter.this.notifyDataSetChanged();
+                TempFeedTransferHeadAdapter.this.notifyDataSetChanged();
             }
         });
 
@@ -56,7 +55,7 @@ public class TempFeedInDetailHouseAdapter extends RecyclerView.Adapter<TempFeedI
                 resetHouseList();
                 hc.setIsSelect(!hc.getIsSelect());
 
-                TempFeedInDetailHouseAdapter.this.notifyDataSetChanged();
+                TempFeedTransferHeadAdapter.this.notifyDataSetChanged();
             }
         });
     }
@@ -82,8 +81,8 @@ public class TempFeedInDetailHouseAdapter extends RecyclerView.Adapter<TempFeedI
         public HouseViewHolder(View itemView) {
             super(itemView);
             view = itemView;
-            tvHouseCode = itemView.findViewById(R.id.li_temp_feed_in_detail_house_house_code);
-            cbSelect = itemView.findViewById(R.id.li_temp_feed_in_detail_house_cb);
+            tvHouseCode = itemView.findViewById(R.id.li_temp_feed_transfer_head_house_code);
+            cbSelect = itemView.findViewById(R.id.li_temp_feed_transfer_head_cb);
         }
 
     }

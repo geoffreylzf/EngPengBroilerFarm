@@ -35,6 +35,7 @@ public class TempFeedInDetailFeedAdapter extends RecyclerView.Adapter<TempFeedIn
     public void onBindViewHolder(final ItemViewHolder holder, int position) {
         final FeedItem fi = mFeedItemList.get(position);
         holder.tvSkuCode.setText(fi.getSkuCode());
+        holder.tvSkuName.setText(fi.getSkuName());
         holder.view.setBackgroundColor(fi.getIsSelect() ?
                 mContext.getResources().getColor(R.color.colorPrimaryLight) : Color.WHITE);
         holder.cbSelect.setChecked(fi.getIsSelect());
@@ -75,13 +76,14 @@ public class TempFeedInDetailFeedAdapter extends RecyclerView.Adapter<TempFeedIn
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
         View view;
-        TextView tvSkuCode;
+        TextView tvSkuCode, tvSkuName;
         CheckBox cbSelect;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             view = itemView;
             tvSkuCode = itemView.findViewById(R.id.li_temp_feed_detail_feed_sku_code);
+            tvSkuName = itemView.findViewById(R.id.li_temp_feed_detail_feed_sku_name);
             cbSelect = itemView.findViewById(R.id.li_temp_feed_detail_feed_cb);
         }
 

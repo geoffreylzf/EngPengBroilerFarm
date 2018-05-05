@@ -9,6 +9,8 @@
     <string name="sku">Stock Keeping Unit</string>
     <string name="hse">Hse</string>
     <string name="house_code2">House Code (No. Kadang)</string>
+    <string name="discharge2">Discharge (Keluar)</string>
+    <string name="receive2">Receive (Masuk)</string>
     <string name="house_code_short">H#</string>
     <string name="gender_short">G#</string>
     <string name="section_short">S#</string>
@@ -70,8 +72,10 @@
     <string name="enter_new">Enter New</string>
     <string name="day">Day</string>
     <string name="feed">Feed</string>
+    <string name="feed_delivery_in">Feed Delivery In</string>
     <string name="feed_in">Feed In</string>
     <string name="feed_out">Feed Out</string>
+    <string name="feed_hse_to_hse_transfer">Hse to Hse Transfer</string>
     <string name="new_body_weight">New Body Weight</string>
     <string name="start">Start</string>
     <string name="start2">Start (Mula)</string>
@@ -110,6 +114,7 @@
     <string name="login_as">Login as</string>
     <string name="confirm">Confirm</string>
     <string name="alert">Alert</string>
+    <string name="transfer">Transfer</string>
     <string name="sync">Sync</string>
     <string name="logout">Logout</string>
     <string name="farm_data">Farm Data</string>
