@@ -19,10 +19,10 @@
         <Button
             android:id="@+id/print_preview_btn_print"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_height="wrap_content"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:text="@string/print" />
 
@@ -36,17 +36,29 @@
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/print_preview_tv_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:fontFamily="monospace" />
-    </ScrollView>
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/print_preview_tv_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:fontFamily="monospace"/>
+
+            <ImageView
+                android:id="@+id/print_preview_iv_qr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:contentDescription="@string/qr_code"
+                android:layout_below="@+id/print_preview_tv_text"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 
 </LinearLayout>

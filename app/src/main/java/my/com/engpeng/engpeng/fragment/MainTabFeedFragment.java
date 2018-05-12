@@ -10,15 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import my.com.engpeng.engpeng.HouseListActivity;
 import my.com.engpeng.engpeng.R;
-import my.com.engpeng.engpeng.TempCatchBTAHeadActivity;
 import my.com.engpeng.engpeng.TempFeedInHeadActivity;
 import my.com.engpeng.engpeng.TempFeedTransferHeadActivity;
 import my.com.engpeng.engpeng.utilities.UIUtils;
 
-import static my.com.engpeng.engpeng.Global.I_KEY_MODULE;
-import static my.com.engpeng.engpeng.Global.MODULE_MORTALITY;
 import static my.com.engpeng.engpeng.Global.sCompanyId;
 import static my.com.engpeng.engpeng.Global.sLocationId;
 
@@ -35,6 +31,7 @@ public class MainTabFeedFragment extends Fragment {
 
         Button btnFeedIn = view.findViewById(R.id.main_f_btn_feed_in);
         Button btnFeedOut = view.findViewById(R.id.main_f_btn_feed_transfer);
+        Button btnFeedTIn = view.findViewById(R.id.main_f_btn_feed_t_in);
 
         btnFeedIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +54,13 @@ public class MainTabFeedFragment extends Fragment {
                 } else {
                     alertDialog.show();
                 }
+            }
+        });
+
+        btnFeedTIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 

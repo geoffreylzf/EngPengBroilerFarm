@@ -6,7 +6,7 @@ android {
         applicationId "my.com.engpeng.engpeng"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 38
+        versionCode 39
         //12-4.7 - 20180320
         //13-4.8 - 20180321
         //14-4.9 - 20180326
@@ -25,7 +25,8 @@ android {
         //36-4.19.0 - 20180420
         //37-4.20.0 - 20180424
         //38-4.21.1 - 20180430
-        versionName "4.20.1"
+        //39-4.21.2 - 20180512
+        versionName "4.21.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -51,5 +52,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-vision:12.0.1'
     implementation 'com.google.android.gms:play-services-auth:12.0.1'
     implementation 'com.google.firebase:firebase-core:12.0.0'
+
+    implementation 'com.google.zxing:core:3.3.2'
 }
 apply plugin: 'com.google.gms.google-services'

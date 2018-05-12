@@ -2,10 +2,8 @@ package my.com.engpeng.engpeng.adapter;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,25 +16,27 @@ import my.com.engpeng.engpeng.Global;
 import my.com.engpeng.engpeng.R;
 import my.com.engpeng.engpeng.bluetooth.BluetoothConnection;
 import my.com.engpeng.engpeng.controller.CatchBTAController;
-import my.com.engpeng.engpeng.data.EngPengContract;
 
 /**
  * Created by Admin on 28/2/2018.
  */
 
-public class BluetoothAdapter extends RecyclerView.Adapter<BluetoothAdapter.BluetoothDeviceViewHolder> implements BluetoothConnection.BluetoothConnectionListener{
+public class BluetoothAdapter extends RecyclerView.Adapter<BluetoothAdapter.BluetoothDeviceViewHolder> implements BluetoothConnection.BluetoothConnectionListener {
 
     private Context context;
     private Set<BluetoothDevice> btDevices;
     private String printText;
+    private byte[] byteQRCodeTop, byteQRCodeBottom;
     private SQLiteDatabase db;
     private String module;
     private Long id;
 
-    public BluetoothAdapter(Context context, Set<BluetoothDevice> btDevices, String printText, SQLiteDatabase db, String module, Long id) {
+    public BluetoothAdapter(Context context, Set<BluetoothDevice> btDevices, String printText, byte[] byteQRCodeTop, byte[] byteQRCodeBottom, SQLiteDatabase db, String module, Long id) {
         this.context = context;
         this.btDevices = btDevices;
         this.printText = printText;
+        this.byteQRCodeTop = byteQRCodeTop;
+        this.byteQRCodeBottom = byteQRCodeBottom;
         this.db = db;
         this.module = module;
         this.id = id;
@@ -77,10 +77,10 @@ public class BluetoothAdapter extends RecyclerView.Adapter<BluetoothAdapter.Blue
 
     @Override
     public void afterPrintDone() {
-        if (module.equals(Global.MODULE_CATCH_BTA)) {
-            CatchBTAController.increasePrintCount(db, id);
-
-
+        if (module != null) {
+            if (module.equals(Global.MODULE_CATCH_BTA)) {
+                CatchBTAController.increasePrintCount(db, id);
+            }
         }
     }
 
@@ -100,7 +100,7 @@ public class BluetoothAdapter extends RecyclerView.Adapter<BluetoothAdapter.Blue
                 public void onClick(View view) {
                     String address = (String) view.getTag();
                     BluetoothConnection conn = new BluetoothConnection();
-                    conn.initPrint(context, address, printText, BluetoothAdapter.this);
+                    conn.initPrint(context, address, printText, byteQRCodeTop, byteQRCodeBottom, BluetoothAdapter.this);
                 }
             });
         }

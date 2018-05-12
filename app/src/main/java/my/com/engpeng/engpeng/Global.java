@@ -49,6 +49,9 @@ public class Global {
     public static final String I_KEY_WEIGHT = "I_KEY_WEIGHT";
     public static final String I_KEY_CATCH_BTA = "I_KEY_CATCH_BTA";
     public static final String I_KEY_PRINT_TEXT = "I_KEY_PRINT_TEXT";
+    public static final String I_KEY_PRINT_QR_TEXT = "I_KEY_PRINT_QR_TEXT";
+    public static final String I_KEY_PRINT_QR_TOP = "I_KEY_PRINT_QR_TOP";
+    public static final String I_KEY_PRINT_QR_BOTTOM = "I_KEY_PRINT_QR_BOTTOM";
     public static final String I_KEY_DIRECT_RUN = "I_KEY_DIRECT_RUN";
     public static final String I_KEY_QTY = "I_KEY_QTY";
     public static final String I_KEY_CAGE_QTY = "I_KEY_CAGE_QTY";

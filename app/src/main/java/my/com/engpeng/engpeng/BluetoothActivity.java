@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.WindowManager;
 
 import java.util.Set;
@@ -19,14 +18,16 @@ import my.com.engpeng.engpeng.utilities.UIUtils;
 
 import static my.com.engpeng.engpeng.Global.I_KEY_ID;
 import static my.com.engpeng.engpeng.Global.I_KEY_MODULE;
+import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_QR_BOTTOM;
+import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_QR_TOP;
 import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_TEXT;
 
 public class BluetoothActivity extends AppCompatActivity {
 
     private BluetoothAdapter adapter;
-    private BluetoothConnection conn;
     private SQLiteDatabase db;
     private String printText;
+    private byte[] byteQRCodeTop, byteQRCodeBottom;
     private boolean is_bt_paired = false;
     private String module;
     private Long id;
@@ -47,8 +48,6 @@ public class BluetoothActivity extends AppCompatActivity {
 
         setupIntent();
 
-        conn = new BluetoothConnection();
-
         setupRecycleView();
 
         setTitle("Tap a bluetooth printer to print");
@@ -58,6 +57,12 @@ public class BluetoothActivity extends AppCompatActivity {
         Intent intentStart = getIntent();
         if (intentStart.hasExtra(I_KEY_PRINT_TEXT)) {
             printText = intentStart.getStringExtra(I_KEY_PRINT_TEXT);
+        }
+        if (intentStart.hasExtra(I_KEY_PRINT_QR_TOP)) {
+            byteQRCodeTop= intentStart.getByteArrayExtra(I_KEY_PRINT_QR_TOP);
+        }
+        if (intentStart.hasExtra(I_KEY_PRINT_QR_BOTTOM)) {
+            byteQRCodeBottom= intentStart.getByteArrayExtra(I_KEY_PRINT_QR_BOTTOM);
         }
         if (intentStart.hasExtra(I_KEY_MODULE)) {
             module = intentStart.getStringExtra(I_KEY_MODULE);
@@ -79,7 +84,7 @@ public class BluetoothActivity extends AppCompatActivity {
         RecyclerView rv = this.findViewById(R.id.bluetooth_rv_list);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-        Set<BluetoothDevice> btDevices = conn.getPairedBluetoothDevicesList(this);
+        Set<BluetoothDevice> btDevices = BluetoothConnection.getPairedBluetoothDevicesList(this);
 
         try{
             btDevices.toString();
@@ -90,12 +95,12 @@ public class BluetoothActivity extends AppCompatActivity {
         }
 
         if(is_bt_paired){
-            adapter = new BluetoothAdapter(this, btDevices, printText, db, module, id);
+            adapter = new BluetoothAdapter(this, btDevices, printText, byteQRCodeTop, byteQRCodeBottom, db, module, id);
             rv.setAdapter(adapter);
         }
     }
 
     private void refreshRecycleView(){
-        adapter.swapCursor(conn.getPairedBluetoothDevicesList(this));
+        adapter.swapCursor(BluetoothConnection.getPairedBluetoothDevicesList(this));
     }
 }

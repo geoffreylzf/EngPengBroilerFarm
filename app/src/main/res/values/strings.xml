@@ -35,6 +35,8 @@
     <string name="delete">Delete</string>
     <string name="discard">Discard</string>
     <string name="print">Print</string>
+    <string name="scan">Scan</string>
+    <string name="qr_code">QR Code</string>
     <string name="weight_day">Weight Day</string>
     <string name="cage_qty">Cage Quantity</string>
     <string name="cage_qty2">Cage Quantity (Jumlah Kurungan)</string>
@@ -54,6 +56,8 @@
     <string name="company">Company</string>
     <string name="communicate">Communicate</string>
     <string name="report">Report</string>
+    <string name="test">Test</string>
+    <string name="function">Function</string>
     <string name="session">Session</string>
     <string name="location">Location</string>
     <string name="loc">Loc</string>

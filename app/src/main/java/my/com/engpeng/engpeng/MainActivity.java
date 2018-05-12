@@ -152,6 +152,10 @@ public class MainActivity extends AppCompatActivity {
 
                     startActivity(new Intent(MainActivity.this, WeightReportActivity.class));
 
+                }else if (id == R.id.nav_test) {
+
+                    startActivity(new Intent(MainActivity.this, FunctionTestActivity.class));
+
                 } else if (id == R.id.nav_logout) {
 
                     startActivity(new Intent(MainActivity.this, LogoutActivity.class));
@@ -168,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.main_tl);
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.farm_data)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.harvest)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.feed)));
+        //tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.feed)));
         //tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.farm_management)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 

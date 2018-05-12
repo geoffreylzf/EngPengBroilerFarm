@@ -133,7 +133,7 @@ public class PrintUtils {
 
                 String leftColumn = btaTableRow(num, weight, qty);
 
-                String rightColumn = "";
+                String rightColumn = halfLine("");
 
                 if (x + firstColumnRow < row) {
                     cursorCatchBTADetail.moveToPosition(x + firstColumnRow);
@@ -200,7 +200,6 @@ public class PrintUtils {
         text += formatLine(halfLine("   Mandor/Supervisor  ") + halfLine("        Driver        "));
         text += formatLine("                  --END--                   ");
 
-        text += PRINT_END;
         return text;
     }
 
@@ -311,7 +310,7 @@ public class PrintUtils {
 
                 String leftColumn = weightTableRow(num, weight, qty, gender);
 
-                String rightColumn = "";
+                String rightColumn = halfLine("");
 
                 if (x + firstColumnRow < row) {
                     cursorWeightDetail.moveToPosition(x + firstColumnRow);
@@ -387,8 +386,6 @@ public class PrintUtils {
         text += formatLine("Printed by: " + sUsername);
         text += formatLine("");
         text += formatLine("                   --END--                   ");
-
-        text += PRINT_END;
 
         return text;
     }
