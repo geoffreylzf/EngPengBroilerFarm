@@ -75,6 +75,7 @@ public class Global {
     public static final int LOCATION_INFO_LOADER_ID = 1002;
     public static final int LOGIN_LOADER_ID = 1003;
     public static final int LOG_LOADER_ID = 1004;
+    public static final int PRINT_PREVIEW_LOADER_ID = 1005;
 
     public static void setupGlobalVariables(Context context, SQLiteDatabase db) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);

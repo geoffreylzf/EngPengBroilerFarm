@@ -7,14 +7,13 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.Set;
 import java.util.UUID;
 
+import PRTAndroidSDK.PRTAndroidPrint;
 import my.com.engpeng.engpeng.utilities.BarcodeUtils;
 import my.com.engpeng.engpeng.utilities.UIUtils;
 
@@ -25,7 +24,8 @@ public class BluetoothConnection {
     private static BluetoothSocket btSocket;
     private static OutputStream outputStream;
     private Context context;
-    private String address;
+    private String printerName, address;
+    private static final String OLD_PRINTER = "MPT-III";
 
     public static Set<BluetoothDevice> getPairedBluetoothDevicesList(Context context) {
         try {
@@ -50,35 +50,60 @@ public class BluetoothConnection {
         void afterPrintDone();
     }
 
-    public void initPrint(Context context, String address, String text, byte[] topQRCodeByte, byte[] bottomQRCodeByte, BluetoothConnectionListener bcListener) {
+    public void initPrint(Context context, String printerName, String address, String strPrintText, String strQRText, byte[] topQRCodeByte, byte[] bottomQRCodeByte, BluetoothConnectionListener bcListener) {
+
         this.context = context;
+        this.printerName = printerName;
         this.address = address;
 
-        if (initPrinter()) {
-            try {
-                outputStream = btSocket.getOutputStream();
+        if (this.printerName.equals(OLD_PRINTER)) {
+            PRTAndroidPrint PRT = new PRTAndroidPrint(this.context, "Bluetooth");
+            PRT.InitPort();
 
-                printText(text);
-                if (topQRCodeByte != null && bottomQRCodeByte != null) {
-                    printPhoto(topQRCodeByte);
-                    printPhoto(bottomQRCodeByte);
-                }
+            if (PRT.OpenPort(this.address)) {
+                Bitmap bitmap = BarcodeUtils.encodeStringAsQrCodeBitmap(strQRText);
+                PRT.PRTPrintBitmap(bitmap, 0);
 
-                printNewLine();
-                printNewLine();
-                printNewLine();
-                printNewLine();
-                printNewLine();
+                PRT.Language = "utf-8";
+                PRT.PRTSendString(strPrintText);
 
-                outputStream.close();
-                btSocket.close();
+                PRT.PRTFeedLines(200);
+
+                PRT.CloseProt();
 
                 bcListener.afterPrintDone();
-            } catch (Exception e) {
-                e.printStackTrace();
+            } else {
+                UIUtils.showToastMessage(context, "Please try again.");
             }
-        }else {
-            UIUtils.showToastMessage(context, "Please try again.");
+
+        } else {
+            if (initPrinter()) {
+                try {
+                    outputStream = btSocket.getOutputStream();
+
+                    if (topQRCodeByte != null && bottomQRCodeByte != null) {
+                        printPhoto(topQRCodeByte);
+                        printPhoto(bottomQRCodeByte);
+                    }
+
+                    printText(strPrintText);
+
+                    printNewLine();
+                    printNewLine();
+                    printNewLine();
+                    printNewLine();
+                    printNewLine();
+
+                    outputStream.close();
+                    btSocket.close();
+
+                    bcListener.afterPrintDone();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                UIUtils.showToastMessage(context, "Please try again.");
+            }
         }
     }
 

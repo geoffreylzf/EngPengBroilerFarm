@@ -54,14 +54,6 @@ public class DatabaseUtils {
         }
     }
 
-    public static void insertMortality(SQLiteDatabase db, ContentValues[] cvs) {
-        if (cvs != null) {
-            for (ContentValues cv : cvs) {
-                db.insert(MortalityEntry.TABLE_NAME, null, cv);
-            }
-        }
-    }
-
     public static void insertStandardWeight(SQLiteDatabase db, ContentValues[] cvs) {
         if (cvs != null) {
             for (ContentValues cv : cvs) {

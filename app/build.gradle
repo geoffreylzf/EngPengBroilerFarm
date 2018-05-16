@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "my.com.engpeng.engpeng"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 27
         versionCode 39
         //12-4.7 - 20180320
@@ -52,7 +52,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-vision:12.0.1'
     implementation 'com.google.android.gms:play-services-auth:12.0.1'
     implementation 'com.google.firebase:firebase-core:12.0.0'
-
     implementation 'com.google.zxing:core:3.3.2'
+    implementation files('libs/PRT_SDK.jar')
 }
 apply plugin: 'com.google.gms.google-services'

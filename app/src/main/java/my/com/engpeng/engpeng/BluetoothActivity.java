@@ -19,6 +19,7 @@ import my.com.engpeng.engpeng.utilities.UIUtils;
 import static my.com.engpeng.engpeng.Global.I_KEY_ID;
 import static my.com.engpeng.engpeng.Global.I_KEY_MODULE;
 import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_QR_BOTTOM;
+import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_QR_TEXT;
 import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_QR_TOP;
 import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_TEXT;
 
@@ -26,7 +27,7 @@ public class BluetoothActivity extends AppCompatActivity {
 
     private BluetoothAdapter adapter;
     private SQLiteDatabase db;
-    private String printText;
+    private String strPrintText, strQRText;
     private byte[] byteQRCodeTop, byteQRCodeBottom;
     private boolean is_bt_paired = false;
     private String module;
@@ -56,7 +57,10 @@ public class BluetoothActivity extends AppCompatActivity {
     private void setupIntent(){
         Intent intentStart = getIntent();
         if (intentStart.hasExtra(I_KEY_PRINT_TEXT)) {
-            printText = intentStart.getStringExtra(I_KEY_PRINT_TEXT);
+            strPrintText = intentStart.getStringExtra(I_KEY_PRINT_TEXT);
+        }
+        if (intentStart.hasExtra(I_KEY_PRINT_QR_TEXT)) {
+            strQRText = intentStart.getStringExtra(I_KEY_PRINT_QR_TEXT);
         }
         if (intentStart.hasExtra(I_KEY_PRINT_QR_TOP)) {
             byteQRCodeTop= intentStart.getByteArrayExtra(I_KEY_PRINT_QR_TOP);
@@ -95,7 +99,7 @@ public class BluetoothActivity extends AppCompatActivity {
         }
 
         if(is_bt_paired){
-            adapter = new BluetoothAdapter(this, btDevices, printText, byteQRCodeTop, byteQRCodeBottom, db, module, id);
+            adapter = new BluetoothAdapter(this, btDevices, strPrintText, strQRText, byteQRCodeTop, byteQRCodeBottom, db, module, id);
             rv.setAdapter(adapter);
         }
     }

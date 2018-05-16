@@ -51,8 +51,8 @@ public class FunctionTestActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent ppIntent = new Intent(FunctionTestActivity.this, PrintPreviewActivity.class);
-                ppIntent.putExtra(I_KEY_PRINT_TEXT, "TEST\nTEST\nTEST\nTEST\nTEST\n");
-                ppIntent.putExtra(I_KEY_PRINT_QR_TEXT, "TEST");
+                ppIntent.putExtra(I_KEY_PRINT_TEXT, "TEST-TEST-TEST-TEST-TEST-TEST\nTEST-TEST-TEST-TEST-TEST-TEST\nTEST-TEST-TEST-TEST-TEST-TEST\n");
+                ppIntent.putExtra(I_KEY_PRINT_QR_TEXT, "TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST");
                 startActivity(ppIntent);
             }
         });

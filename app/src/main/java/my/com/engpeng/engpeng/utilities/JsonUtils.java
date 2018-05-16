@@ -44,27 +44,8 @@ public class JsonUtils {
     private static final String R_Q = "r_q";
     private static final String TIMESTAMP = "timestamp";
 
-    private static final String MOBILE_CATCH_BTA = "mobile_catch_bta";
     private static final String TYPE = "type";
-    private static final String DOC_NUMBER = "doc_number";
-    private static final String DOC_TYPE = "doc_type";
-    private static final String TRUCK_CODE = "truck_code";
-    private static final String PRINT_COUNT = "print_count";
-
-    private static final String MOBILE_CATCH_BTA_DETAIL = "mobile_catch_bta_detail";
-    private static final String WEIGHT = "weight";
-    private static final String QTY = "qty";
-    private static final String CAGE_QTY = "cage_qty";
-    private static final String WITH_COVER_QTY = "with_cover_qty";
-
-    private static final String MOBILE_WEIGHT = "mobile_weight";
     private static final String DAY = "day";
-    private static final String RECORD_TIME = "record_time";
-    private static final String FEED = "feed";
-
-    private static final String MOBILE_WEIGHT_DETAIL = "mobile_weight_detail";
-    private static final String SECTION = "section";
-    private static final String GENDER = "gender";
 
     private static final String STANDARD_WEIGHT = "standard_weight";
     private static final String AVG_WEIGHT = "avg_weight";
@@ -253,124 +234,12 @@ public class JsonUtils {
                 cv.put(FeedItemEntry.COLUMN_SKU_NAME, fi.getString(SKU_NAME));
                 cv.put(FeedItemEntry.COLUMN_ITEM_UOM_ID, fi.getInt(ITEM_UOM_ID));
 
-                Log.i("fi.getString(SKU_CODE)", fi.getString(SKU_CODE));
-
                 cvs[i] = cv;
             }
             return cvs;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }
-    }
-
-    public static void saveCatchBTAHistory(String jsonStr, SQLiteDatabase db) {
-        try {
-            JSONObject json = new JSONObject(jsonStr);
-            JSONArray jsonArray = json.getJSONArray(MOBILE_CATCH_BTA);
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject catch_bta = jsonArray.getJSONObject(i);
-
-                ContentValues cv = new ContentValues();
-                cv.put(CatchBTAEntry.COLUMN_COMPANY_ID, catch_bta.getInt(COMPANY_ID));
-                cv.put(CatchBTAEntry.COLUMN_LOCATION_ID, catch_bta.getInt(LOCATION_ID));
-                cv.put(CatchBTAEntry.COLUMN_RECORD_DATE, catch_bta.getString(RECORD_DATE));
-                cv.put(CatchBTAEntry.COLUMN_TYPE, catch_bta.getString(TYPE));
-                cv.put(CatchBTAEntry.COLUMN_DOC_NUMBER, catch_bta.getInt(DOC_NUMBER));
-                cv.put(CatchBTAEntry.COLUMN_DOC_TYPE, catch_bta.getString(DOC_TYPE));
-                cv.put(CatchBTAEntry.COLUMN_TRUCK_CODE, catch_bta.getString(TRUCK_CODE));
-                cv.put(CatchBTAEntry.COLUMN_PRINT_COUNT, catch_bta.getInt(PRINT_COUNT));
-                cv.put(CatchBTAEntry.COLUMN_TIMESTAMP, catch_bta.getString(TIMESTAMP));
-                cv.put(CatchBTAEntry.COLUMN_UPLOAD, 1);
-
-                long catch_bta_id = db.insert(CatchBTAEntry.TABLE_NAME, null, cv);
-
-                JSONArray jsonArrayDetail = catch_bta.getJSONArray(MOBILE_CATCH_BTA_DETAIL);
-                for (int x = 0; x < jsonArrayDetail.length(); x++) {
-                    JSONObject catch_bta_detail = jsonArrayDetail.getJSONObject(x);
-                    CatchBTADetailController.add(db,
-                            catch_bta_id,
-                            catch_bta_detail.getDouble(WEIGHT),
-                            catch_bta_detail.getInt(QTY),
-                            catch_bta_detail.getInt(HOUSE_CODE),
-                            catch_bta_detail.getInt(CAGE_QTY),
-                            catch_bta_detail.getInt(WITH_COVER_QTY));
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void saveWeightHistory(String jsonStr, SQLiteDatabase db){
-        try{
-            JSONObject json = new JSONObject(jsonStr);
-            JSONArray jsonArray = json.getJSONArray(MOBILE_WEIGHT);
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject weight = jsonArray.getJSONObject(i);
-
-                ContentValues cv = new ContentValues();
-                cv.put(WeightEntry.COLUMN_COMPANY_ID, weight.getInt(COMPANY_ID));
-                cv.put(WeightEntry.COLUMN_LOCATION_ID, weight.getInt(LOCATION_ID));
-                cv.put(WeightEntry.COLUMN_HOUSE_CODE, weight.getInt(HOUSE_CODE));
-                cv.put(WeightEntry.COLUMN_DAY, weight.getInt(DAY));
-                cv.put(WeightEntry.COLUMN_RECORD_DATE, weight.getString(RECORD_DATE));
-                cv.put(WeightEntry.COLUMN_RECORD_TIME, weight.getString(RECORD_TIME));
-                cv.put(WeightEntry.COLUMN_FEED, weight.getString(FEED));
-                cv.put(WeightEntry.COLUMN_TIMESTAMP, weight.getString(TIMESTAMP));
-                cv.put(WeightEntry.COLUMN_UPLOAD, 1);
-
-                long weight_id = db.insert(WeightEntry.TABLE_NAME, null, cv);
-                JSONArray jsonArrayDetail = weight.getJSONArray(MOBILE_WEIGHT_DETAIL);
-                for (int x = 0; x < jsonArrayDetail.length(); x++) {
-                    JSONObject weight_detail = jsonArrayDetail.getJSONObject(x);
-                    WeightDetailController.add(db,
-                            weight_id,
-                            weight_detail.getInt(SECTION),
-                            weight_detail.getInt(WEIGHT),
-                            weight_detail.getInt(QTY),
-                            weight_detail.getString(GENDER));
-                }
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public static void saveFeedInHistory(String jsonStr, SQLiteDatabase db) {
-        try {
-            JSONObject json = new JSONObject(jsonStr);
-            JSONArray jsonArray = json.getJSONArray("mobile_feed_in");
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject feed_in = jsonArray.getJSONObject(i);
-
-                ContentValues cv = new ContentValues();
-                cv.put(FeedInEntry.COLUMN_COMPANY_ID, feed_in.getInt("company_id"));
-                cv.put(FeedInEntry.COLUMN_LOCATION_ID, feed_in.getInt("location_id"));
-                cv.put(FeedInEntry.COLUMN_RECORD_DATE, feed_in.getString("record_date"));
-                cv.put(FeedInEntry.COLUMN_TYPE, feed_in.getString("type"));
-                cv.put(FeedInEntry.COLUMN_DOC_NUMBER, feed_in.getInt("doc_number"));
-                cv.put(FeedInEntry.COLUMN_TRUCK_CODE, feed_in.getString("truck_code"));
-                cv.put(FeedInEntry.COLUMN_TIMESTAMP, feed_in.getString("timestamp"));
-                cv.put(FeedInEntry.COLUMN_UPLOAD, 1);
-
-                long feed_in_id = db.insert(FeedInEntry.TABLE_NAME, null, cv);
-
-                JSONArray jsonArrayDetail = feed_in.getJSONArray("mobile_feed_in_detail");
-                for (int x = 0; x < jsonArrayDetail.length(); x++) {
-                    JSONObject feed_in_detail = jsonArrayDetail.getJSONObject(x);
-                    FeedInDetailController.add(db,
-                            feed_in_id,
-                            feed_in_detail.getInt("house_code"),
-                            feed_in_detail.getInt("item_packing_id"),
-                            feed_in_detail.getDouble("qty"));
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

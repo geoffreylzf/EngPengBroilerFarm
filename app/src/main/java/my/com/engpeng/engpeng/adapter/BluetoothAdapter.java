@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import my.com.engpeng.engpeng.Global;
@@ -25,16 +27,17 @@ public class BluetoothAdapter extends RecyclerView.Adapter<BluetoothAdapter.Blue
 
     private Context context;
     private Set<BluetoothDevice> btDevices;
-    private String printText;
+    private String strPrintText, strQRText;
     private byte[] byteQRCodeTop, byteQRCodeBottom;
     private SQLiteDatabase db;
     private String module;
     private Long id;
 
-    public BluetoothAdapter(Context context, Set<BluetoothDevice> btDevices, String printText, byte[] byteQRCodeTop, byte[] byteQRCodeBottom, SQLiteDatabase db, String module, Long id) {
+    public BluetoothAdapter(Context context, Set<BluetoothDevice> btDevices, String strPrintText, String strQRText, byte[] byteQRCodeTop, byte[] byteQRCodeBottom, SQLiteDatabase db, String module, Long id) {
         this.context = context;
         this.btDevices = btDevices;
-        this.printText = printText;
+        this.strPrintText = strPrintText;
+        this.strQRText = strQRText;
         this.byteQRCodeTop = byteQRCodeTop;
         this.byteQRCodeBottom = byteQRCodeBottom;
         this.db = db;
@@ -57,7 +60,10 @@ public class BluetoothAdapter extends RecyclerView.Adapter<BluetoothAdapter.Blue
                 holder.tvName.setText(device.getName());
                 holder.tvAddress.setText(device.getAddress());
 
-                holder.itemView.setTag(device.getAddress());
+                List<String> data = new ArrayList<>();
+                data.add(device.getName());
+                data.add(device.getAddress());
+                holder.itemView.setTag(data);
             }
             order++;
         }
@@ -98,9 +104,11 @@ public class BluetoothAdapter extends RecyclerView.Adapter<BluetoothAdapter.Blue
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String address = (String) view.getTag();
+                    List<String> data = ((List<String>) view.getTag());
+                    String name = data.get(0).toString();
+                    String address = data.get(1).toString();
                     BluetoothConnection conn = new BluetoothConnection();
-                    conn.initPrint(context, address, printText, byteQRCodeTop, byteQRCodeBottom, BluetoothAdapter.this);
+                    conn.initPrint(context, name, address, strPrintText, strQRText, byteQRCodeTop, byteQRCodeBottom, BluetoothAdapter.this);
                 }
             });
         }
