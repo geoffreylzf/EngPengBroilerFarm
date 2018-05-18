@@ -87,7 +87,6 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         TempCatchBTAController.delete(db);
-        TempCatchBTADetailController.delete(db);
     }
 
     private void setupListener() {

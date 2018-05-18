@@ -130,6 +130,8 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     long catch_bta_id = saveCatchBTA();
 
+                                    TempCatchBTADetailController.delete(db);
+
                                     Intent mainIntent = new Intent(TempCatchBTASummaryActivity.this, MainActivity.class);
                                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(mainIntent);
