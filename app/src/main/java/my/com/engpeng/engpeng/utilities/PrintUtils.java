@@ -63,7 +63,7 @@ public class PrintUtils {
         text += formatLine(company_name);
         text += formatLine("Bill Timbangan Ayam");
         text += formatLine("Date: " + record_date);
-        text += formatLine("PL # / IFT # / OP #: " + doc_number);
+        text += formatLine("Document: " + doc_type + " - " + doc_number);
         text += formatLine("Truck Code : " + truck_code);
         text += formatLine("");
         text += formatLine(halfLine("Stock Description") + "|" + halfLine("Stock Description"));
