@@ -4,9 +4,9 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "my.com.engpeng.engpeng"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 27
-        versionCode 40
+        versionCode 41
         //12-4.7 - 20180320
         //13-4.8 - 20180321
         //14-4.9 - 20180326
@@ -27,7 +27,8 @@ android {
         //38-4.21.1 - 20180430
         //39-4.21.2 - 20180512
         //40-4.21.3 - 20180512 - Retain temp catch bta detail even though discard or miss kill apps
-        versionName "4.21.3"
+        //41-4.21.4 - 20180512 - Add document type to catch bta receipt
+        versionName "4.21.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
