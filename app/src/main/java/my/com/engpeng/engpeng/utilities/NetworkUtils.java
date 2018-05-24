@@ -24,7 +24,7 @@ public class NetworkUtils {
 
     final static String DEVELOPMENT_URL_TAKE_NOTE_DONT_USE_THIS_WHEN_UPLOAD_TO_STORE = "http://192.168.9.28:8833/eperp/";
 
-    final static String DEPLOYMENT_URL = "http://epgroup.dlinkddns.com:5035/eperp/";
+    final static String DEPLOYMENT_URL = "http://epgroup.dlinkddns.com:5030/eperp/";
     final static String ENGPENG_BASE_URL = DEPLOYMENT_URL;
     final static String LOCAL_URL = "http://192.168.8.1:8833/eperp/";
     final static String PARAM_MODULE = "r";

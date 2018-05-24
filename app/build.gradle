@@ -6,19 +6,7 @@ android {
         applicationId "my.com.engpeng.engpeng"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 41
-        //12-4.7 - 20180320
-        //13-4.8 - 20180321
-        //14-4.9 - 20180326
-        //15-4.10 - 20180327
-        //16-4.11 - 20180327
-        //17-4.12 - 20180402
-        //20-4.12.3 - 20180403
-        //22-4.14 - 20180403
-        //26-4.17.1 - 20180404
-        //27-4.17.2 - 20180405
-        //28-4.18 - 20180413
-        //29-4.18.1 - 20180416
+        versionCode 42
         //30-4.18.2 - 20180417 - Prevent Back Button
         //31-4.18.3 - 20180418
         //34-4.18.6 - 20180418
@@ -27,8 +15,9 @@ android {
         //38-4.21.1 - 20180430
         //39-4.21.2 - 20180512
         //40-4.21.3 - 20180512 - Retain temp catch bta detail even though discard or miss kill apps
-        //41-4.21.4 - 20180512 - Add document type to catch bta receipt
-        versionName "4.21.4"
+        //41-4.21.4 - 20180522 - Add document type to catch bta receipt
+        //42-4.21.5 - 20180524 - Change network connection path (port from 5035 to 5030)
+        versionName "4.21.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
