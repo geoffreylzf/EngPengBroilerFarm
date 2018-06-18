@@ -40,18 +40,29 @@ public class TempFeedInSummaryAdapter extends RecyclerView.Adapter<TempFeedInSum
         long id = cursor.getLong(cursor.getColumnIndex(EngPengContract.TempFeedInDetailEntry._ID));
         String house_code = cursor.getString(cursor.getColumnIndex(EngPengContract.TempFeedInDetailEntry.COLUMN_HOUSE_CODE));
         int item_packing_id = cursor.getInt(cursor.getColumnIndex(EngPengContract.TempFeedInDetailEntry.COLUMN_ITEM_PACKING_ID));
-        String qty = cursor.getString(cursor.getColumnIndex(EngPengContract.TempFeedInDetailEntry.COLUMN_QTY));
 
+        String compartment_no = cursor.getString(cursor.getColumnIndex(EngPengContract.TempFeedInDetailEntry.COLUMN_COMPARTMENT_NO));
+        String qty = cursor.getString(cursor.getColumnIndex(EngPengContract.TempFeedInDetailEntry.COLUMN_QTY));
+        String weight = cursor.getString(cursor.getColumnIndex(EngPengContract.TempFeedInDetailEntry.COLUMN_WEIGHT));
+
+        String sku_code = "";
+        String sku_name = "";
         Cursor cFeedItem = FeedItemController.getByErpId(db, item_packing_id);
-        cFeedItem.moveToFirst();
-        String sku_code = cFeedItem.getString(cFeedItem.getColumnIndex(EngPengContract.FeedItemEntry.COLUMN_SKU_CODE));
-        String sku_name = cFeedItem.getString(cFeedItem.getColumnIndex(EngPengContract.FeedItemEntry.COLUMN_SKU_NAME));
+        if (cFeedItem.moveToFirst()) {
+            sku_code = cFeedItem.getString(cFeedItem.getColumnIndex(EngPengContract.FeedItemEntry.COLUMN_SKU_CODE));
+            sku_name = cFeedItem.getString(cFeedItem.getColumnIndex(EngPengContract.FeedItemEntry.COLUMN_SKU_NAME));
+        }else{
+            sku_code = "New Feed";
+            sku_name = "ITEM_PACKING_ID: " + item_packing_id;
+        }
 
         holder.tvNo.setText((cursor.getCount() - position) + "");
         holder.tvHouseCode.setText(house_code);
         holder.tvSkuCode.setText(sku_code);
         holder.tvSkuName.setText(sku_name);
+        holder.tvCompartmentNo.setText(compartment_no);
         holder.tvQty.setText(qty);
+        holder.tvWeight.setText(weight);
 
         holder.itemView.setTag(id);
 
@@ -76,7 +87,7 @@ public class TempFeedInSummaryAdapter extends RecyclerView.Adapter<TempFeedInSum
     }
 
     class TempFeedInDetailViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNo, tvHouseCode, tvSkuCode, tvSkuName, tvQty;
+        TextView tvNo, tvHouseCode, tvSkuCode, tvSkuName, tvCompartmentNo, tvQty, tvWeight;
         LinearLayout ll;
 
         public TempFeedInDetailViewHolder(View itemView) {
@@ -86,7 +97,9 @@ public class TempFeedInSummaryAdapter extends RecyclerView.Adapter<TempFeedInSum
             tvHouseCode = itemView.findViewById(R.id.li_temp_feed_in_summary_tv_house_code);
             tvSkuCode = itemView.findViewById(R.id.li_temp_feed_in_summary_tv_sku_code);
             tvSkuName = itemView.findViewById(R.id.li_temp_feed_in_summary_tv_sku_name);
+            tvCompartmentNo = itemView.findViewById(R.id.li_temp_feed_in_summary_tv_compartment_no);
             tvQty = itemView.findViewById(R.id.li_temp_feed_in_summary_tv_qty);
+            tvWeight = itemView.findViewById(R.id.li_temp_feed_in_summary_tv_weight);
         }
     }
 }

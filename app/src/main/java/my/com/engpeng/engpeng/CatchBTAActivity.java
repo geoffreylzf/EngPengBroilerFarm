@@ -180,7 +180,7 @@ public class CatchBTAActivity extends AppCompatActivity {
                 UIUtils.getMessageDialog(CatchBTAActivity.this, "Print Failed", "Uploaded data is unable to print").show();
 
             } else {
-                String printText = PrintUtils.printCatchBTA(db, catch_bta_id);
+                String printText = PrintUtils.printCatchBTA(this, db, catch_bta_id);
 
                 Intent ppIntent = new Intent(CatchBTAActivity.this, PrintPreviewActivity.class);
                 ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
@@ -189,8 +189,6 @@ public class CatchBTAActivity extends AppCompatActivity {
                 startActivity(ppIntent);
             }
         }
-
-
         return super.onOptionsItemSelected(item);
     }
 

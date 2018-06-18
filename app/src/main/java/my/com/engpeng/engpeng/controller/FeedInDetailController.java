@@ -10,16 +10,22 @@ public class FeedInDetailController {
 
     public static long add(SQLiteDatabase db,
                            long feed_in_id,
+                           long doc_detail_id,
                            int house_code,
                            int item_packing_id,
-                           double qty){
+                           String compartment_no,
+                           double qty,
+                           double weight){
 
         ContentValues cv = new ContentValues();
 
         cv.put(FeedInDetailEntry.COLUMN_FEED_IN_ID, feed_in_id);
+        cv.put(FeedInDetailEntry.COLUMN_DOC_DETAIL_ID, doc_detail_id);
         cv.put(FeedInDetailEntry.COLUMN_HOUSE_CODE, house_code);
         cv.put(FeedInDetailEntry.COLUMN_ITEM_PACKING_ID, item_packing_id);
+        cv.put(FeedInDetailEntry.COLUMN_COMPARTMENT_NO, compartment_no);
         cv.put(FeedInDetailEntry.COLUMN_QTY, qty);
+        cv.put(FeedInDetailEntry.COLUMN_WEIGHT, weight);
 
         return db.insert(FeedInDetailEntry.TABLE_NAME, null, cv);
     }
@@ -67,9 +73,12 @@ public class FeedInDetailController {
         String json = " \"" + FeedInDetailEntry.TABLE_NAME + "\": [";
         while (cursor.moveToNext()) {
             json += "{";
+            json += "\"" + FeedInDetailEntry.COLUMN_DOC_DETAIL_ID + "\": " + cursor.getString(cursor.getColumnIndex(FeedInDetailEntry.COLUMN_DOC_DETAIL_ID)) + ",";
             json += "\"" + FeedInDetailEntry.COLUMN_HOUSE_CODE + "\": " + cursor.getString(cursor.getColumnIndex(FeedInDetailEntry.COLUMN_HOUSE_CODE)) + ",";
             json += "\"" + FeedInDetailEntry.COLUMN_ITEM_PACKING_ID + "\": " + cursor.getString(cursor.getColumnIndex(FeedInDetailEntry.COLUMN_ITEM_PACKING_ID)) + ",";
-            json += "\"" + FeedInDetailEntry.COLUMN_QTY + "\": " + cursor.getString(cursor.getColumnIndex(FeedInDetailEntry.COLUMN_QTY)) + "";
+            json += "\"" + FeedInDetailEntry.COLUMN_COMPARTMENT_NO + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedInDetailEntry.COLUMN_COMPARTMENT_NO)) + "\",";
+            json += "\"" + FeedInDetailEntry.COLUMN_QTY + "\": " + cursor.getString(cursor.getColumnIndex(FeedInDetailEntry.COLUMN_QTY)) + ",";
+            json += "\"" + FeedInDetailEntry.COLUMN_WEIGHT + "\": " + cursor.getString(cursor.getColumnIndex(FeedInDetailEntry.COLUMN_WEIGHT)) + "";
             json += "";
             if (cursor.getPosition() == (cursor.getCount() - 1)) {
                 json += "}";

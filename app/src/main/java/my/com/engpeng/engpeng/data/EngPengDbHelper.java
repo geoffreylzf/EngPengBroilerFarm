@@ -13,11 +13,12 @@ import my.com.engpeng.engpeng.data.EngPengContract.*;
 
 public class EngPengDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "engpeng.db";
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
     //DB VER 7 20180317
     //DB VER 8 20180320
     //DB VER 9 20180418
     //DB VER 10 20180430
+    //DB VER 11 20180611
 
     public EngPengDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -100,6 +101,16 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
 
         if(oldVer <= 9){
             sqLiteDatabase.execSQL(SQL_CREATE_FEED_ITEM_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_FEED_IN_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_FEED_IN_DETAIL_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_TEMP_FEED_IN_DETAIL_TABLE);
+        }
+
+        if(oldVer <= 10){
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS feed_in");
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS feed_in_detail");
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS temp_feed_in_detail");
+
             sqLiteDatabase.execSQL(SQL_CREATE_FEED_IN_TABLE);
             sqLiteDatabase.execSQL(SQL_CREATE_FEED_IN_DETAIL_TABLE);
             sqLiteDatabase.execSQL(SQL_CREATE_TEMP_FEED_IN_DETAIL_TABLE);
@@ -237,8 +248,8 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
             FeedInEntry.COLUMN_COMPANY_ID + " INTEGER," +
             FeedInEntry.COLUMN_LOCATION_ID + " INTEGER, " +
             FeedInEntry.COLUMN_RECORD_DATE + " DATE, " +
-            FeedInEntry.COLUMN_TYPE + " TEXT, " +
-            FeedInEntry.COLUMN_DOC_NUMBER + " INTEGER, " +
+            FeedInEntry.COLUMN_DOC_ID + " INTEGER, " +
+            FeedInEntry.COLUMN_DOC_NUMBER + " TEXT, " +
             FeedInEntry.COLUMN_TRUCK_CODE + " TEXT, " +
             FeedInEntry.COLUMN_UPLOAD + " INTEGER DEFAULT 0, " +
             FeedInEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP " +
@@ -247,16 +258,22 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
     private final String SQL_CREATE_FEED_IN_DETAIL_TABLE = "CREATE TABLE " + FeedInDetailEntry.TABLE_NAME + " (" +
             FeedInDetailEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             FeedInDetailEntry.COLUMN_FEED_IN_ID + " INTEGER," +
+            FeedInDetailEntry.COLUMN_DOC_DETAIL_ID + " INTEGER, " +
             FeedInDetailEntry.COLUMN_HOUSE_CODE + " INTEGER, " +
             FeedInDetailEntry.COLUMN_ITEM_PACKING_ID + " INTEGER, " +
-            FeedInDetailEntry.COLUMN_QTY + " REAL " +
+            FeedInDetailEntry.COLUMN_COMPARTMENT_NO + " TEXT, " +
+            FeedInDetailEntry.COLUMN_QTY + " REAL, " +
+            FeedInDetailEntry.COLUMN_WEIGHT + " REAL " +
             "); ";
 
     private final String SQL_CREATE_TEMP_FEED_IN_DETAIL_TABLE = "CREATE TABLE " + TempFeedInDetailEntry.TABLE_NAME + " (" +
             TempFeedInDetailEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            TempFeedInDetailEntry.COLUMN_DOC_DETAIL_ID + " INTEGER, " +
             TempFeedInDetailEntry.COLUMN_HOUSE_CODE + " INTEGER, " +
             TempFeedInDetailEntry.COLUMN_ITEM_PACKING_ID + " INTEGER, " +
-            TempFeedInDetailEntry.COLUMN_QTY + " REAL " +
+            TempFeedInDetailEntry.COLUMN_COMPARTMENT_NO + " TEXT, " +
+            TempFeedInDetailEntry.COLUMN_QTY + " REAL, " +
+            TempFeedInDetailEntry.COLUMN_WEIGHT + " REAL " +
             "); ";
 }
 

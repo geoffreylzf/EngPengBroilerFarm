@@ -40,7 +40,9 @@ public class FeedInHistoryDetailAdapter extends RecyclerView.Adapter<FeedInHisto
         long id = cursor.getLong(cursor.getColumnIndex(EngPengContract.FeedInDetailEntry._ID));
         String house_code = cursor.getString(cursor.getColumnIndex(EngPengContract.FeedInDetailEntry.COLUMN_HOUSE_CODE));
         int item_packing_id = cursor.getInt(cursor.getColumnIndex(EngPengContract.FeedInDetailEntry.COLUMN_ITEM_PACKING_ID));
+        String compartment_no = cursor.getString(cursor.getColumnIndex(EngPengContract.FeedInDetailEntry.COLUMN_COMPARTMENT_NO));
         String qty = cursor.getString(cursor.getColumnIndex(EngPengContract.FeedInDetailEntry.COLUMN_QTY));
+        String weight = cursor.getString(cursor.getColumnIndex(EngPengContract.FeedInDetailEntry.COLUMN_WEIGHT));
 
         Cursor cFeedItem = FeedItemController.getByErpId(db, item_packing_id);
 
@@ -55,7 +57,9 @@ public class FeedInHistoryDetailAdapter extends RecyclerView.Adapter<FeedInHisto
         holder.tvHouseCode.setText(house_code);
         holder.tvSkuCode.setText(sku_code);
         holder.tvSkuName.setText(sku_name);
+        holder.tvCompartment.setText(compartment_no);
         holder.tvQty.setText(qty);
+        holder.tvWeight.setText(weight);
 
         holder.itemView.setTag(id);
 
@@ -72,7 +76,7 @@ public class FeedInHistoryDetailAdapter extends RecyclerView.Adapter<FeedInHisto
     }
 
     class FeedInDetailViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNo, tvHouseCode, tvSkuCode, tvSkuName, tvQty;
+        TextView tvNo, tvHouseCode, tvSkuCode, tvSkuName, tvCompartment, tvQty, tvWeight;
         LinearLayout ll;
 
         public FeedInDetailViewHolder(View itemView) {
@@ -82,7 +86,9 @@ public class FeedInHistoryDetailAdapter extends RecyclerView.Adapter<FeedInHisto
             tvHouseCode = itemView.findViewById(R.id.li_feed_in_history_detail_tv_house_code);
             tvSkuCode = itemView.findViewById(R.id.li_feed_in_history_detail_tv_sku_code);
             tvSkuName = itemView.findViewById(R.id.li_feed_in_history_detail_tv_sku_name);
+            tvCompartment = itemView.findViewById(R.id.li_feed_in_history_detail_tv_compartment);
             tvQty = itemView.findViewById(R.id.li_feed_in_history_detail_tv_qty);
+            tvWeight = itemView.findViewById(R.id.li_feed_in_history_detail_tv_weight);
         }
     }
 }

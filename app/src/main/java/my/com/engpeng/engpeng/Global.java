@@ -58,11 +58,13 @@ public class Global {
     public static final String I_KEY_WITH_COVER_QTY = "I_KEY_WITH_COVER_QTY";
     public static final String I_KEY_CONTINUE_NEXT = "I_KEY_CONTINUE_NEXT";
     public static final String I_KEY_ID = "I_KEY_ID";
+    public static final String I_KEY_DOC_ID = "I_KEY_DOC_ID";
     public static final String I_KEY_DOC_NUMBER = "I_KEY_DOC_NUMBER";
     public static final String I_KEY_TYPE = "I_KEY_TYPE";
     public static final String I_KEY_TRUCK_CODE = "I_KEY_TRUCK_CODE";
     public static final String I_KEY_RECORD_DATE = "I_KEY_RECORD_DATE";
     public static final String I_KEY_ID_LIST = "I_KEY_ID_LIST";
+    public static final String I_KEY_QR_DATA = "I_KEY_QR_DATA";
 
     //Preferences param keys
     public static final String P_KEY_USERNAME = "P_KEY_USERNAME";
@@ -76,6 +78,17 @@ public class Global {
     public static final int LOGIN_LOADER_ID = 1003;
     public static final int LOG_LOADER_ID = 1004;
     public static final int PRINT_PREVIEW_LOADER_ID = 1005;
+
+    //item_uom_code
+    public static final String UOM_CODE_BG = "Bg";
+    public static final String UOM_CODE_MT = "MT";
+
+    //qr_line_type
+    public static final String QR_SPLIT_LINE = "\\r?\\n";
+    public static final String QR_SPLIT_FIELD = "\\|";
+    public static final String QR_LINE_TYPE_HEAD = "H";
+    public static final String QR_LINE_TYPE_DETAIL = "D";
+    public static final String QR_LINE_TYPE_COMPARTMENT = "C";
 
     public static void setupGlobalVariables(Context context, SQLiteDatabase db) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);

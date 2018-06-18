@@ -1,5 +1,7 @@
 package my.com.engpeng.engpeng.utilities;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -8,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import my.com.engpeng.engpeng.MainActivity;
 import my.com.engpeng.engpeng.controller.BranchController;
 import my.com.engpeng.engpeng.controller.CatchBTAController;
 import my.com.engpeng.engpeng.controller.CatchBTADetailController;
@@ -31,7 +34,7 @@ public class PrintUtils {
     private static final double WEIGHT_COVER_WITH_CAGE = 8;
     private static final double WEIGHT_COVER_WITHOUT_CAGE = 7.6;
 
-    public static String printCatchBTA(SQLiteDatabase db, long catch_bta_id) {
+    public static String printCatchBTA(Context context, SQLiteDatabase db, long catch_bta_id) {
 
         String text = "";
 
@@ -131,7 +134,7 @@ public class PrintUtils {
                 ttl_cage_without_cover += without_cover_qty;
                 ttl_wgt_cage_without_cover += without_cover_qty * WEIGHT_COVER_WITHOUT_CAGE;
 
-                String leftColumn = btaTableRow(num, weight, qty);
+                String leftColumn = btaTableRow(num, weight, qty, with_cover_qty);
 
                 String rightColumn = halfLine("");
 
@@ -157,7 +160,7 @@ public class PrintUtils {
                     ttl_cage_without_cover += without_cover_qty2;
                     ttl_wgt_cage_without_cover += without_cover_qty2 * WEIGHT_COVER_WITHOUT_CAGE;
 
-                    rightColumn = btaTableRow(num2, weight2, qty2);
+                    rightColumn = btaTableRow(num2, weight2, qty2, with_cover_qty2);
                 }
 
 
@@ -192,6 +195,12 @@ public class PrintUtils {
 
         text += formatLine("Date: " + sdf.format(currentTime));
         text += formatLine("Time: " + sdfTime.format(currentTime));
+        try {
+            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            text += formatLine("Ver : " + pInfo.versionName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         text += formatLine("-");
         text += formatLine("-");
         text += formatLine("-");
@@ -204,11 +213,11 @@ public class PrintUtils {
     }
 
     private static String btaTableHeader() {
-        return "  #     Weight  Qty   ";
+        return "  #    Weight  Qty  C ";
     }
 
-    private static String btaTableRow(String num, double weight, String qty) {
-        return String.format(" %3s  %8.02f  %3s   ", num, weight, qty);
+    private static String btaTableRow(String num, double weight, String qty, int cover) {
+        return String.format(" %3s %8.02f  %3s  %1s ", num, weight, qty, cover == (0) ? " " : String.valueOf(cover));
     }
 
     private static String formatLine(String line) {
@@ -350,7 +359,7 @@ public class PrintUtils {
                 maleTtlWgt,
                 maleTtlQty,
                 maleAvg,
-                (float)std_weight_male));
+                (float) std_weight_male));
 
         int femaleTtlWgt = WeightDetailController.getTotalWgtByGenderWeightId(db, weight_id, "F");
         int femaleTtlQty = WeightDetailController.getTotalQtyByGenderWeightId(db, weight_id, "F");
@@ -365,7 +374,7 @@ public class PrintUtils {
                 femaleTtlWgt,
                 femaleTtlQty,
                 femaleAvg,
-                (float)std_weight_female));
+                (float) std_weight_female));
 
         int oTtlWgt = WeightDetailController.getTotalWgtByWeightId(db, weight_id);
         int oTtlQty = WeightDetailController.getTotalQtyByWeightId(db, weight_id);
@@ -380,7 +389,7 @@ public class PrintUtils {
                 oTtlWgt,
                 oTtlQty,
                 oAvg,
-                (float)std_weight_overall));
+                (float) std_weight_overall));
 
         text += formatLine(PRINT_SEPERATOR);
         text += formatLine("Printed by: " + sUsername);

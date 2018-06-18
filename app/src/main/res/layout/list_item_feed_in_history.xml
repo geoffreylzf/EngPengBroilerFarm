@@ -21,11 +21,6 @@
             style="@style/TableRowTextViewStyle" />
 
         <TextView
-            android:id="@+id/li_feed_in_history_tv_type"
-            style="@style/TableRowTextViewStyle"
-            android:layout_weight="0.5" />
-
-        <TextView
             android:id="@+id/li_feed_in_history_tv_truck_code"
             style="@style/TableRowTextViewStyle" />
 
@@ -52,8 +47,8 @@
 
             <TextView
                 style="@style/TableHeaderTextViewStyle"
-                android:layout_weight="0.5"
-                android:text="@string/house_code" />
+                android:layout_weight="0.25"
+                android:text="@string/house_code_short" />
 
             <TextView
                 style="@style/TableHeaderTextViewStyle"
@@ -61,8 +56,18 @@
 
             <TextView
                 style="@style/TableHeaderTextViewStyle"
-                android:layout_weight="0.5"
-                android:text="@string/quantity" />
+                android:layout_weight="0.25"
+                android:text="@string/compartment_short" />
+
+            <TextView
+                style="@style/TableHeaderTextViewStyle"
+                android:layout_weight="0.25"
+                android:text="@string/qty" />
+
+            <TextView
+                style="@style/TableHeaderTextViewStyle"
+                android:layout_weight="0.25"
+                android:text="@string/wgt" />
 
         </LinearLayout>
 

@@ -27,14 +27,20 @@ public class TempFeedInDetailController {
     }
 
     public static long add(SQLiteDatabase db,
+                           Long doc_detail_id,
                            int house_code,
                            int item_packing_id,
-                           double qty) {
+                           String compartment_no,
+                           double qty,
+                           double weight) {
 
         ContentValues cv = new ContentValues();
+        cv.put(TempFeedInDetailEntry.COLUMN_DOC_DETAIL_ID, doc_detail_id);
         cv.put(TempFeedInDetailEntry.COLUMN_HOUSE_CODE, house_code);
         cv.put(TempFeedInDetailEntry.COLUMN_ITEM_PACKING_ID, item_packing_id);
+        cv.put(TempFeedInDetailEntry.COLUMN_COMPARTMENT_NO, compartment_no);
         cv.put(TempFeedInDetailEntry.COLUMN_QTY, qty);
+        cv.put(TempFeedInDetailEntry.COLUMN_WEIGHT, weight);
         return db.insert(TempFeedInDetailEntry.TABLE_NAME, null, cv);
     }
 

@@ -93,11 +93,9 @@ public class BluetoothAdapter extends RecyclerView.Adapter<BluetoothAdapter.Blue
     class BluetoothDeviceViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvName, tvAddress;
-        LinearLayout ll;
 
         private BluetoothDeviceViewHolder(View itemView) {
             super(itemView);
-            ll = itemView.findViewById(R.id.li_weight_history_ll);
             tvName = itemView.findViewById(R.id.li_bluetooth_device_tv_name);
             tvAddress = itemView.findViewById(R.id.li_bluetooth_device_tv_address);
 

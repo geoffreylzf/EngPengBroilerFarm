@@ -23,11 +23,6 @@
             style="@style/TableHeaderTextViewStyle"/>
 
         <TextView
-            android:text="@string/type"
-            style="@style/TableHeaderTextViewStyle"
-            android:layout_weight="0.5"/>
-
-        <TextView
             android:text="@string/truck_code"
             style="@style/TableHeaderTextViewStyle"/>
 

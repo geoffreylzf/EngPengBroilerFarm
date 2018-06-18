@@ -61,7 +61,6 @@ public class FeedInHistoryAdapter extends RecyclerView.Adapter<FeedInHistoryAdap
         final long feed_in_id = cursor.getLong(cursor.getColumnIndex(FeedInEntry._ID));
         String date = cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_RECORD_DATE));
         String document = cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_DOC_NUMBER));
-        String type = cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_TYPE));
         String truck_code = cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_TRUCK_CODE));
         final int is_upload = cursor.getInt(cursor.getColumnIndex(FeedInEntry.COLUMN_UPLOAD));
 
@@ -72,7 +71,6 @@ public class FeedInHistoryAdapter extends RecyclerView.Adapter<FeedInHistoryAdap
 
         holder.tvDate.setText(date);
         holder.tvDocument.setText(document);
-        holder.tvType.setText(type);
         holder.tvTruckCode.setText(truck_code);
         holder.tvUpload.setText(upload_str);
         holder.itemView.setTag(feed_in_id);
@@ -150,7 +148,7 @@ public class FeedInHistoryAdapter extends RecyclerView.Adapter<FeedInHistoryAdap
     }
 
     class FeedInViewHolder extends RecyclerView.ViewHolder {
-        TextView tvDate, tvDocument, tvType, tvTruckCode, tvUpload;
+        TextView tvDate, tvDocument, tvTruckCode, tvUpload;
         RecyclerView rvDetail;
         RelativeLayout rlDetail;
         LinearLayout ll;
@@ -161,7 +159,6 @@ public class FeedInHistoryAdapter extends RecyclerView.Adapter<FeedInHistoryAdap
             ll = itemView.findViewById(R.id.li_feed_in_history_ll);
             tvDate = itemView.findViewById(R.id.li_feed_in_history_tv_date);
             tvDocument = itemView.findViewById(R.id.li_feed_in_history_tv_document);
-            tvType = itemView.findViewById(R.id.li_feed_in_history_tv_type);
             tvTruckCode = itemView.findViewById(R.id.li_feed_in_history_tv_truck_code);
             tvUpload = itemView.findViewById(R.id.li_feed_in_history_tv_upload);
 

@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -29,7 +28,6 @@ import my.com.engpeng.engpeng.data.EngPengDbHelper;
 import my.com.engpeng.engpeng.loader.AppLoader;
 import my.com.engpeng.engpeng.loader.LoginAsyncTaskLoader;
 import my.com.engpeng.engpeng.utilities.DatabaseUtils;
-import my.com.engpeng.engpeng.utilities.FakeDataUtils;
 import my.com.engpeng.engpeng.utilities.JsonUtils;
 import my.com.engpeng.engpeng.utilities.SharedPreferencesUtils;
 import my.com.engpeng.engpeng.utilities.UIUtils;
@@ -202,9 +200,9 @@ public class LoginActivity extends AppCompatActivity
         }
 
         LoaderManager loaderManager = getSupportLoaderManager();
-        Loader<String> uploadLoader = loaderManager.getLoader(Global.LOGIN_LOADER_ID);
+        Loader<String> loginLoader = loaderManager.getLoader(Global.LOGIN_LOADER_ID);
 
-        if (uploadLoader == null) {
+        if (loginLoader == null) {
             loaderManager.initLoader(Global.LOGIN_LOADER_ID, queryBundle, loader);
         } else {
             loaderManager.restartLoader(Global.LOGIN_LOADER_ID, queryBundle, loader);

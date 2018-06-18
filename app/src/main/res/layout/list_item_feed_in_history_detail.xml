@@ -16,7 +16,7 @@
     <TextView
         android:id="@+id/li_feed_in_history_detail_tv_house_code"
         style="@style/TableRowTextViewStyle"
-        android:layout_weight="0.5" />
+        android:layout_weight="0.25" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -41,8 +41,18 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/li_feed_in_history_detail_tv_compartment"
+        style="@style/TableRowTextViewStyle"
+        android:layout_weight="0.25" />
+
+    <TextView
         android:id="@+id/li_feed_in_history_detail_tv_qty"
         style="@style/TableRowTextViewStyle"
-        android:layout_weight="0.5" />
+        android:layout_weight="0.25" />
+
+    <TextView
+        android:id="@+id/li_feed_in_history_detail_tv_weight"
+        style="@style/TableRowTextViewStyle"
+        android:layout_weight="0.25" />
 
 </LinearLayout>

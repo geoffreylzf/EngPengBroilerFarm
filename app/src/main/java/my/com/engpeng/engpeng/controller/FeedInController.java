@@ -12,16 +12,16 @@ public class FeedInController {
                            int company_id,
                            int location_id,
                            String record_date,
-                           int doc_number,
-                           String type,
+                           Long doc_id,
+                           String doc_number,
                            String truck_code){
 
         ContentValues cv = new ContentValues();
         cv.put(FeedInEntry.COLUMN_COMPANY_ID, company_id);
         cv.put(FeedInEntry.COLUMN_LOCATION_ID, location_id);
         cv.put(FeedInEntry.COLUMN_RECORD_DATE, record_date);
+        cv.put(FeedInEntry.COLUMN_DOC_ID, doc_id);
         cv.put(FeedInEntry.COLUMN_DOC_NUMBER, doc_number);
-        cv.put(FeedInEntry.COLUMN_TYPE, type);
         cv.put(FeedInEntry.COLUMN_TRUCK_CODE, truck_code);
 
         return db.insert(FeedInEntry.TABLE_NAME, null, cv);
@@ -95,8 +95,8 @@ public class FeedInController {
             json += "\"" + FeedInEntry.COLUMN_COMPANY_ID + "\": " + cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_COMPANY_ID)) + ",";
             json += "\"" + FeedInEntry.COLUMN_LOCATION_ID + "\": " + cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_LOCATION_ID)) + ",";
             json += "\"" + FeedInEntry.COLUMN_RECORD_DATE + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_RECORD_DATE)) + "\",";
-            json += "\"" + FeedInEntry.COLUMN_TYPE + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_TYPE)) + "\",";
-            json += "\"" + FeedInEntry.COLUMN_DOC_NUMBER + "\": " + cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_DOC_NUMBER)) + ",";
+            json += "\"" + FeedInEntry.COLUMN_DOC_ID + "\": " + cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_DOC_ID)) + ",";
+            json += "\"" + FeedInEntry.COLUMN_DOC_NUMBER + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_DOC_NUMBER)) + "\",";
             json += "\"" + FeedInEntry.COLUMN_TRUCK_CODE + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_TRUCK_CODE)) + "\",";
             json += "\"" + FeedInEntry.COLUMN_TIMESTAMP + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_TIMESTAMP)) + "\",";
             json += FeedInDetailController.getUploadJsonByFeedInId(db, cursor.getLong(cursor.getColumnIndex(FeedInEntry._ID)));

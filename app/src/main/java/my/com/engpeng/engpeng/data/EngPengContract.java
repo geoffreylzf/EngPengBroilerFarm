@@ -143,8 +143,8 @@ public class EngPengContract {
         public static final String COLUMN_COMPANY_ID = "company_id";
         public static final String COLUMN_LOCATION_ID = "location_id";
         public static final String COLUMN_RECORD_DATE = "record_date";
+        public static final String COLUMN_DOC_ID = "doc_id";
         public static final String COLUMN_DOC_NUMBER = "doc_number";
-        public static final String COLUMN_TYPE = "type";
         public static final String COLUMN_TRUCK_CODE = "truck_code";
         public static final String COLUMN_UPLOAD = "upload";
         public static final String COLUMN_TIMESTAMP = "timestamp";
@@ -153,16 +153,22 @@ public class EngPengContract {
     public static final class FeedInDetailEntry implements BaseColumns {
         public static final String TABLE_NAME = "feed_in_detail";
         public static final String COLUMN_FEED_IN_ID = "feed_in_id";
+        public static final String COLUMN_DOC_DETAIL_ID = "doc_detail_id";
         public static final String COLUMN_HOUSE_CODE = "house_code";
         public static final String COLUMN_ITEM_PACKING_ID = "item_packing_id";
+        public static final String COLUMN_COMPARTMENT_NO = "compartment_no";
         public static final String COLUMN_QTY = "qty";
+        public static final String COLUMN_WEIGHT = "weight";
     }
 
     public static final class TempFeedInDetailEntry implements BaseColumns {
         public static final String TABLE_NAME = "temp_feed_in_detail";
+        public static final String COLUMN_DOC_DETAIL_ID = "doc_detail_id";
         public static final String COLUMN_HOUSE_CODE = "house_code";
         public static final String COLUMN_ITEM_PACKING_ID = "item_packing_id";
+        public static final String COLUMN_COMPARTMENT_NO = "compartment_no";
         public static final String COLUMN_QTY = "qty";
+        public static final String COLUMN_WEIGHT = "weight";
     }
 
 

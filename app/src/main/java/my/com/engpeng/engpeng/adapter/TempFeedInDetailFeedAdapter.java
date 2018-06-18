@@ -18,10 +18,16 @@ public class TempFeedInDetailFeedAdapter extends RecyclerView.Adapter<TempFeedIn
 
     private Context mContext;
     private List<FeedItem> mFeedItemList;
+    private TempFeedInDetailFeedAdapterListener tfidfaListener;
 
-    public TempFeedInDetailFeedAdapter(Context context, List<FeedItem> feedItemList) {
+    public TempFeedInDetailFeedAdapter(Context context, List<FeedItem> feedItemList, TempFeedInDetailFeedAdapterListener tfidfaListener) {
         this.mContext = context;
         this.mFeedItemList = feedItemList;
+        this.tfidfaListener = tfidfaListener;
+    }
+
+    public interface TempFeedInDetailFeedAdapterListener {
+        void afterSelectFeed();
     }
 
     @Override
@@ -34,19 +40,20 @@ public class TempFeedInDetailFeedAdapter extends RecyclerView.Adapter<TempFeedIn
     @Override
     public void onBindViewHolder(final ItemViewHolder holder, int position) {
         final FeedItem fi = mFeedItemList.get(position);
-        holder.tvSkuCode.setText(fi.getSkuCode());
+        holder.tvSkuCode.setText(fi.getSkuCode() + " (" + fi.getQty() + fi.getItemUomCode() + ")");
         holder.tvSkuName.setText(fi.getSkuName());
-        holder.view.setBackgroundColor(fi.getIsSelect() ?
+        holder.view.setBackgroundColor(fi.isSelect() ?
                 mContext.getResources().getColor(R.color.colorPrimaryLight) : Color.WHITE);
-        holder.cbSelect.setChecked(fi.getIsSelect());
+        holder.cbSelect.setChecked(fi.isSelect());
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 resetFeedItemList();
-                fi.setIsSelect(!fi.getIsSelect());
+                fi.setSelect(!fi.isSelect());
 
                 TempFeedInDetailFeedAdapter.this.notifyDataSetChanged();
+                tfidfaListener.afterSelectFeed();
             }
         });
 
@@ -54,9 +61,10 @@ public class TempFeedInDetailFeedAdapter extends RecyclerView.Adapter<TempFeedIn
             @Override
             public void onClick(View view) {
                 resetFeedItemList();
-                fi.setIsSelect(!fi.getIsSelect());
+                fi.setSelect(!fi.isSelect());
 
                 TempFeedInDetailFeedAdapter.this.notifyDataSetChanged();
+                tfidfaListener.afterSelectFeed();
             }
         });
     }
@@ -69,7 +77,7 @@ public class TempFeedInDetailFeedAdapter extends RecyclerView.Adapter<TempFeedIn
     private void resetFeedItemList() {
         for (int i = 0; i < mFeedItemList.size(); i++) {
             FeedItem fi = mFeedItemList.get(i);
-            fi.setIsSelect(false);
+            fi.setSelect(false);
         }
     }
 

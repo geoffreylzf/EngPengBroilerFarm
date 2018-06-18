@@ -16,7 +16,7 @@
     <TextView
         android:id="@+id/li_temp_feed_in_summary_tv_house_code"
         style="@style/TableRowTextViewStyle"
-        android:layout_weight="0.5" />
+        android:layout_weight="0.25" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -29,20 +29,30 @@
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:gravity="center_vertical|start"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/li_temp_feed_in_summary_tv_sku_name"
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:gravity="center_vertical|start"
-            android:textStyle="italic"/>
+            android:textStyle="italic" />
 
     </LinearLayout>
 
     <TextView
+        android:id="@+id/li_temp_feed_in_summary_tv_compartment_no"
+        style="@style/TableRowTextViewStyle"
+        android:layout_weight="0.25" />
+
+    <TextView
         android:id="@+id/li_temp_feed_in_summary_tv_qty"
         style="@style/TableRowTextViewStyle"
-        android:layout_weight="0.5" />
+        android:layout_weight="0.4" />
+
+    <TextView
+        android:id="@+id/li_temp_feed_in_summary_tv_weight"
+        style="@style/TableRowTextViewStyle"
+        android:layout_weight="0.4"/>
 
 </LinearLayout>

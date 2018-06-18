@@ -11,25 +11,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.vision.barcode.Barcode;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import my.com.engpeng.engpeng.adapter.TempFeedInItemSelectionAdapter;
+import my.com.engpeng.engpeng.barcode.BarcodeCaptureActivity;
 import my.com.engpeng.engpeng.controller.TempFeedInDetailController;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
+import my.com.engpeng.engpeng.utilities.UIUtils;
 
 import static my.com.engpeng.engpeng.Global.I_KEY_COMPANY;
+import static my.com.engpeng.engpeng.Global.I_KEY_DOC_ID;
 import static my.com.engpeng.engpeng.Global.I_KEY_DOC_NUMBER;
 import static my.com.engpeng.engpeng.Global.I_KEY_LOCATION;
+import static my.com.engpeng.engpeng.Global.I_KEY_QR_DATA;
 import static my.com.engpeng.engpeng.Global.I_KEY_RECORD_DATE;
 import static my.com.engpeng.engpeng.Global.I_KEY_TRUCK_CODE;
-import static my.com.engpeng.engpeng.Global.I_KEY_TYPE;
+import static my.com.engpeng.engpeng.Global.QR_LINE_TYPE_HEAD;
+import static my.com.engpeng.engpeng.Global.QR_SPLIT_FIELD;
+import static my.com.engpeng.engpeng.Global.QR_SPLIT_LINE;
 import static my.com.engpeng.engpeng.Global.sLocationName;
 
 public class TempFeedInHeadActivity extends AppCompatActivity {
@@ -37,8 +42,6 @@ public class TempFeedInHeadActivity extends AppCompatActivity {
     private String dateStr;
     private Button btnDate, btnStart;
     private TextView tvYear, tvMonthDay;
-    private EditText etDocNumber, etTruckCode;
-    private RadioGroup rgType;
 
     private int company_id, location_id;
 
@@ -46,8 +49,9 @@ public class TempFeedInHeadActivity extends AppCompatActivity {
     private int year, month, day;
     private SimpleDateFormat sdf, sdfYear, sdfMonthDay;
 
-    private SQLiteDatabase db;
-    private Toast toast;
+    private SQLiteDatabase mDb;
+
+    private static final int RC_BARCODE_CAPTURE = 9001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +62,6 @@ public class TempFeedInHeadActivity extends AppCompatActivity {
         btnStart = findViewById(R.id.temp_feed_in_head_btn_start);
         tvYear = findViewById(R.id.temp_feed_in_head_tv_year);
         tvMonthDay = findViewById(R.id.temp_feed_in_head_tv_month_day);
-        etDocNumber = findViewById(R.id.temp_feed_in_head_et_doc_number);
-        rgType = findViewById(R.id.temp_feed_in_head_rg_type);
-        etTruckCode = findViewById(R.id.temp_feed_in_head_et_truck_code);
 
         calender = Calendar.getInstance();
         year = calender.get(Calendar.YEAR);
@@ -78,12 +79,18 @@ public class TempFeedInHeadActivity extends AppCompatActivity {
         location_id = Global.sLocationId;
 
         EngPengDbHelper dbHelper = new EngPengDbHelper(this);
-        db = dbHelper.getWritableDatabase();
-        toast = new Toast(this);
+        mDb = dbHelper.getWritableDatabase();
 
         setTitle("New Feed IN for " + sLocationName);
 
         setupListener();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        TempFeedInDetailController.delete(mDb);
     }
 
     private void setupListener() {
@@ -111,59 +118,63 @@ public class TempFeedInHeadActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (toast != null) {
-                    toast.cancel();
-                }
-
-                if (etDocNumber.getText().length() == 0) {
-                    etDocNumber.setError(getString(R.string.error_field_required));
-                    etDocNumber.requestFocus();
-                    return;
-                }
-                int doc_number = Integer.parseInt(etDocNumber.getText().toString());
-
-                String type = "";
-                int selectedRB = rgType.getCheckedRadioButtonId();
-                if (selectedRB == -1) {
-                    toast = Toast.makeText(TempFeedInHeadActivity.this, "Please select type", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                } else {
-                    if (selectedRB == R.id.temp_feed_in_head_rd_bg) {
-                        type = "BG";
-                    } else if (selectedRB == R.id.temp_feed_in_head_rd_mt) {
-                        type = "MT";
-                    }
-                }
-
-                if (etTruckCode.getText().length() == 0) {
-                    etTruckCode.setError(getString(R.string.error_field_required));
-                    etTruckCode.requestFocus();
-                    return;
-                }
-                String truck_code = etTruckCode.getText().toString();
-
-
-                /*if(!CatchBTAController.checkDocNumber(db, doc_number, doc_type)){
-                    toast = Toast.makeText(TempCatchBTAHeadActivity.this, "Document number and destination duplicate", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }*/
-
-
-                //TempCatchBTAController.add(db, company_id, location_id, dateStr, type, doc_number, doc_type, truck_code);
-
-                Intent selectionIntent = new Intent(TempFeedInHeadActivity.this, TempFeedInItemSelectionActivity.class);
-                selectionIntent.putExtra(I_KEY_COMPANY, company_id);
-                selectionIntent.putExtra(I_KEY_LOCATION, location_id);
-                selectionIntent.putExtra(I_KEY_RECORD_DATE, dateStr);
-                selectionIntent.putExtra(I_KEY_DOC_NUMBER, doc_number);
-                selectionIntent.putExtra(I_KEY_TYPE, type);
-                selectionIntent.putExtra(I_KEY_TRUCK_CODE, truck_code);
-                startActivity(selectionIntent);
+                Intent intent = new Intent(TempFeedInHeadActivity.this, BarcodeCaptureActivity.class);
+                intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
+                intent.putExtra(BarcodeCaptureActivity.UseFlash, true);
+                startActivityForResult(intent, RC_BARCODE_CAPTURE);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RC_BARCODE_CAPTURE) {
+            if (resultCode == CommonStatusCodes.SUCCESS) {
+                if (data != null) {
+                    Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
+                    String qr_data = barcode.displayValue;
+
+                    try {
+                        String[] lines = qr_data.split(QR_SPLIT_LINE);
+
+                        String type, doc_no = "", truck_code = "";
+                        Long doc_id = null;
+
+                        for (String line : lines) {
+                            String[] fields = line.split(QR_SPLIT_FIELD);
+
+                            type = fields[0];
+                            doc_id = Long.parseLong(fields[1]);
+                            doc_no = fields[2];
+                            truck_code = fields[3];
+
+                            if (type.equals(QR_LINE_TYPE_HEAD)) {
+                                break;
+                            }
+                        }
+
+                        Intent selectionIntent = new Intent(TempFeedInHeadActivity.this, TempFeedInSummaryActivity.class);
+                        selectionIntent.putExtra(I_KEY_COMPANY, company_id);
+                        selectionIntent.putExtra(I_KEY_LOCATION, location_id);
+                        selectionIntent.putExtra(I_KEY_RECORD_DATE, dateStr);
+                        selectionIntent.putExtra(I_KEY_DOC_ID, doc_id);
+                        selectionIntent.putExtra(I_KEY_DOC_NUMBER, doc_no);
+                        selectionIntent.putExtra(I_KEY_TRUCK_CODE, truck_code);
+                        selectionIntent.putExtra(I_KEY_QR_DATA, qr_data);
+                        startActivity(selectionIntent);
+
+                    } catch (IndexOutOfBoundsException e) {
+                        UIUtils.showToastMessage(this, "Invalid QR");
+                    }
+                } else {
+                    UIUtils.showToastMessage(this, "No barcode captured");
+                }
+            } else {
+                UIUtils.showToastMessage(this, "Fail to read barcode");
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override

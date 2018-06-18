@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,12 +26,14 @@ import my.com.engpeng.engpeng.data.EngPengDbHelper;
 import my.com.engpeng.engpeng.utilities.PrintUtils;
 
 import static my.com.engpeng.engpeng.Global.I_KEY_COMPANY;
+import static my.com.engpeng.engpeng.Global.I_KEY_DOC_ID;
 import static my.com.engpeng.engpeng.Global.I_KEY_DOC_NUMBER;
 import static my.com.engpeng.engpeng.Global.I_KEY_ID;
 import static my.com.engpeng.engpeng.Global.I_KEY_ID_LIST;
 import static my.com.engpeng.engpeng.Global.I_KEY_LOCATION;
 import static my.com.engpeng.engpeng.Global.I_KEY_MODULE;
 import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_TEXT;
+import static my.com.engpeng.engpeng.Global.I_KEY_QR_DATA;
 import static my.com.engpeng.engpeng.Global.I_KEY_RECORD_DATE;
 import static my.com.engpeng.engpeng.Global.I_KEY_TRUCK_CODE;
 import static my.com.engpeng.engpeng.Global.I_KEY_TYPE;
@@ -42,11 +45,12 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
 
     private FloatingActionButton fabAdd;
     private Button btnEnd;
-    private TextView tvLocation, tvDocNumber, tvType, tvTruckCode;
+    private TextView tvLocation, tvDocNumber, tvTruckCode;
     private RecyclerView rv;
 
-    private int company_id, location_id, doc_number;
-    private String record_date, type, truck_code, feed_list;
+    private int company_id, location_id;
+    private Long doc_id;
+    private String record_date, doc_number, truck_code, qr_data;
     private SQLiteDatabase db;
     private Toast mToast;
     private TempFeedInSummaryAdapter adapter;
@@ -65,7 +69,6 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
 
         tvLocation = findViewById(R.id.temp_feed_in_summary_tv_location_name);
         tvDocNumber = findViewById(R.id.temp_feed_in_summary_tv_doc_number);
-        tvType = findViewById(R.id.temp_feed_in_summary_tv_type);
         tvTruckCode = findViewById(R.id.temp_feed_in_summary_tv_truck_code);
 
         setupStartIntent();
@@ -76,7 +79,7 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
         setTitle("New Feed In Summary");
 
         Cursor cursor = TempFeedInDetailController.getAll(db);
-        if (cursor.getCount() == 0){
+        if (cursor.getCount() == 0) {
             callTempFeedInDetail();
         }
     }
@@ -98,27 +101,25 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
         if (intentStart.hasExtra(I_KEY_RECORD_DATE)) {
             record_date = intentStart.getStringExtra(I_KEY_RECORD_DATE);
         }
-        if (intentStart.hasExtra(I_KEY_DOC_NUMBER)) {
-            doc_number = intentStart.getIntExtra(I_KEY_DOC_NUMBER, 0);
+        if (intentStart.hasExtra(I_KEY_DOC_ID)) {
+            doc_id = intentStart.getLongExtra(I_KEY_DOC_ID, 0);
         }
-        if (intentStart.hasExtra(I_KEY_TYPE)) {
-            type = intentStart.getStringExtra(I_KEY_TYPE);
+        if (intentStart.hasExtra(I_KEY_DOC_NUMBER)) {
+            doc_number = intentStart.getStringExtra(I_KEY_DOC_NUMBER);
         }
         if (intentStart.hasExtra(I_KEY_TRUCK_CODE)) {
             truck_code = intentStart.getStringExtra(I_KEY_TRUCK_CODE);
         }
-        if (intentStart.hasExtra(I_KEY_ID_LIST)) {
-            feed_list = intentStart.getStringExtra(I_KEY_ID_LIST);
+        if (intentStart.hasExtra(I_KEY_QR_DATA)) {
+            qr_data = intentStart.getStringExtra(I_KEY_QR_DATA);
         }
     }
 
-    public void setupSummary(){
+    public void setupSummary() {
         tvLocation.setText("Location : " + sLocationName);
-        tvDocNumber.setText("Doc Number : " + doc_number);
-        tvType.setText("Type : " + type);
+        tvDocNumber.setText("Doc Number : " + doc_number + " (" + doc_id + ")");
         tvTruckCode.setText("Truck Code : " + truck_code);
     }
-
 
     private void setupListener() {
         fabAdd.setOnClickListener(new View.OnClickListener() {
@@ -128,10 +129,10 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
             }
         });
 
-        btnEnd.setOnClickListener(new View.OnClickListener(){
+        btnEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(TempFeedInDetailController.getAll(db).getCount() > 0){
+                if (TempFeedInDetailController.getAll(db).getCount() > 0) {
                     AlertDialog alertDialog = new AlertDialog.Builder(TempFeedInSummaryActivity.this).create();
                     alertDialog.setTitle("Confirm to save? (Simpan?)");
                     alertDialog.setMessage("Edit is unable after save, please check carefully before save.\n(Pengubahan dihalang selepas simpan, pastikan semua betul sebelum simpan.)");
@@ -153,7 +154,7 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
                             });
                     alertDialog.show();
 
-                }else{
+                } else {
                     if (mToast != null) {
                         mToast.cancel();
                     }
@@ -168,12 +169,12 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
         Intent feedInDetailIntent = new Intent(TempFeedInSummaryActivity.this, TempFeedInDetailActivity.class);
         feedInDetailIntent.putExtra(I_KEY_COMPANY, company_id);
         feedInDetailIntent.putExtra(I_KEY_LOCATION, location_id);
-        feedInDetailIntent.putExtra(I_KEY_ID_LIST, feed_list);
-        feedInDetailIntent.putExtra(I_KEY_TYPE, type);
+        Log.e("callTempFeedInDetail", qr_data);
+        feedInDetailIntent.putExtra(I_KEY_QR_DATA, qr_data);
         startActivity(feedInDetailIntent);
     }
 
-    private void setupRecycleView(){
+    private void setupRecycleView() {
         rv = this.findViewById(R.id.temp_feed_in_summary_rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
@@ -195,7 +196,7 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
                 AlertDialog alertDialog = new AlertDialog.Builder(TempFeedInSummaryActivity.this).create();
                 alertDialog.setTitle("Delete Swiped Feed In Data ?");
 
-                alertDialog.setMessage( "This action can't be undo. Do you still want to delete swiped feed in data ?");
+                alertDialog.setMessage("This action can't be undo. Do you still want to delete swiped feed in data ?");
                 alertDialog.setCancelable(false);
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "DELETE(BUANG)",
                         new DialogInterface.OnClickListener() {
@@ -254,28 +255,34 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private Long saveFeedIn(){
+    private Long saveFeedIn() {
 
         long feed_in_id = FeedInController.add(db,
                 company_id,
                 location_id,
                 record_date,
+                doc_id,
                 doc_number,
-                type,
                 truck_code);
 
         Cursor tempDetail = TempFeedInDetailController.getAll(db);
 
-        while(tempDetail.moveToNext()){
+        while (tempDetail.moveToNext()) {
+            long doc_detail_id = tempDetail.getLong(tempDetail.getColumnIndex(TempFeedInDetailEntry.COLUMN_DOC_DETAIL_ID));
             int house_code = tempDetail.getInt(tempDetail.getColumnIndex(TempFeedInDetailEntry.COLUMN_HOUSE_CODE));
             int item_packing_id = tempDetail.getInt(tempDetail.getColumnIndex(TempFeedInDetailEntry.COLUMN_ITEM_PACKING_ID));
-            double qty= tempDetail.getDouble(tempDetail.getColumnIndex(TempFeedInDetailEntry.COLUMN_QTY));
+            String compartment_no = tempDetail.getString(tempDetail.getColumnIndex(TempFeedInDetailEntry.COLUMN_COMPARTMENT_NO));
+            double qty = tempDetail.getDouble(tempDetail.getColumnIndex(TempFeedInDetailEntry.COLUMN_QTY));
+            double weight = tempDetail.getDouble(tempDetail.getColumnIndex(TempFeedInDetailEntry.COLUMN_WEIGHT));
 
             FeedInDetailController.add(db,
                     feed_in_id,
+                    doc_detail_id,
                     house_code,
                     item_packing_id,
-                    qty);
+                    compartment_no,
+                    qty,
+                    weight);
         }
 
         return feed_in_id;

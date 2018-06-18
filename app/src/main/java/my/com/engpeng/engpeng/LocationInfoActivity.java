@@ -204,7 +204,7 @@ public class LocationInfoActivity extends AppCompatActivity
             if (cvs != null) {
                 for (int i = 0; i < cvs.length; i++) {
                     db.insert(EngPengContract.MortalityEntry.TABLE_NAME, null, cvs[i]);
-                    publishProgress(start + (int)(((double)(i + 1) / (double) cvs.length) * (double)allocate));
+                    publishProgress(start + (int) (((double) (i + 1) / (double) cvs.length) * (double) allocate));
                 }
             }
         }
@@ -243,15 +243,15 @@ public class LocationInfoActivity extends AppCompatActivity
                                 catch_bta_detail.getInt("with_cover_qty"));
                     }
 
-                    publishProgress(start + (int)(((double)(i + 1) / (double) jsonArray.length()) * (double)allocate));
+                    publishProgress(start + (int) (((double) (i + 1) / (double) jsonArray.length()) * (double) allocate));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        private void insertWeight(String jsonStr, int start, int allocate){
-            try{
+        private void insertWeight(String jsonStr, int start, int allocate) {
+            try {
                 JSONObject json = new JSONObject(jsonStr);
                 JSONArray jsonArray = json.getJSONArray("mobile_weight");
 
@@ -281,9 +281,9 @@ public class LocationInfoActivity extends AppCompatActivity
                                 weight_detail.getString("gender"));
                     }
 
-                    publishProgress(start + (int)(((double)(i + 1) / (double) jsonArray.length()) * (double)allocate));
+                    publishProgress(start + (int) (((double) (i + 1) / (double) jsonArray.length()) * (double) allocate));
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -300,8 +300,8 @@ public class LocationInfoActivity extends AppCompatActivity
                     cv.put(EngPengContract.FeedInEntry.COLUMN_COMPANY_ID, feed_in.getInt("company_id"));
                     cv.put(EngPengContract.FeedInEntry.COLUMN_LOCATION_ID, feed_in.getInt("location_id"));
                     cv.put(EngPengContract.FeedInEntry.COLUMN_RECORD_DATE, feed_in.getString("record_date"));
-                    cv.put(EngPengContract.FeedInEntry.COLUMN_TYPE, feed_in.getString("type"));
-                    cv.put(EngPengContract.FeedInEntry.COLUMN_DOC_NUMBER, feed_in.getInt("doc_number"));
+                    cv.put(EngPengContract.FeedInEntry.COLUMN_DOC_ID, feed_in.getLong("doc_id"));
+                    cv.put(EngPengContract.FeedInEntry.COLUMN_DOC_NUMBER, feed_in.getString("doc_number"));
                     cv.put(EngPengContract.FeedInEntry.COLUMN_TRUCK_CODE, feed_in.getString("truck_code"));
                     cv.put(EngPengContract.FeedInEntry.COLUMN_TIMESTAMP, feed_in.getString("timestamp"));
                     cv.put(EngPengContract.FeedInEntry.COLUMN_UPLOAD, 1);
@@ -313,11 +313,14 @@ public class LocationInfoActivity extends AppCompatActivity
                         JSONObject feed_in_detail = jsonArrayDetail.getJSONObject(x);
                         FeedInDetailController.add(db,
                                 feed_in_id,
+                                feed_in_detail.getLong("doc_detail_id"),
                                 feed_in_detail.getInt("house_code"),
                                 feed_in_detail.getInt("item_packing_id"),
-                                feed_in_detail.getDouble("qty"));
+                                feed_in_detail.getString("compartment_no"),
+                                feed_in_detail.getDouble("qty"),
+                                feed_in_detail.getDouble("weight"));
                     }
-                    publishProgress(start + (int)(((double)(i + 1) / (double) jsonArray.length()) * (double)allocate));
+                    publishProgress(start + (int) (((double) (i + 1) / (double) jsonArray.length()) * (double) allocate));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

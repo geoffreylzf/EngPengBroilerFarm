@@ -136,7 +136,7 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
                                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(mainIntent);
 
-                                    String printText = PrintUtils.printCatchBTA(db, catch_bta_id);
+                                    String printText = PrintUtils.printCatchBTA(TempCatchBTASummaryActivity.this, db, catch_bta_id);
 
                                     Intent ppIntent = new Intent(TempCatchBTASummaryActivity.this, PrintPreviewActivity.class);
                                     ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);

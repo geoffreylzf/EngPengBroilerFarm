@@ -88,7 +88,7 @@
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/temp_feed_transfer_head_ll_rg"
+        app:layout_constraintBottom_toTopOf="@+id/temp_feed_transfer_head_ll_action"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/temp_feed_transfer_head_ll_date">
@@ -158,47 +158,6 @@
                 android:layout_height="match_parent"
                 android:layout_below="@+id/temp_feed_transfer_head_tv_receive" />
         </RelativeLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/temp_feed_transfer_head_ll_rg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/temp_feed_transfer_head_ll_action"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/temp_feed_transfer_head_ll_house">
-
-        <TextView
-            style="@style/LabelTextViewStyle"
-            android:text="@string/type2" />
-
-        <RadioGroup
-            android:id="@+id/temp_feed_transfer_head_rg_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/temp_feed_transfer_head_rd_bg"
-                style="@style/RadioButtonStyle"
-                android:layout_marginEnd="32dp"
-                android:layout_weight="1"
-                android:text="@string/lorry_bag" />
-
-            <RadioButton
-                android:id="@+id/temp_feed_transfer_head_rd_mt"
-                style="@style/RadioButtonStyle"
-                android:layout_marginEnd="32dp"
-                android:layout_marginStart="32dp"
-                android:layout_weight="1"
-                android:text="@string/silo_mt" />
-
-        </RadioGroup>
 
     </LinearLayout>
 
