@@ -83,6 +83,7 @@
     <string name="feed_in">Feed In</string>
     <string name="feed_out">Feed Out</string>
     <string name="feed_hse_to_hse_transfer">Hse to Hse Transfer</string>
+    <string name="feed_transfer">Feed Transfer</string>
     <string name="new_body_weight">New Body Weight</string>
     <string name="start">Start</string>
     <string name="start2">Start (Mula)</string>
@@ -157,6 +158,8 @@
     <string name="cage">Cage</string>
     <string name="with_cover_qty">With Cover Qty</string>
     <string name="with_cover">With Cover</string>
+    <string name="show_all2">Show All (Tunjuk Semua)</string>
+    <string name="search2">Search (Cari)</string>
 
     <string name="hint_enter_mortality">Enter amount for mortality</string>
     <string name="hint_enter_reject">Enter amount for reject</string>

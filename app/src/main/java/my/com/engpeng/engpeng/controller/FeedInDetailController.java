@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import my.com.engpeng.engpeng.data.EngPengContract;
+
 import static my.com.engpeng.engpeng.data.EngPengContract.*;
 
 public class FeedInDetailController {
@@ -49,6 +51,52 @@ public class FeedInDetailController {
         );
     }
 
+    public static Cursor getAllByFeedInIdOrderByItemPackingId(SQLiteDatabase db, Long feed_in_id) {
+
+        String selection = FeedInDetailEntry.COLUMN_FEED_IN_ID + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(feed_in_id),
+        };
+
+        return db.query(
+                FeedInDetailEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                FeedInDetailEntry.COLUMN_ITEM_PACKING_ID
+        );
+    }
+    public static Cursor getTotalQtyWeightByFeedInIdItemPackingId(SQLiteDatabase db, Long feed_in_id, int item_packing_id) {
+
+        String[] columns = new String[]{
+                "SUM(" + FeedInDetailEntry.COLUMN_QTY + ") AS " + FeedInDetailEntry.COLUMN_QTY,
+                "SUM(" + FeedInDetailEntry.COLUMN_WEIGHT + ") AS " + FeedInDetailEntry.COLUMN_WEIGHT,
+        };
+
+        String selection = FeedInDetailEntry.COLUMN_FEED_IN_ID + " = ? AND " +
+                FeedInDetailEntry.COLUMN_ITEM_PACKING_ID + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(feed_in_id),
+                String.valueOf(item_packing_id),
+        };
+
+        return db.query(
+                FeedInDetailEntry.TABLE_NAME,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                FeedInDetailEntry.COLUMN_ITEM_PACKING_ID
+        );
+    }
+
+
+
     public static boolean removeByFeedInId(SQLiteDatabase db, long id) {
         return db.delete(FeedInDetailEntry.TABLE_NAME, FeedInDetailEntry.COLUMN_FEED_IN_ID + "=" + id, null) > 0;
     }
@@ -88,5 +136,37 @@ public class FeedInDetailController {
         }
         json += "]";
         return json;
+    }
+
+    public static String getItemPackingIdByMultiFeedInId(SQLiteDatabase db, String str_feed_in_id) {
+        String[] columns = new String[]{
+                "DISTINCT(" + FeedInDetailEntry.COLUMN_ITEM_PACKING_ID + ") AS " + FeedInDetailEntry.COLUMN_ITEM_PACKING_ID,
+        };
+
+        String selection = FeedInDetailEntry.COLUMN_FEED_IN_ID + " IN (" + str_feed_in_id + ") ";
+
+        Cursor cursor =  db.query(
+                EngPengContract.FeedInDetailEntry.TABLE_NAME,
+                columns,
+                selection,
+                null,
+                null,
+                null,
+                EngPengContract.FeedInDetailEntry._ID
+        );
+
+        boolean isFirst = true;
+        String list = "";
+
+        while (cursor.moveToNext()) {
+            if (isFirst) {
+                list += cursor.getString(cursor.getColumnIndex(FeedInDetailEntry.COLUMN_ITEM_PACKING_ID));
+                isFirst = false;
+            } else {
+                list += "," + cursor.getString(cursor.getColumnIndex(FeedInDetailEntry.COLUMN_ITEM_PACKING_ID));
+            }
+        }
+
+        return list;
     }
 }

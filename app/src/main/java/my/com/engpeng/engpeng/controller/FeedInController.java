@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import static my.com.engpeng.engpeng.data.EngPengContract.*;
+import static my.com.engpeng.engpeng.data.EngPengContract.FeedInEntry;
 
 public class FeedInController {
 
@@ -14,7 +14,7 @@ public class FeedInController {
                            String record_date,
                            Long doc_id,
                            String doc_number,
-                           String truck_code){
+                           String truck_code) {
 
         ContentValues cv = new ContentValues();
         cv.put(FeedInEntry.COLUMN_COMPANY_ID, company_id);
@@ -28,8 +28,8 @@ public class FeedInController {
     }
 
     public static Cursor getAllByCL(SQLiteDatabase db,
-                                     int company_id,
-                                     int location_id) {
+                                    int company_id,
+                                    int location_id) {
 
         String selection = FeedInEntry.COLUMN_COMPANY_ID + " = ? AND " +
                 FeedInEntry.COLUMN_LOCATION_ID + " = ? ";
@@ -127,10 +127,65 @@ public class FeedInController {
                 null
         );
 
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             long feed_in_id = cursor.getLong(cursor.getColumnIndex(FeedInEntry._ID));
             remove(db, feed_in_id);
             FeedInDetailController.removeByFeedInId(db, feed_in_id);
         }
+    }
+
+    public static String getAllIdByCL(SQLiteDatabase db,
+                                      int company_id,
+                                      int location_id) {
+
+        String selection = FeedInEntry.COLUMN_COMPANY_ID + " = ? AND " +
+                FeedInEntry.COLUMN_LOCATION_ID + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(company_id),
+                String.valueOf(location_id),
+        };
+
+
+        Cursor cursor = db.query(
+                FeedInEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        boolean isFirst = true;
+        String list = "";
+
+        while (cursor.moveToNext()) {
+            if (isFirst) {
+                list += cursor.getString(cursor.getColumnIndex(FeedInEntry._ID));
+                isFirst = false;
+            } else {
+                list += "," + cursor.getString(cursor.getColumnIndex(FeedInEntry._ID));
+            }
+        }
+
+        return list;
+    }
+
+    public static Cursor getById(SQLiteDatabase db, Long id) {
+        String selection = FeedInEntry._ID + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(id),
+        };
+        return db.query(
+                FeedInEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
     }
 }

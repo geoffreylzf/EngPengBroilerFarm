@@ -3,6 +3,7 @@ package my.com.engpeng.engpeng.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,11 +21,18 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import my.com.engpeng.engpeng.PrintPreviewActivity;
 import my.com.engpeng.engpeng.R;
+import my.com.engpeng.engpeng.WeightActivity;
 import my.com.engpeng.engpeng.controller.FeedInController;
 import my.com.engpeng.engpeng.controller.FeedInDetailController;
+import my.com.engpeng.engpeng.utilities.PrintUtils;
 import my.com.engpeng.engpeng.utilities.UIUtils;
 
+import static my.com.engpeng.engpeng.Global.I_KEY_ID;
+import static my.com.engpeng.engpeng.Global.I_KEY_MODULE;
+import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_TEXT;
+import static my.com.engpeng.engpeng.Global.MODULE_WEIGHT;
 import static my.com.engpeng.engpeng.data.EngPengContract.*;
 
 public class FeedInHistoryAdapter extends RecyclerView.Adapter<FeedInHistoryAdapter.FeedInViewHolder> {
@@ -132,6 +140,17 @@ public class FeedInHistoryAdapter extends RecyclerView.Adapter<FeedInHistoryAdap
                 }
             }
         });
+
+        holder.btnPrint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String printText = PrintUtils.printFeedIn(db, feed_in_id);
+
+                Intent ppIntent = new Intent(context, PrintPreviewActivity.class);
+                ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
+                context.startActivity(ppIntent);
+            }
+        });
     }
 
     @Override
@@ -152,7 +171,7 @@ public class FeedInHistoryAdapter extends RecyclerView.Adapter<FeedInHistoryAdap
         RecyclerView rvDetail;
         RelativeLayout rlDetail;
         LinearLayout ll;
-        Button btnDelete;
+        Button btnDelete, btnPrint;
 
         public FeedInViewHolder(View itemView) {
             super(itemView);
@@ -166,6 +185,7 @@ public class FeedInHistoryAdapter extends RecyclerView.Adapter<FeedInHistoryAdap
             rvDetail = itemView.findViewById(R.id.li_feed_in_history_rv_detail);
 
             btnDelete = itemView.findViewById(R.id.li_feed_in_history_btn_delete);
+            btnPrint = itemView.findViewById(R.id.li_feed_in_history_btn_print);
         }
     }
 }

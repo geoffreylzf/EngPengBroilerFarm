@@ -72,7 +72,8 @@
         <activity android:name=".FeedInHistoryActivity" />
         <activity android:name=".TempFeedTransferHeadActivity" />
         <activity android:name=".TempFeedTransferDetailActivity" />
-        <activity android:name=".FunctionTestActivity"></activity>
+        <activity android:name=".FunctionTestActivity" />
+        <activity android:name=".FeedTransferHistoryActivity"></activity>
     </application>
 
 </manifest>

@@ -171,5 +171,16 @@ public class EngPengContract {
         public static final String COLUMN_WEIGHT = "weight";
     }
 
-
+    public static final class FeedTransferEntry implements BaseColumns {
+        public static final String TABLE_NAME = "feed_transfer";
+        public static final String COLUMN_COMPANY_ID = "company_id";
+        public static final String COLUMN_LOCATION_ID = "location_id";
+        public static final String COLUMN_RECORD_DATE = "record_date";
+        public static final String COLUMN_DISCHARGE_HOUSE = "discharge_house";
+        public static final String COLUMN_RECEIVE_HOUSE = "receive_house";
+        public static final String COLUMN_ITEM_PACKING_ID = "item_packing_id";
+        public static final String COLUMN_WEIGHT = "weight";
+        public static final String COLUMN_UPLOAD = "upload";
+        public static final String COLUMN_TIMESTAMP = "timestamp";
+    }
 }

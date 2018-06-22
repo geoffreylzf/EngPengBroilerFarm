@@ -112,6 +112,22 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@color/colorTableRow"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:text="@string/feed_transfer"
+                    style="@style/TableRowTextViewStyle"/>
+
+                <TextView
+                    android:id="@+id/upload_tv_feed_transfer"
+                    style="@style/TableRowTextViewStyle"/>
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>

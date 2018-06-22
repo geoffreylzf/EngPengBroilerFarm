@@ -1,12 +1,16 @@
 package my.com.engpeng.engpeng;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -25,6 +29,15 @@ import my.com.engpeng.engpeng.data.EngPengContract;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
 import my.com.engpeng.engpeng.model.HouseCode;
 
+import static my.com.engpeng.engpeng.Global.I_KEY_COMPANY;
+import static my.com.engpeng.engpeng.Global.I_KEY_DISCHARGE_HOUSE;
+import static my.com.engpeng.engpeng.Global.I_KEY_DOC_ID;
+import static my.com.engpeng.engpeng.Global.I_KEY_DOC_NUMBER;
+import static my.com.engpeng.engpeng.Global.I_KEY_LOCATION;
+import static my.com.engpeng.engpeng.Global.I_KEY_QR_DATA;
+import static my.com.engpeng.engpeng.Global.I_KEY_RECEIVE_HOUSE;
+import static my.com.engpeng.engpeng.Global.I_KEY_RECORD_DATE;
+import static my.com.engpeng.engpeng.Global.I_KEY_TRUCK_CODE;
 import static my.com.engpeng.engpeng.Global.sLocationName;
 
 public class TempFeedTransferHeadActivity extends AppCompatActivity {
@@ -84,7 +97,7 @@ public class TempFeedTransferHeadActivity extends AppCompatActivity {
         setupReceiveRecycleView();
     }
 
-    private void setupListener(){
+    private void setupListener() {
         btnDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,43 +127,49 @@ public class TempFeedTransferHeadActivity extends AppCompatActivity {
 
                     int house_discharge = 0, house_receive = 0;
 
-                    for (HouseCode hc: mDischargeList){
-                        if(hc.getIsSelect()){
+                    for (HouseCode hc : mDischargeList) {
+                        if (hc.getIsSelect()) {
                             house_discharge = hc.getHouseCode();
                             break;
                         }
                     }
-                    if(house_discharge == 0){
+                    if (house_discharge == 0) {
                         mToast = Toast.makeText(TempFeedTransferHeadActivity.this, "Please select discharge house", Toast.LENGTH_SHORT);
                         mToast.show();
                         return;
                     }
 
-                    for (HouseCode hc: mReceiveList){
-                        if(hc.getIsSelect()){
+                    for (HouseCode hc : mReceiveList) {
+                        if (hc.getIsSelect()) {
                             house_receive = hc.getHouseCode();
                             break;
                         }
                     }
-                    if(house_receive == 0){
+                    if (house_receive == 0) {
                         mToast = Toast.makeText(TempFeedTransferHeadActivity.this, "Please select receive house", Toast.LENGTH_SHORT);
                         mToast.show();
                         return;
                     }
 
-                    if(house_discharge == house_receive){
+                    if (house_discharge == house_receive) {
                         mToast = Toast.makeText(TempFeedTransferHeadActivity.this, "Discharge and receive cannot be same house", Toast.LENGTH_SHORT);
                         mToast.show();
                         return;
                     }
 
-
+                    Intent selectionIntent = new Intent(TempFeedTransferHeadActivity.this, TempFeedTransferDetailActivity.class);
+                    selectionIntent.putExtra(I_KEY_COMPANY, company_id);
+                    selectionIntent.putExtra(I_KEY_LOCATION, location_id);
+                    selectionIntent.putExtra(I_KEY_RECORD_DATE, dateStr);
+                    selectionIntent.putExtra(I_KEY_DISCHARGE_HOUSE, house_discharge);
+                    selectionIntent.putExtra(I_KEY_RECEIVE_HOUSE, house_receive);
+                    startActivity(selectionIntent);
                 }
             }
         });
     }
 
-    public void setupDischargeRecycleView(){
+    public void setupDischargeRecycleView() {
         rvDischarge.setLayoutManager(new LinearLayoutManager(this));
 
         Cursor cursor = HouseController.getHouseCodeByLocationId(mDb, location_id);
@@ -169,7 +188,7 @@ public class TempFeedTransferHeadActivity extends AppCompatActivity {
         rvDischarge.setAdapter(mDischargeAdapter);
     }
 
-    public void setupReceiveRecycleView(){
+    public void setupReceiveRecycleView() {
         rvReceive.setLayoutManager(new LinearLayoutManager(this));
 
         Cursor cursor = HouseController.getHouseCodeByLocationId(mDb, location_id);
@@ -186,5 +205,25 @@ public class TempFeedTransferHeadActivity extends AppCompatActivity {
         }
         mReceiveAdapter = new TempFeedTransferHeadAdapter(this, mReceiveList);
         rvReceive.setAdapter(mReceiveAdapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.feed_transfer_history_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_feed_transfer_history) {
+
+            Intent intent = new Intent(this, FeedTransferHistoryActivity.class);
+            startActivity(intent);
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

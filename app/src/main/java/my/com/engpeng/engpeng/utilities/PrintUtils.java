@@ -10,16 +10,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import my.com.engpeng.engpeng.MainActivity;
 import my.com.engpeng.engpeng.controller.BranchController;
 import my.com.engpeng.engpeng.controller.CatchBTAController;
 import my.com.engpeng.engpeng.controller.CatchBTADetailController;
+import my.com.engpeng.engpeng.controller.FeedInController;
+import my.com.engpeng.engpeng.controller.FeedInDetailController;
+import my.com.engpeng.engpeng.controller.FeedItemController;
 import my.com.engpeng.engpeng.controller.StandardWeightController;
 import my.com.engpeng.engpeng.controller.WeightController;
 import my.com.engpeng.engpeng.controller.WeightDetailController;
-import my.com.engpeng.engpeng.data.EngPengContract;
 
 import static my.com.engpeng.engpeng.Global.sUsername;
+import static my.com.engpeng.engpeng.data.EngPengContract.*;
 
 /**
  * Created by Admin on 28/2/2018.
@@ -40,27 +42,27 @@ public class PrintUtils {
 
         Cursor cursorCatchBTA = CatchBTAController.getById(db, catch_bta_id);
         cursorCatchBTA.moveToFirst();
-        String record_date = cursorCatchBTA.getString(cursorCatchBTA.getColumnIndex(EngPengContract.CatchBTAEntry.COLUMN_RECORD_DATE));
-        String doc_number = cursorCatchBTA.getString(cursorCatchBTA.getColumnIndex(EngPengContract.CatchBTAEntry.COLUMN_DOC_NUMBER));
-        String doc_type = cursorCatchBTA.getString(cursorCatchBTA.getColumnIndex(EngPengContract.CatchBTAEntry.COLUMN_DOC_TYPE));
-        String type = cursorCatchBTA.getString(cursorCatchBTA.getColumnIndex(EngPengContract.CatchBTAEntry.COLUMN_TYPE));
+        String record_date = cursorCatchBTA.getString(cursorCatchBTA.getColumnIndex(CatchBTAEntry.COLUMN_RECORD_DATE));
+        String doc_number = cursorCatchBTA.getString(cursorCatchBTA.getColumnIndex(CatchBTAEntry.COLUMN_DOC_NUMBER));
+        String doc_type = cursorCatchBTA.getString(cursorCatchBTA.getColumnIndex(CatchBTAEntry.COLUMN_DOC_TYPE));
+        String type = cursorCatchBTA.getString(cursorCatchBTA.getColumnIndex(CatchBTAEntry.COLUMN_TYPE));
         if (type.equals("B")) {
             type = "C";
         }
 
-        String truck_code = cursorCatchBTA.getString(cursorCatchBTA.getColumnIndex(EngPengContract.CatchBTAEntry.COLUMN_TRUCK_CODE));
-        int company_id = cursorCatchBTA.getInt(cursorCatchBTA.getColumnIndex(EngPengContract.CatchBTAEntry.COLUMN_COMPANY_ID));
-        int location_id = cursorCatchBTA.getInt(cursorCatchBTA.getColumnIndex(EngPengContract.CatchBTAEntry.COLUMN_LOCATION_ID));
+        String truck_code = cursorCatchBTA.getString(cursorCatchBTA.getColumnIndex(CatchBTAEntry.COLUMN_TRUCK_CODE));
+        int company_id = cursorCatchBTA.getInt(cursorCatchBTA.getColumnIndex(CatchBTAEntry.COLUMN_COMPANY_ID));
+        int location_id = cursorCatchBTA.getInt(cursorCatchBTA.getColumnIndex(CatchBTAEntry.COLUMN_LOCATION_ID));
 
         Cursor cursorCompany = BranchController.getBranchByErpId(db, company_id);
         cursorCompany.moveToFirst();
-        String company_code = cursorCompany.getString(cursorCompany.getColumnIndex(EngPengContract.BranchEntry.COLUMN_BRANCH_CODE));
-        String company_name = cursorCompany.getString(cursorCompany.getColumnIndex(EngPengContract.BranchEntry.COLUMN_BRANCH_NAME));
+        String company_code = cursorCompany.getString(cursorCompany.getColumnIndex(BranchEntry.COLUMN_BRANCH_CODE));
+        String company_name = cursorCompany.getString(cursorCompany.getColumnIndex(BranchEntry.COLUMN_BRANCH_NAME));
 
         Cursor cursorLocation = BranchController.getBranchByErpId(db, location_id);
         cursorLocation.moveToFirst();
-        String location_code = cursorLocation.getString(cursorLocation.getColumnIndex(EngPengContract.BranchEntry.COLUMN_BRANCH_CODE));
-        String location_name = cursorLocation.getString(cursorLocation.getColumnIndex(EngPengContract.BranchEntry.COLUMN_BRANCH_NAME));
+        String location_code = cursorLocation.getString(cursorLocation.getColumnIndex(BranchEntry.COLUMN_BRANCH_CODE));
+        String location_name = cursorLocation.getString(cursorLocation.getColumnIndex(BranchEntry.COLUMN_BRANCH_NAME));
 
         text += formatLine("");
         text += formatLine(company_name);
@@ -115,11 +117,11 @@ public class PrintUtils {
             for (int x = 0; x < firstColumnRow; x++) {
                 cursorCatchBTADetail.moveToPosition(x);
                 String num = formatNumber(3, x + 1);
-                double weight = cursorCatchBTADetail.getDouble(cursorCatchBTADetail.getColumnIndex(EngPengContract.CatchBTADetailEntry.COLUMN_WEIGHT));
-                String qty = cursorCatchBTADetail.getString(cursorCatchBTADetail.getColumnIndex(EngPengContract.CatchBTADetailEntry.COLUMN_QTY));
-                int cage_qty = cursorCatchBTADetail.getInt(cursorCatchBTADetail.getColumnIndex(EngPengContract.CatchBTADetailEntry.COLUMN_CAGE_QTY));
+                double weight = cursorCatchBTADetail.getDouble(cursorCatchBTADetail.getColumnIndex(CatchBTADetailEntry.COLUMN_WEIGHT));
+                String qty = cursorCatchBTADetail.getString(cursorCatchBTADetail.getColumnIndex(CatchBTADetailEntry.COLUMN_QTY));
+                int cage_qty = cursorCatchBTADetail.getInt(cursorCatchBTADetail.getColumnIndex(CatchBTADetailEntry.COLUMN_CAGE_QTY));
 
-                int with_cover_qty = cursorCatchBTADetail.getInt(cursorCatchBTADetail.getColumnIndex(EngPengContract.CatchBTADetailEntry.COLUMN_WITH_COVER_QTY));
+                int with_cover_qty = cursorCatchBTADetail.getInt(cursorCatchBTADetail.getColumnIndex(CatchBTADetailEntry.COLUMN_WITH_COVER_QTY));
                 int without_cover_qty = cage_qty - with_cover_qty;
 
                 ttl_qty += Integer.parseInt(qty);
@@ -141,11 +143,11 @@ public class PrintUtils {
                 if (x + firstColumnRow < row) {
                     cursorCatchBTADetail.moveToPosition(x + firstColumnRow);
                     String num2 = formatNumber(3, x + 1 + firstColumnRow);
-                    double weight2 = cursorCatchBTADetail.getDouble(cursorCatchBTADetail.getColumnIndex(EngPengContract.CatchBTADetailEntry.COLUMN_WEIGHT));
-                    String qty2 = cursorCatchBTADetail.getString(cursorCatchBTADetail.getColumnIndex(EngPengContract.CatchBTADetailEntry.COLUMN_QTY));
+                    double weight2 = cursorCatchBTADetail.getDouble(cursorCatchBTADetail.getColumnIndex(CatchBTADetailEntry.COLUMN_WEIGHT));
+                    String qty2 = cursorCatchBTADetail.getString(cursorCatchBTADetail.getColumnIndex(CatchBTADetailEntry.COLUMN_QTY));
 
-                    int cage_qty2 = cursorCatchBTADetail.getInt(cursorCatchBTADetail.getColumnIndex(EngPengContract.CatchBTADetailEntry.COLUMN_CAGE_QTY));
-                    int with_cover_qty2 = cursorCatchBTADetail.getInt(cursorCatchBTADetail.getColumnIndex(EngPengContract.CatchBTADetailEntry.COLUMN_WITH_COVER_QTY));
+                    int cage_qty2 = cursorCatchBTADetail.getInt(cursorCatchBTADetail.getColumnIndex(CatchBTADetailEntry.COLUMN_CAGE_QTY));
+                    int with_cover_qty2 = cursorCatchBTADetail.getInt(cursorCatchBTADetail.getColumnIndex(CatchBTADetailEntry.COLUMN_WITH_COVER_QTY));
                     int without_cover_qty2 = cage_qty2 - with_cover_qty2;
 
                     ttl_qty += Integer.parseInt(qty2);
@@ -245,23 +247,23 @@ public class PrintUtils {
         Cursor cursorWeight = WeightController.getById(db, weight_id);
         cursorWeight.moveToFirst();
 
-        String record_date = cursorWeight.getString(cursorWeight.getColumnIndex(EngPengContract.WeightEntry.COLUMN_RECORD_DATE));
-        String record_time = cursorWeight.getString(cursorWeight.getColumnIndex(EngPengContract.WeightEntry.COLUMN_RECORD_TIME));
-        String feed = cursorWeight.getString(cursorWeight.getColumnIndex(EngPengContract.WeightEntry.COLUMN_FEED));
-        int day = cursorWeight.getInt(cursorWeight.getColumnIndex(EngPengContract.WeightEntry.COLUMN_DAY));
-        int house_code = cursorWeight.getInt(cursorWeight.getColumnIndex(EngPengContract.WeightEntry.COLUMN_HOUSE_CODE));
+        String record_date = cursorWeight.getString(cursorWeight.getColumnIndex(WeightEntry.COLUMN_RECORD_DATE));
+        String record_time = cursorWeight.getString(cursorWeight.getColumnIndex(WeightEntry.COLUMN_RECORD_TIME));
+        String feed = cursorWeight.getString(cursorWeight.getColumnIndex(WeightEntry.COLUMN_FEED));
+        int day = cursorWeight.getInt(cursorWeight.getColumnIndex(WeightEntry.COLUMN_DAY));
+        int house_code = cursorWeight.getInt(cursorWeight.getColumnIndex(WeightEntry.COLUMN_HOUSE_CODE));
 
-        int company_id = cursorWeight.getInt(cursorWeight.getColumnIndex(EngPengContract.WeightEntry.COLUMN_COMPANY_ID));
-        int location_id = cursorWeight.getInt(cursorWeight.getColumnIndex(EngPengContract.WeightEntry.COLUMN_LOCATION_ID));
+        int company_id = cursorWeight.getInt(cursorWeight.getColumnIndex(WeightEntry.COLUMN_COMPANY_ID));
+        int location_id = cursorWeight.getInt(cursorWeight.getColumnIndex(WeightEntry.COLUMN_LOCATION_ID));
 
         Cursor cursorCompany = BranchController.getBranchByErpId(db, company_id);
         cursorCompany.moveToFirst();
-        String company_name = cursorCompany.getString(cursorCompany.getColumnIndex(EngPengContract.BranchEntry.COLUMN_BRANCH_NAME));
+        String company_name = cursorCompany.getString(cursorCompany.getColumnIndex(BranchEntry.COLUMN_BRANCH_NAME));
 
         Cursor cursorLocation = BranchController.getBranchByErpId(db, location_id);
         cursorLocation.moveToFirst();
-        String location_code = cursorLocation.getString(cursorLocation.getColumnIndex(EngPengContract.BranchEntry.COLUMN_BRANCH_CODE));
-        String location_name = cursorLocation.getString(cursorLocation.getColumnIndex(EngPengContract.BranchEntry.COLUMN_BRANCH_NAME));
+        String location_code = cursorLocation.getString(cursorLocation.getColumnIndex(BranchEntry.COLUMN_BRANCH_CODE));
+        String location_name = cursorLocation.getString(cursorLocation.getColumnIndex(BranchEntry.COLUMN_BRANCH_NAME));
 
         text += formatLine("");
         text += formatLine(company_name);
@@ -310,9 +312,9 @@ public class PrintUtils {
                 cursorWeightDetail.moveToPosition(x);
                 String num = formatNumber(3, x + 1);
 
-                int weight = cursorWeightDetail.getInt(cursorWeightDetail.getColumnIndex(EngPengContract.WeightDetailEntry.COLUMN_WEIGHT));
-                int qty = cursorWeightDetail.getInt(cursorWeightDetail.getColumnIndex(EngPengContract.WeightDetailEntry.COLUMN_QTY));
-                String gender = cursorWeightDetail.getString(cursorWeightDetail.getColumnIndex(EngPengContract.WeightDetailEntry.COLUMN_GENDER));
+                int weight = cursorWeightDetail.getInt(cursorWeightDetail.getColumnIndex(WeightDetailEntry.COLUMN_WEIGHT));
+                int qty = cursorWeightDetail.getInt(cursorWeightDetail.getColumnIndex(WeightDetailEntry.COLUMN_QTY));
+                String gender = cursorWeightDetail.getString(cursorWeightDetail.getColumnIndex(WeightDetailEntry.COLUMN_GENDER));
 
                 weight_per_section += weight;
                 qty_per_section += qty;
@@ -324,9 +326,9 @@ public class PrintUtils {
                 if (x + firstColumnRow < row) {
                     cursorWeightDetail.moveToPosition(x + firstColumnRow);
                     String num2 = formatNumber(3, x + 1 + firstColumnRow);
-                    int weight2 = cursorWeightDetail.getInt(cursorWeightDetail.getColumnIndex(EngPengContract.WeightDetailEntry.COLUMN_WEIGHT));
-                    int qty2 = cursorWeightDetail.getInt(cursorWeightDetail.getColumnIndex(EngPengContract.WeightDetailEntry.COLUMN_QTY));
-                    String gender2 = cursorWeightDetail.getString(cursorWeightDetail.getColumnIndex(EngPengContract.WeightDetailEntry.COLUMN_GENDER));
+                    int weight2 = cursorWeightDetail.getInt(cursorWeightDetail.getColumnIndex(WeightDetailEntry.COLUMN_WEIGHT));
+                    int qty2 = cursorWeightDetail.getInt(cursorWeightDetail.getColumnIndex(WeightDetailEntry.COLUMN_QTY));
+                    String gender2 = cursorWeightDetail.getString(cursorWeightDetail.getColumnIndex(WeightDetailEntry.COLUMN_GENDER));
 
                     weight_per_section += weight2;
                     qty_per_section += qty2;
@@ -405,5 +407,100 @@ public class PrintUtils {
 
     private static String weightTableRow(String num, int weight, int qty, String gender) {
         return String.format(" %3s %8d  %3d  %1s ", num, weight, qty, gender);
+    }
+
+    public static String printFeedIn(SQLiteDatabase db, long feed_in_id) {
+        String text = "";
+
+        Cursor cursorFeedIn = FeedInController.getById(db, feed_in_id);
+        cursorFeedIn.moveToFirst();
+
+        int company_id = cursorFeedIn.getInt(cursorFeedIn.getColumnIndex(FeedInEntry.COLUMN_COMPANY_ID));
+        int location_id = cursorFeedIn.getInt(cursorFeedIn.getColumnIndex(FeedInEntry.COLUMN_LOCATION_ID));
+        String record_date = cursorFeedIn.getString(cursorFeedIn.getColumnIndex(FeedInEntry.COLUMN_RECORD_DATE));
+        Long doc_id = cursorFeedIn.getLong(cursorFeedIn.getColumnIndex(FeedInEntry.COLUMN_DOC_ID));
+        String doc_number = cursorFeedIn.getString(cursorFeedIn.getColumnIndex(FeedInEntry.COLUMN_DOC_NUMBER));
+        String truck_code = cursorFeedIn.getString(cursorFeedIn.getColumnIndex(FeedInEntry.COLUMN_TRUCK_CODE));
+
+        Cursor cursorCompany = BranchController.getBranchByErpId(db, company_id);
+        cursorCompany.moveToFirst();
+        String company_name = cursorCompany.getString(cursorCompany.getColumnIndex(BranchEntry.COLUMN_BRANCH_NAME));
+
+        Cursor cursorLocation = BranchController.getBranchByErpId(db, location_id);
+        cursorLocation.moveToFirst();
+        String location_code = cursorLocation.getString(cursorLocation.getColumnIndex(BranchEntry.COLUMN_BRANCH_CODE));
+
+        text += formatLine("");
+        text += formatLine(company_name);
+        text += formatLine("GRN - Feed Receipt");
+        text += formatLine("Location: " + location_code);
+        text += formatLine("Date: " + record_date);
+        text += formatLine("Doc: " + doc_number);
+        text += formatLine("ID: " + doc_id);
+        text += formatLine("Truck Code: " + truck_code);
+
+        Cursor cursorDetail = FeedInDetailController.getAllByFeedInIdOrderByItemPackingId(db, feed_in_id);
+
+        int current_item_packing_id = 0;
+        while (cursorDetail.moveToNext()) {
+            int item_packing_id = cursorDetail.getInt(cursorDetail.getColumnIndex(FeedInDetailEntry.COLUMN_ITEM_PACKING_ID));
+
+            String house_code = cursorDetail.getString(cursorDetail.getColumnIndex(FeedInDetailEntry.COLUMN_HOUSE_CODE));
+            String compartment_no = cursorDetail.getString(cursorDetail.getColumnIndex(FeedInDetailEntry.COLUMN_COMPARTMENT_NO));
+            Double qty = cursorDetail.getDouble(cursorDetail.getColumnIndex(FeedInDetailEntry.COLUMN_QTY));
+            Double weight = cursorDetail.getDouble(cursorDetail.getColumnIndex(FeedInDetailEntry.COLUMN_WEIGHT));
+
+            Cursor cursorFeedItem = FeedItemController.getByErpId(db, item_packing_id);
+            cursorFeedItem.moveToFirst();
+
+            String sku_code = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_CODE));
+            String sku_name = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_NAME));
+
+            if(current_item_packing_id != item_packing_id){
+                if(current_item_packing_id != 0){
+                    text += formatLine(PRINT_SEPERATOR);
+                }
+                text += formatLine("");
+                text += formatLine("Feed Code: " + sku_code);
+                text += formatLine("Feed Name: " + sku_name);
+
+                Cursor cursorTotal = FeedInDetailController.getTotalQtyWeightByFeedInIdItemPackingId(db, feed_in_id, item_packing_id);
+                cursorTotal.moveToFirst();
+
+                Double ttlQty = cursorTotal.getDouble(cursorTotal.getColumnIndex(FeedInDetailEntry.COLUMN_QTY));
+                Double ttlWeight = cursorTotal.getDouble(cursorTotal.getColumnIndex(FeedInDetailEntry.COLUMN_WEIGHT));
+
+                text += formatLine("Total Qty: " + ttlQty);
+                text += formatLine("Total Weight (KG): " + ttlWeight);
+
+                text += formatLine(PRINT_SEPERATOR);
+                text += formatLine(String.format("  House  Compartment  Quantity  Weight(KG)"));
+            }
+
+            text += formatLine(String.format("  %4s        %s       %8.3f   %9.2f", house_code, compartment_no, qty, weight));
+
+            current_item_packing_id = item_packing_id;
+        }
+        text += formatLine(PRINT_SEPERATOR);
+
+        text += formatLine("");
+        text += formatLine("Printed by: " + sUsername);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        SimpleDateFormat sdfTime = new SimpleDateFormat("hh:mm a", Locale.US);
+
+        Date currentTime = Calendar.getInstance().getTime();
+
+        text += formatLine("Date: " + sdf.format(currentTime));
+        text += formatLine("Time: " + sdfTime.format(currentTime));
+        text += formatLine("-");
+        text += formatLine("-");
+        text += formatLine("-");
+        text += formatLine("-");
+        text += formatLine(halfLine("    --------------    ") + halfLine("    --------------    "));
+        text += formatLine(halfLine("   Mandor/Supervisor  ") + halfLine("        Driver        "));
+        text += formatLine("                  --END--                   ");
+
+
+        return text;
     }
 }

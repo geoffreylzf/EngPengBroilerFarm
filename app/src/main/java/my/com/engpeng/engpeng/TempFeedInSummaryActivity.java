@@ -139,10 +139,17 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
                     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "SAVE (SIMPAN)",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    saveFeedIn();
+                                    Long feed_in_id = saveFeedIn();
+
                                     Intent mainIntent = new Intent(TempFeedInSummaryActivity.this, MainActivity.class);
                                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(mainIntent);
+
+                                    String printText = PrintUtils.printFeedIn(db, feed_in_id);
+
+                                    Intent ppIntent = new Intent(TempFeedInSummaryActivity.this, PrintPreviewActivity.class);
+                                    ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
+                                    startActivity(ppIntent);
                                 }
                             });
 

@@ -22,6 +22,7 @@ import java.net.URLEncoder;
 
 import my.com.engpeng.engpeng.controller.CatchBTAController;
 import my.com.engpeng.engpeng.controller.FeedInController;
+import my.com.engpeng.engpeng.controller.FeedTransferController;
 import my.com.engpeng.engpeng.controller.MortalityController;
 import my.com.engpeng.engpeng.controller.WeightController;
 import my.com.engpeng.engpeng.data.EngPengContract;
@@ -39,7 +40,7 @@ import static my.com.engpeng.engpeng.Global.sUsername;
 public class UploadActivity extends AppCompatActivity
         implements AppLoader.AppLoaderListener, UploadAsyncTaskLoader.UploadAsyncTaskLoaderListener {
 
-    private TextView tvMortality, tvCatchBTA, tvWeight, tvFeedIn;
+    private TextView tvMortality, tvCatchBTA, tvWeight, tvFeedIn, tvFeedTransfer;
     private Button btnUpload;
     private CheckBox cbLocal;
     private Dialog progressDialog;
@@ -56,6 +57,7 @@ public class UploadActivity extends AppCompatActivity
         tvCatchBTA = findViewById(R.id.upload_tv_catch_bta);
         tvWeight = findViewById(R.id.upload_tv_weight);
         tvFeedIn = findViewById(R.id.upload_tv_feed_in);
+        tvFeedTransfer = findViewById(R.id.upload_tv_feed_transfer);
         cbLocal = findViewById(R.id.upload_cb_local);
         btnUpload = findViewById(R.id.upload_btn_upload);
         progressDialog = UIUtils.getProgressDialog(this);
@@ -82,13 +84,15 @@ public class UploadActivity extends AppCompatActivity
         int catch_bta_count = CatchBTAController.getCount(db, 0);
         int weight_count = WeightController.getCount(db, 0);
         int feed_in_count = FeedInController.getCount(db, 0);
+        int feed_transfer_count = FeedTransferController.getCount(db, 0);
 
-        ttl_row = mortality_count + catch_bta_count + weight_count + feed_in_count;
+        ttl_row = mortality_count + catch_bta_count + weight_count + feed_in_count + feed_transfer_count;
 
         tvMortality.setText(String.valueOf(mortality_count));
         tvCatchBTA.setText(String.valueOf(catch_bta_count));
         tvWeight.setText(String.valueOf(weight_count));
         tvFeedIn.setText(String.valueOf(feed_in_count));
+        tvFeedTransfer.setText(String.valueOf(feed_transfer_count));
     }
 
     private void setupListener() {
@@ -139,6 +143,11 @@ public class UploadActivity extends AppCompatActivity
             String feed_in_json = FeedInController.getUploadJson(db, 0);
             data += "&" + URLEncoder.encode(EngPengContract.FeedInEntry.TABLE_NAME, NetworkUtils.ENCODE) + "="
                     + URLEncoder.encode(feed_in_json, NetworkUtils.ENCODE);
+
+            String feed_transfer_json = FeedTransferController.getUploadJson(db, 0);
+            Log.e("feed_transfer_json", feed_transfer_json);
+            data += "&" + URLEncoder.encode(EngPengContract.FeedTransferEntry.TABLE_NAME, NetworkUtils.ENCODE) + "="
+                    + URLEncoder.encode(feed_transfer_json, NetworkUtils.ENCODE);
 
         } catch (Exception e) {
             e.printStackTrace();

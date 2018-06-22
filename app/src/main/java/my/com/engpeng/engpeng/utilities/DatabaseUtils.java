@@ -75,6 +75,7 @@ public class DatabaseUtils {
         db.execSQL("UPDATE " + CatchBTAEntry.TABLE_NAME + " SET " + CatchBTAEntry.COLUMN_UPLOAD + " = 1");
         db.execSQL("UPDATE " + WeightEntry.TABLE_NAME + " SET " + WeightEntry.COLUMN_UPLOAD + " = 1");
         db.execSQL("UPDATE " + FeedInEntry.TABLE_NAME + " SET " + FeedInEntry.COLUMN_UPLOAD + " = 1");
+        db.execSQL("UPDATE " + FeedTransferEntry.TABLE_NAME + " SET " + FeedInEntry.COLUMN_UPLOAD + " = 1");
     }
 
 

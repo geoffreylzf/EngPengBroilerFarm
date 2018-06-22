@@ -13,12 +13,13 @@ import my.com.engpeng.engpeng.data.EngPengContract.*;
 
 public class EngPengDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "engpeng.db";
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 12;
     //DB VER 7 20180317
     //DB VER 8 20180320
     //DB VER 9 20180418
     //DB VER 10 20180430
     //DB VER 11 20180611
+    //DB VER 12 20180620
 
     public EngPengDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -47,6 +48,8 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_CREATE_FEED_IN_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_FEED_IN_DETAIL_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_TEMP_FEED_IN_DETAIL_TABLE);
+
+        sqLiteDatabase.execSQL(SQL_CREATE_FEED_TRANSFER_TABLE);
     }
 
     @Override
@@ -99,14 +102,14 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
             sqLiteDatabase.execSQL(SQL_CREATE_STANDARD_WEIGHT_TABLE);
         }
 
-        if(oldVer <= 9){
+        if (oldVer <= 9) {
             sqLiteDatabase.execSQL(SQL_CREATE_FEED_ITEM_TABLE);
             sqLiteDatabase.execSQL(SQL_CREATE_FEED_IN_TABLE);
             sqLiteDatabase.execSQL(SQL_CREATE_FEED_IN_DETAIL_TABLE);
             sqLiteDatabase.execSQL(SQL_CREATE_TEMP_FEED_IN_DETAIL_TABLE);
         }
 
-        if(oldVer <= 10){
+        if (oldVer <= 10) {
             sqLiteDatabase.execSQL("DROP TABLE IF EXISTS feed_in");
             sqLiteDatabase.execSQL("DROP TABLE IF EXISTS feed_in_detail");
             sqLiteDatabase.execSQL("DROP TABLE IF EXISTS temp_feed_in_detail");
@@ -115,6 +118,11 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
             sqLiteDatabase.execSQL(SQL_CREATE_FEED_IN_DETAIL_TABLE);
             sqLiteDatabase.execSQL(SQL_CREATE_TEMP_FEED_IN_DETAIL_TABLE);
         }
+
+        if (oldVer <= 11) {
+            sqLiteDatabase.execSQL(SQL_CREATE_FEED_TRANSFER_TABLE);
+        }
+
     }
 
     private final String SQL_CREATE_BRANCH_TABLE = "CREATE TABLE " + BranchEntry.TABLE_NAME + " (" +
@@ -274,6 +282,19 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
             TempFeedInDetailEntry.COLUMN_COMPARTMENT_NO + " TEXT, " +
             TempFeedInDetailEntry.COLUMN_QTY + " REAL, " +
             TempFeedInDetailEntry.COLUMN_WEIGHT + " REAL " +
+            "); ";
+
+    private final String SQL_CREATE_FEED_TRANSFER_TABLE = "CREATE TABLE " + FeedTransferEntry.TABLE_NAME + " (" +
+            FeedTransferEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            FeedTransferEntry.COLUMN_COMPANY_ID + " INTEGER," +
+            FeedTransferEntry.COLUMN_LOCATION_ID + " INTEGER, " +
+            FeedTransferEntry.COLUMN_RECORD_DATE + " DATE, " +
+            FeedTransferEntry.COLUMN_DISCHARGE_HOUSE + " INTEGER, " +
+            FeedTransferEntry.COLUMN_RECEIVE_HOUSE + " INTEGER, " +
+            FeedTransferEntry.COLUMN_ITEM_PACKING_ID + " INTEGER, " +
+            FeedTransferEntry.COLUMN_WEIGHT + " REAL, " +
+            FeedTransferEntry.COLUMN_UPLOAD + " INTEGER DEFAULT 0, " +
+            FeedTransferEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP " +
             "); ";
 }
 

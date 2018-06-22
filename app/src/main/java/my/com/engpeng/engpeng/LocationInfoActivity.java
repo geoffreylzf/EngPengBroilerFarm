@@ -9,6 +9,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,6 +22,7 @@ import my.com.engpeng.engpeng.controller.CatchBTAController;
 import my.com.engpeng.engpeng.controller.CatchBTADetailController;
 import my.com.engpeng.engpeng.controller.FeedInController;
 import my.com.engpeng.engpeng.controller.FeedInDetailController;
+import my.com.engpeng.engpeng.controller.FeedTransferController;
 import my.com.engpeng.engpeng.controller.MortalityController;
 import my.com.engpeng.engpeng.controller.WeightController;
 import my.com.engpeng.engpeng.controller.WeightDetailController;
@@ -36,6 +38,7 @@ import my.com.engpeng.engpeng.utilities.UIUtils;
 import static my.com.engpeng.engpeng.Global.I_KEY_DIRECT_RUN;
 import static my.com.engpeng.engpeng.Global.sPassword;
 import static my.com.engpeng.engpeng.Global.sUsername;
+import static my.com.engpeng.engpeng.data.EngPengContract.*;
 
 public class LocationInfoActivity extends AppCompatActivity
         implements AppLoader.AppLoaderListener, LocationInfoAsyncTaskLoader.LocationInfoAsyncTaskLoaderListener {
@@ -190,7 +193,11 @@ public class LocationInfoActivity extends AppCompatActivity
                 publishProgress(80);
 
                 FeedInController.removeUploaded(db);
-                insertFeedIn(json, 80, 20);
+                insertFeedIn(json, 80, 10);
+                publishProgress(90);
+
+                FeedTransferController.removeUploaded(db);
+                insertFeedTransfer(json, 90, 10);
                 publishProgress(100);
 
             } else {
@@ -203,7 +210,7 @@ public class LocationInfoActivity extends AppCompatActivity
         private void insertMortality(ContentValues[] cvs, int start, int allocate) {
             if (cvs != null) {
                 for (int i = 0; i < cvs.length; i++) {
-                    db.insert(EngPengContract.MortalityEntry.TABLE_NAME, null, cvs[i]);
+                    db.insert(MortalityEntry.TABLE_NAME, null, cvs[i]);
                     publishProgress(start + (int) (((double) (i + 1) / (double) cvs.length) * (double) allocate));
                 }
             }
@@ -218,18 +225,18 @@ public class LocationInfoActivity extends AppCompatActivity
                     JSONObject catch_bta = jsonArray.getJSONObject(i);
 
                     ContentValues cv = new ContentValues();
-                    cv.put(EngPengContract.CatchBTAEntry.COLUMN_COMPANY_ID, catch_bta.getInt("company_id"));
-                    cv.put(EngPengContract.CatchBTAEntry.COLUMN_LOCATION_ID, catch_bta.getInt("location_id"));
-                    cv.put(EngPengContract.CatchBTAEntry.COLUMN_RECORD_DATE, catch_bta.getString("record_date"));
-                    cv.put(EngPengContract.CatchBTAEntry.COLUMN_TYPE, catch_bta.getString("type"));
-                    cv.put(EngPengContract.CatchBTAEntry.COLUMN_DOC_NUMBER, catch_bta.getInt("doc_number"));
-                    cv.put(EngPengContract.CatchBTAEntry.COLUMN_DOC_TYPE, catch_bta.getString("doc_type"));
-                    cv.put(EngPengContract.CatchBTAEntry.COLUMN_TRUCK_CODE, catch_bta.getString("truck_code"));
-                    cv.put(EngPengContract.CatchBTAEntry.COLUMN_PRINT_COUNT, catch_bta.getInt("print_count"));
-                    cv.put(EngPengContract.CatchBTAEntry.COLUMN_TIMESTAMP, catch_bta.getString("timestamp"));
-                    cv.put(EngPengContract.CatchBTAEntry.COLUMN_UPLOAD, 1);
+                    cv.put(CatchBTAEntry.COLUMN_COMPANY_ID, catch_bta.getInt("company_id"));
+                    cv.put(CatchBTAEntry.COLUMN_LOCATION_ID, catch_bta.getInt("location_id"));
+                    cv.put(CatchBTAEntry.COLUMN_RECORD_DATE, catch_bta.getString("record_date"));
+                    cv.put(CatchBTAEntry.COLUMN_TYPE, catch_bta.getString("type"));
+                    cv.put(CatchBTAEntry.COLUMN_DOC_NUMBER, catch_bta.getInt("doc_number"));
+                    cv.put(CatchBTAEntry.COLUMN_DOC_TYPE, catch_bta.getString("doc_type"));
+                    cv.put(CatchBTAEntry.COLUMN_TRUCK_CODE, catch_bta.getString("truck_code"));
+                    cv.put(CatchBTAEntry.COLUMN_PRINT_COUNT, catch_bta.getInt("print_count"));
+                    cv.put(CatchBTAEntry.COLUMN_TIMESTAMP, catch_bta.getString("timestamp"));
+                    cv.put(CatchBTAEntry.COLUMN_UPLOAD, 1);
 
-                    long catch_bta_id = db.insert(EngPengContract.CatchBTAEntry.TABLE_NAME, null, cv);
+                    long catch_bta_id = db.insert(CatchBTAEntry.TABLE_NAME, null, cv);
 
                     JSONArray jsonArrayDetail = catch_bta.getJSONArray("mobile_catch_bta_detail");
                     for (int x = 0; x < jsonArrayDetail.length(); x++) {
@@ -259,17 +266,17 @@ public class LocationInfoActivity extends AppCompatActivity
                     JSONObject weight = jsonArray.getJSONObject(i);
 
                     ContentValues cv = new ContentValues();
-                    cv.put(EngPengContract.WeightEntry.COLUMN_COMPANY_ID, weight.getInt("company_id"));
-                    cv.put(EngPengContract.WeightEntry.COLUMN_LOCATION_ID, weight.getInt("location_id"));
-                    cv.put(EngPengContract.WeightEntry.COLUMN_HOUSE_CODE, weight.getInt("house_code"));
-                    cv.put(EngPengContract.WeightEntry.COLUMN_DAY, weight.getInt("day"));
-                    cv.put(EngPengContract.WeightEntry.COLUMN_RECORD_DATE, weight.getString("record_date"));
-                    cv.put(EngPengContract.WeightEntry.COLUMN_RECORD_TIME, weight.getString("record_time"));
-                    cv.put(EngPengContract.WeightEntry.COLUMN_FEED, weight.getString("feed"));
-                    cv.put(EngPengContract.WeightEntry.COLUMN_TIMESTAMP, weight.getString("timestamp"));
-                    cv.put(EngPengContract.WeightEntry.COLUMN_UPLOAD, 1);
+                    cv.put(WeightEntry.COLUMN_COMPANY_ID, weight.getInt("company_id"));
+                    cv.put(WeightEntry.COLUMN_LOCATION_ID, weight.getInt("location_id"));
+                    cv.put(WeightEntry.COLUMN_HOUSE_CODE, weight.getInt("house_code"));
+                    cv.put(WeightEntry.COLUMN_DAY, weight.getInt("day"));
+                    cv.put(WeightEntry.COLUMN_RECORD_DATE, weight.getString("record_date"));
+                    cv.put(WeightEntry.COLUMN_RECORD_TIME, weight.getString("record_time"));
+                    cv.put(WeightEntry.COLUMN_FEED, weight.getString("feed"));
+                    cv.put(WeightEntry.COLUMN_TIMESTAMP, weight.getString("timestamp"));
+                    cv.put(WeightEntry.COLUMN_UPLOAD, 1);
 
-                    long weight_id = db.insert(EngPengContract.WeightEntry.TABLE_NAME, null, cv);
+                    long weight_id = db.insert(WeightEntry.TABLE_NAME, null, cv);
                     JSONArray jsonArrayDetail = weight.getJSONArray("mobile_weight_detail");
                     for (int x = 0; x < jsonArrayDetail.length(); x++) {
                         JSONObject weight_detail = jsonArrayDetail.getJSONObject(x);
@@ -297,16 +304,16 @@ public class LocationInfoActivity extends AppCompatActivity
                     JSONObject feed_in = jsonArray.getJSONObject(i);
 
                     ContentValues cv = new ContentValues();
-                    cv.put(EngPengContract.FeedInEntry.COLUMN_COMPANY_ID, feed_in.getInt("company_id"));
-                    cv.put(EngPengContract.FeedInEntry.COLUMN_LOCATION_ID, feed_in.getInt("location_id"));
-                    cv.put(EngPengContract.FeedInEntry.COLUMN_RECORD_DATE, feed_in.getString("record_date"));
-                    cv.put(EngPengContract.FeedInEntry.COLUMN_DOC_ID, feed_in.getLong("doc_id"));
-                    cv.put(EngPengContract.FeedInEntry.COLUMN_DOC_NUMBER, feed_in.getString("doc_number"));
-                    cv.put(EngPengContract.FeedInEntry.COLUMN_TRUCK_CODE, feed_in.getString("truck_code"));
-                    cv.put(EngPengContract.FeedInEntry.COLUMN_TIMESTAMP, feed_in.getString("timestamp"));
-                    cv.put(EngPengContract.FeedInEntry.COLUMN_UPLOAD, 1);
+                    cv.put(FeedInEntry.COLUMN_COMPANY_ID, feed_in.getInt("company_id"));
+                    cv.put(FeedInEntry.COLUMN_LOCATION_ID, feed_in.getInt("location_id"));
+                    cv.put(FeedInEntry.COLUMN_RECORD_DATE, feed_in.getString("record_date"));
+                    cv.put(FeedInEntry.COLUMN_DOC_ID, feed_in.getLong("doc_id"));
+                    cv.put(FeedInEntry.COLUMN_DOC_NUMBER, feed_in.getString("doc_number"));
+                    cv.put(FeedInEntry.COLUMN_TRUCK_CODE, feed_in.getString("truck_code"));
+                    cv.put(FeedInEntry.COLUMN_TIMESTAMP, feed_in.getString("timestamp"));
+                    cv.put(FeedInEntry.COLUMN_UPLOAD, 1);
 
-                    long feed_in_id = db.insert(EngPengContract.FeedInEntry.TABLE_NAME, null, cv);
+                    long feed_in_id = db.insert(FeedInEntry.TABLE_NAME, null, cv);
 
                     JSONArray jsonArrayDetail = feed_in.getJSONArray("mobile_feed_in_detail");
                     for (int x = 0; x < jsonArrayDetail.length(); x++) {
@@ -322,6 +329,34 @@ public class LocationInfoActivity extends AppCompatActivity
                     }
                     publishProgress(start + (int) (((double) (i + 1) / (double) jsonArray.length()) * (double) allocate));
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        private void insertFeedTransfer(String jsonStr, int start, int allocate) {
+            try {
+                JSONObject json = new JSONObject(jsonStr);
+                JSONArray jsonArray = json.getJSONArray("mobile_feed_transfer");
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject feed_transfer = jsonArray.getJSONObject(i);
+                    ContentValues cv = new ContentValues();
+                    cv.put(FeedTransferEntry.COLUMN_COMPANY_ID, feed_transfer.getInt("company_id"));
+                    cv.put(FeedTransferEntry.COLUMN_LOCATION_ID, feed_transfer.getInt("location_id"));
+                    cv.put(FeedTransferEntry.COLUMN_RECORD_DATE, feed_transfer.getString("record_date"));
+                    cv.put(FeedTransferEntry.COLUMN_DISCHARGE_HOUSE, feed_transfer.getInt("discharge_house"));
+                    cv.put(FeedTransferEntry.COLUMN_RECEIVE_HOUSE, feed_transfer.getInt("receive_house"));
+                    cv.put(FeedTransferEntry.COLUMN_ITEM_PACKING_ID, feed_transfer.getInt("item_packing_id"));
+                    cv.put(FeedTransferEntry.COLUMN_WEIGHT, feed_transfer.getDouble("weight"));
+                    cv.put(FeedTransferEntry.COLUMN_TIMESTAMP, feed_transfer.getString("timestamp"));
+                    cv.put(FeedTransferEntry.COLUMN_UPLOAD, 1);
+
+                    db.insert(FeedTransferEntry.TABLE_NAME, null, cv);
+
+                    publishProgress(start + (int) (((double) (i + 1) / (double) jsonArray.length()) * (double) allocate));
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

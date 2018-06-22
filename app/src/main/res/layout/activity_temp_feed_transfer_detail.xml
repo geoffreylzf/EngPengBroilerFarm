@@ -7,25 +7,92 @@
     android:background="#EEE"
     tools:context=".TempFeedTransferDetailActivity">
 
+    <LinearLayout
+        android:id="@+id/temp_feed_transfer_detail_ll_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toTopOf="@id/temp_feed_transfer_detail_rv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <CheckBox
+            android:id="@+id/temp_feed_transfer_detail_cb_show_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginStart="24dp"
+            android:text="@string/show_all2"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/temp_feed_transfer_detail_et_filter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/search2"
+                android:selectAllOnFocus="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/temp_feed_transfer_detail_rv"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/temp_feed_transfer_detail_ll"
+        app:layout_constraintBottom_toTopOf="@+id/temp_feed_transfer_detail_ll_action"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/temp_feed_transfer_detail_ll_filter" />
+
+    <LinearLayout
+        android:id="@+id/temp_feed_transfer_detail_ll_action"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/temp_feed_transfer_detail_ll"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/temp_feed_transfer_detail_rv">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/temp_feed_transfer_detail_et_weight"
+                style="@style/EditTextStyle"
+                android:hint="@string/weight_kg2"
+                android:inputType="number"
+                android:selectAllOnFocus="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/temp_feed_transfer_detail_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="96dp"
+        android:layout_marginBottom="48dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/temp_feed_transfer_detail_rv">
+        app:layout_constraintTop_toBottomOf="@+id/temp_feed_transfer_detail_ll_action">
 
         <View
             android:layout_width="match_parent"
