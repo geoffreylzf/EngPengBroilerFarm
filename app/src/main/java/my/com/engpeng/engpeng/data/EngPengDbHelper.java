@@ -13,13 +13,14 @@ import my.com.engpeng.engpeng.data.EngPengContract.*;
 
 public class EngPengDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "engpeng.db";
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 13;
     //DB VER 7 20180317
     //DB VER 8 20180320
     //DB VER 9 20180418
     //DB VER 10 20180430
     //DB VER 11 20180611
     //DB VER 12 20180620
+    //DB VER 13 20180622
 
     public EngPengDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -50,6 +51,13 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_CREATE_TEMP_FEED_IN_DETAIL_TABLE);
 
         sqLiteDatabase.execSQL(SQL_CREATE_FEED_TRANSFER_TABLE);
+
+        sqLiteDatabase.execSQL(SQL_CREATE_FEED_DISCHARGE_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_FEED_DISCHARGE_DETAIL_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_TEMP_FEED_DISCHARGE_DETAIL_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_FEED_RECEIVE_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_FEED_RECEIVE_DETAIL_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_TEMP_FEED_RECEIVE_DETAIL_TABLE);
     }
 
     @Override
@@ -121,6 +129,15 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
 
         if (oldVer <= 11) {
             sqLiteDatabase.execSQL(SQL_CREATE_FEED_TRANSFER_TABLE);
+        }
+
+        if (oldVer <= 12) {
+            sqLiteDatabase.execSQL(SQL_CREATE_FEED_DISCHARGE_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_FEED_DISCHARGE_DETAIL_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_TEMP_FEED_DISCHARGE_DETAIL_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_FEED_RECEIVE_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_FEED_RECEIVE_DETAIL_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_TEMP_FEED_RECEIVE_DETAIL_TABLE);
         }
 
     }
@@ -295,6 +312,58 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
             FeedTransferEntry.COLUMN_WEIGHT + " REAL, " +
             FeedTransferEntry.COLUMN_UPLOAD + " INTEGER DEFAULT 0, " +
             FeedTransferEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP " +
+            "); ";
+
+    private final String SQL_CREATE_FEED_DISCHARGE_TABLE = "CREATE TABLE " + FeedDischargeEntry.TABLE_NAME + " (" +
+            FeedDischargeEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            FeedDischargeEntry.COLUMN_COMPANY_ID + " INTEGER," +
+            FeedDischargeEntry.COLUMN_LOCATION_ID + " INTEGER, " +
+            FeedDischargeEntry.COLUMN_RECORD_DATE + " DATE, " +
+            FeedDischargeEntry.COLUMN_DISCHARGE_CODE + " TEXT, " +
+            FeedDischargeEntry.COLUMN_TRUCK_CODE + " TEXT, " +
+            FeedDischargeEntry.COLUMN_UPLOAD + " INTEGER DEFAULT 0, " +
+            FeedDischargeEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP " +
+            "); ";
+
+    private final String SQL_CREATE_FEED_DISCHARGE_DETAIL_TABLE = "CREATE TABLE " + FeedDischargeDetailEntry.TABLE_NAME + " (" +
+            FeedDischargeDetailEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            FeedDischargeDetailEntry.COLUMN_FEED_DISCHARGE_ID + " INTEGER," +
+            FeedDischargeDetailEntry.COLUMN_HOUSE_CODE + " INTEGER, " +
+            FeedDischargeDetailEntry.COLUMN_ITEM_PACKING_ID + " INTEGER, " +
+            FeedDischargeDetailEntry.COLUMN_WEIGHT + " REAL " +
+            "); ";
+
+    private final String SQL_CREATE_TEMP_FEED_DISCHARGE_DETAIL_TABLE = "CREATE TABLE " + TempFeedDischargeDetailEntry.TABLE_NAME + " (" +
+            TempFeedDischargeDetailEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            TempFeedDischargeDetailEntry.COLUMN_HOUSE_CODE + " INTEGER, " +
+            TempFeedDischargeDetailEntry.COLUMN_ITEM_PACKING_ID + " INTEGER, " +
+            TempFeedDischargeDetailEntry.COLUMN_WEIGHT + " REAL " +
+            "); ";
+
+    private final String SQL_CREATE_FEED_RECEIVE_TABLE = "CREATE TABLE " + FeedReceiveEntry.TABLE_NAME + " (" +
+            FeedReceiveEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            FeedReceiveEntry.COLUMN_COMPANY_ID + " INTEGER," +
+            FeedReceiveEntry.COLUMN_LOCATION_ID + " INTEGER, " +
+            FeedReceiveEntry.COLUMN_RECORD_DATE + " DATE, " +
+            FeedReceiveEntry.COLUMN_DISCHARGE_CODE + " TEXT, " +
+            FeedReceiveEntry.COLUMN_TRUCK_CODE + " TEXT, " +
+            FeedReceiveEntry.COLUMN_UPLOAD + " INTEGER DEFAULT 0, " +
+            FeedReceiveEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP " +
+            "); ";
+
+    private final String SQL_CREATE_FEED_RECEIVE_DETAIL_TABLE = "CREATE TABLE " + FeedReceiveDetailEntry.TABLE_NAME + " (" +
+            FeedReceiveDetailEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            FeedReceiveDetailEntry.COLUMN_FEED_RECEIVE_ID + " INTEGER," +
+            FeedReceiveDetailEntry.COLUMN_HOUSE_CODE + " INTEGER, " +
+            FeedReceiveDetailEntry.COLUMN_ITEM_PACKING_ID + " INTEGER, " +
+            FeedReceiveDetailEntry.COLUMN_WEIGHT + " REAL " +
+            "); ";
+
+    private final String SQL_CREATE_TEMP_FEED_RECEIVE_DETAIL_TABLE = "CREATE TABLE " + TempFeedReceiveDetailEntry.TABLE_NAME + " (" +
+            TempFeedReceiveDetailEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            TempFeedReceiveDetailEntry.COLUMN_HOUSE_CODE + " INTEGER, " +
+            TempFeedReceiveDetailEntry.COLUMN_ITEM_PACKING_ID + " INTEGER, " +
+            TempFeedReceiveDetailEntry.COLUMN_WEIGHT + " REAL " +
             "); ";
 }
 

@@ -67,6 +67,7 @@ public class Global {
     public static final String I_KEY_QR_DATA = "I_KEY_QR_DATA";
     public static final String I_KEY_DISCHARGE_HOUSE = "I_KEY_DISCHARGE_HOUSE";
     public static final String I_KEY_RECEIVE_HOUSE = "I_KEY_RECEIVE_HOUSE";
+    public static final String I_KEY_DISCHARGE_CODE = "I_KEY_DISCHARGE_CODE";
 
     //Preferences param keys
     public static final String P_KEY_USERNAME = "P_KEY_USERNAME";

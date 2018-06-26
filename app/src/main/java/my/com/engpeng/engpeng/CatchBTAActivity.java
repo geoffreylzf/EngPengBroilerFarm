@@ -175,7 +175,7 @@ public class CatchBTAActivity extends AppCompatActivity {
             }
         }
         if (id == R.id.action_catch_bta_print) {
-            if (is_upload) {
+            if (false) { //TODO
 
                 UIUtils.getMessageDialog(CatchBTAActivity.this, "Print Failed", "Uploaded data is unable to print").show();
 

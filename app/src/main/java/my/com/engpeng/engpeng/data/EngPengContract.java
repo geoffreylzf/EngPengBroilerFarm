@@ -183,4 +183,56 @@ public class EngPengContract {
         public static final String COLUMN_UPLOAD = "upload";
         public static final String COLUMN_TIMESTAMP = "timestamp";
     }
+
+    public static final class FeedDischargeEntry implements BaseColumns {
+        public static final String TABLE_NAME = "feed_discharge";
+        public static final String COLUMN_COMPANY_ID = "company_id";
+        public static final String COLUMN_LOCATION_ID = "location_id";
+        public static final String COLUMN_RECORD_DATE = "record_date";
+        public static final String COLUMN_DISCHARGE_CODE = "discharge_code";
+        public static final String COLUMN_TRUCK_CODE = "truck_code";
+        public static final String COLUMN_UPLOAD = "upload";
+        public static final String COLUMN_TIMESTAMP = "timestamp";
+    }
+
+    public static final class FeedDischargeDetailEntry implements BaseColumns {
+        public static final String TABLE_NAME = "feed_discharge_detail";
+        public static final String COLUMN_FEED_DISCHARGE_ID = "feed_discharge_id";
+        public static final String COLUMN_HOUSE_CODE = "house_code";
+        public static final String COLUMN_ITEM_PACKING_ID = "item_packing_id";
+        public static final String COLUMN_WEIGHT = "weight";
+    }
+
+    public static final class TempFeedDischargeDetailEntry implements BaseColumns {
+        public static final String TABLE_NAME = "temp_feed_discharge_detail";
+        public static final String COLUMN_HOUSE_CODE = "house_code";
+        public static final String COLUMN_ITEM_PACKING_ID = "item_packing_id";
+        public static final String COLUMN_WEIGHT = "weight";
+    }
+
+    public static final class FeedReceiveEntry implements BaseColumns {
+        public static final String TABLE_NAME = "feed_switch_in";
+        public static final String COLUMN_COMPANY_ID = "company_id";
+        public static final String COLUMN_LOCATION_ID = "location_id";
+        public static final String COLUMN_RECORD_DATE = "record_date";
+        public static final String COLUMN_DISCHARGE_CODE = "discharge_code";
+        public static final String COLUMN_TRUCK_CODE = "truck_code";
+        public static final String COLUMN_UPLOAD = "upload";
+        public static final String COLUMN_TIMESTAMP = "timestamp";
+    }
+
+    public static final class FeedReceiveDetailEntry implements BaseColumns {
+        public static final String TABLE_NAME = "feed_receive_detail";
+        public static final String COLUMN_FEED_RECEIVE_ID = "feed_receive_id";
+        public static final String COLUMN_HOUSE_CODE = "house_code";
+        public static final String COLUMN_ITEM_PACKING_ID = "item_packing_id";
+        public static final String COLUMN_WEIGHT = "weight";
+    }
+
+    public static final class TempFeedReceiveDetailEntry implements BaseColumns {
+        public static final String TABLE_NAME = "temp_feed_receive_detail";
+        public static final String COLUMN_HOUSE_CODE = "house_code";
+        public static final String COLUMN_ITEM_PACKING_ID = "item_packing_id";
+        public static final String COLUMN_WEIGHT = "weight";
+    }
 }

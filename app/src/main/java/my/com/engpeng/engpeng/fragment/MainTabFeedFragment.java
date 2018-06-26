@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import my.com.engpeng.engpeng.R;
+import my.com.engpeng.engpeng.TempFeedDischargeHeadActivity;
 import my.com.engpeng.engpeng.TempFeedInHeadActivity;
 import my.com.engpeng.engpeng.TempFeedTransferHeadActivity;
 import my.com.engpeng.engpeng.utilities.UIUtils;
@@ -31,7 +32,8 @@ public class MainTabFeedFragment extends Fragment {
 
         Button btnFeedIn = view.findViewById(R.id.main_f_btn_feed_in);
         Button btnFeedOut = view.findViewById(R.id.main_f_btn_feed_transfer);
-        Button btnFeedTIn = view.findViewById(R.id.main_f_btn_feed_t_in);
+        Button btnFeedDischarge = view.findViewById(R.id.main_f_btn_feed_discharge);
+        Button btnFeedReceive = view.findViewById(R.id.main_f_btn_feed_receive);
 
         btnFeedIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +59,19 @@ public class MainTabFeedFragment extends Fragment {
             }
         });
 
-        btnFeedTIn.setOnClickListener(new View.OnClickListener() {
+        btnFeedDischarge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sCompanyId != 0 && sLocationId != 0) {
+                    Intent intent = new Intent(getActivity(), TempFeedDischargeHeadActivity.class);
+                    startActivity(intent);
+                } else {
+                    alertDialog.show();
+                }
+            }
+        });
+
+        btnFeedReceive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
