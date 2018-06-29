@@ -10,6 +10,7 @@
     <string name="hse">Hse</string>
     <string name="house_code2">House Code (No. Kadang)</string>
     <string name="discharge2">Discharge (Keluar)</string>
+    <string name="discharge_code">Discharge Code</string>
     <string name="receive2">Receive (Masuk)</string>
     <string name="house_code_short">H#</string>
     <string name="gender_short">G#</string>
@@ -84,6 +85,7 @@
     <string name="feed_out">Feed Out</string>
     <string name="feed_hse_to_hse_transfer">Hse to Hse Transfer</string>
     <string name="feed_transfer">Feed Transfer</string>
+    <string name="feed_discharge">Feed Discharge</string>
     <string name="new_body_weight">New Body Weight</string>
     <string name="start">Start</string>
     <string name="start2">Start (Mula)</string>

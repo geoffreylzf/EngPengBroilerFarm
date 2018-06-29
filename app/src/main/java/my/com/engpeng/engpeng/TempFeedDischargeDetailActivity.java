@@ -18,56 +18,64 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import my.com.engpeng.engpeng.adapter.TempFeedDischargeDetailFeedAdapter;
+import my.com.engpeng.engpeng.adapter.TempFeedDischargeDetailHouseAdapter;
 import my.com.engpeng.engpeng.adapter.TempFeedTransferDetailAdapter;
 import my.com.engpeng.engpeng.controller.FeedInController;
 import my.com.engpeng.engpeng.controller.FeedInDetailController;
 import my.com.engpeng.engpeng.controller.FeedItemController;
-import my.com.engpeng.engpeng.controller.FeedTransferController;
+import my.com.engpeng.engpeng.controller.HouseController;
+import my.com.engpeng.engpeng.controller.TempFeedDischargeDetailController;
 import my.com.engpeng.engpeng.data.EngPengContract;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
 import my.com.engpeng.engpeng.model.FeedItem;
+import my.com.engpeng.engpeng.model.HouseCode;
 
 import static my.com.engpeng.engpeng.Global.I_KEY_COMPANY;
-import static my.com.engpeng.engpeng.Global.I_KEY_DISCHARGE_HOUSE;
 import static my.com.engpeng.engpeng.Global.I_KEY_LOCATION;
-import static my.com.engpeng.engpeng.Global.I_KEY_RECEIVE_HOUSE;
-import static my.com.engpeng.engpeng.Global.I_KEY_RECORD_DATE;
 
-public class TempFeedTransferDetailActivity extends AppCompatActivity {
+public class TempFeedDischargeDetailActivity extends AppCompatActivity {
 
-    private Button btnSave;
+    private int company_id, location_id;
+
     private CheckBox cbShowAll;
+    private Button btnSave, btnExit;
     private EditText etFilter, etWeight;
-    private RecyclerView rv;
-    private SQLiteDatabase mDb;
-    private TempFeedTransferDetailAdapter adapter;
 
     private List<FeedItem> mFeedItemList;
-    private String record_date;
-    private int company_id, location_id, discharge_house, receive_house;
+    private List<HouseCode> mHouseList;
+
+    private TempFeedDischargeDetailHouseAdapter mHouseAdapter;
+    private TempFeedDischargeDetailFeedAdapter mFeedAdapter;
+    private RecyclerView rvHouse, rvFeed;
+    private SQLiteDatabase mDb;
     private Toast mToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_temp_feed_transfer_detail);
+        setContentView(R.layout.activity_temp_feed_discharge_detail);
 
-        btnSave = findViewById(R.id.temp_feed_transfer_detail_btn_save);
-        cbShowAll = findViewById(R.id.temp_feed_transfer_detail_cb_show_all);
-        etFilter = findViewById(R.id.temp_feed_transfer_detail_et_filter);
-        etWeight = findViewById(R.id.temp_feed_transfer_detail_et_weight);
-        rv = this.findViewById(R.id.temp_feed_transfer_detail_rv);
+        cbShowAll = findViewById(R.id.temp_feed_discharge_detail_cb_show_all);
+        btnSave = findViewById(R.id.temp_feed_discharge_detail_btn_save);
+        btnExit = findViewById(R.id.temp_feed_discharge_detail_btn_exit);
+        etWeight = findViewById(R.id.temp_feed_discharge_detail_et_weight);
+        etFilter = findViewById(R.id.temp_feed_discharge_detail_et_filter);
+
+        rvHouse = findViewById(R.id.temp_feed_discharge_detail_rv_house);
+        rvFeed = findViewById(R.id.temp_feed_discharge_detail_rv_feed);
 
         EngPengDbHelper dbHelper = new EngPengDbHelper(this);
         mDb = dbHelper.getWritableDatabase();
-
         mToast = new Toast(this);
 
-        setTitle("Select Feed (Pilih Baja Yang Dihantar)");
+        setTitle("Feed Discharge Detail");
 
         setupStartIntent();
+        setupHouseRecycleView();
+        setupFeedRecycleView();
         setupListener();
-        setupRecycleView();
+        etWeight.requestFocus();
     }
 
     private void setupStartIntent() {
@@ -78,20 +86,29 @@ public class TempFeedTransferDetailActivity extends AppCompatActivity {
         if (intentStart.hasExtra(I_KEY_LOCATION)) {
             location_id = intentStart.getIntExtra(I_KEY_LOCATION, 0);
         }
-        if (intentStart.hasExtra(I_KEY_RECORD_DATE)) {
-            record_date = intentStart.getStringExtra(I_KEY_RECORD_DATE);
-        }
-        if (intentStart.hasExtra(I_KEY_DISCHARGE_HOUSE)) {
-            discharge_house = intentStart.getIntExtra(I_KEY_DISCHARGE_HOUSE, 0);
-        }
-        if (intentStart.hasExtra(I_KEY_RECEIVE_HOUSE)) {
-            receive_house = intentStart.getIntExtra(I_KEY_RECEIVE_HOUSE, 0);
-        }
     }
 
-    private void setupRecycleView() {
+    private void setupHouseRecycleView() {
+        rvHouse.setLayoutManager(new LinearLayoutManager(this));
 
-        rv.setLayoutManager(new LinearLayoutManager(this));
+        Cursor cursor = HouseController.getHouseCodeByLocationId(mDb, location_id);
+
+        mHouseList = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            int house_code = cursor.getInt(cursor.getColumnIndex(EngPengContract.HouseEntry.COLUMN_HOUSE_CODE));
+
+            HouseCode hc = new HouseCode();
+            hc.setHouseCode(house_code);
+
+            mHouseList.add(hc);
+        }
+        mHouseAdapter = new TempFeedDischargeDetailHouseAdapter(this, mHouseList);
+        rvHouse.setAdapter(mHouseAdapter);
+    }
+
+    private void setupFeedRecycleView(){
+        rvFeed.setLayoutManager(new LinearLayoutManager(this));
 
         mFeedItemList = new ArrayList<>();
         Cursor feedItemCursor;
@@ -112,15 +129,15 @@ public class TempFeedTransferDetailActivity extends AppCompatActivity {
             mFeedItemList.add(fi);
         }
 
-        adapter = new TempFeedTransferDetailAdapter(this, mFeedItemList);
-        rv.setAdapter(adapter);
+        mFeedAdapter = new TempFeedDischargeDetailFeedAdapter(this, mFeedItemList);
+        rvFeed.setAdapter(mFeedAdapter);
     }
 
-    private void setupListener() {
+    private void setupListener(){
         cbShowAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setupRecycleView();
+                setupFeedRecycleView();
             }
         });
 
@@ -138,7 +155,7 @@ public class TempFeedTransferDetailActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (cbShowAll.isChecked()) {
-                    setupRecycleView();
+                    setupFeedRecycleView();
                 }
             }
         });
@@ -147,30 +164,44 @@ public class TempFeedTransferDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (save()) {
-                    Intent mainIntent = new Intent(TempFeedTransferDetailActivity.this, MainActivity.class);
-                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(mainIntent);
-
-                    Intent historyIntent = new Intent(TempFeedTransferDetailActivity.this, FeedTransferHistoryActivity.class);
-                    startActivity(historyIntent);
+                    finish();
                 }
             }
         });
     }
 
-    private boolean save() {
+    public FeedItem getSelectedFeedItem() {
+        for (FeedItem fi : mFeedItemList) {
+            if (fi.isSelect()) {
+                return fi;
+            }
+        }
+        return null;
+    }
+
+    private boolean save(){
         if (mToast != null) {
             mToast.cancel();
         }
 
-        int item_packing_id = 0;
-        double weight = 0;
+        int house_code = 0, item_packing_id = 0;
+        double weight;
 
-        for (FeedItem fi : mFeedItemList) {
-            if (fi.isSelect()) {
-                item_packing_id = fi.getErpId();
+        for (HouseCode hc : mHouseList) {
+            if (hc.getIsSelect()) {
+                house_code = hc.getHouseCode();
                 break;
             }
+        }
+
+        if (house_code == 0) {
+            mToast = Toast.makeText(this, "Please select house", Toast.LENGTH_SHORT);
+            mToast.show();
+            return false;
+        }
+
+        if (getSelectedFeedItem() != null) {
+            item_packing_id = getSelectedFeedItem().getErpId();
         }
 
         if (item_packing_id == 0) {
@@ -183,7 +214,6 @@ public class TempFeedTransferDetailActivity extends AppCompatActivity {
             etWeight.setError(getString(R.string.error_field_required));
             etWeight.requestFocus();
             return false;
-
         } else {
             try {
                 weight = Double.parseDouble(etWeight.getText().toString());
@@ -194,15 +224,10 @@ public class TempFeedTransferDetailActivity extends AppCompatActivity {
             }
         }
 
-        FeedTransferController.add(mDb,
-                company_id,
-                location_id,
-                record_date,
-                discharge_house,
-                receive_house,
+        TempFeedDischargeDetailController.add(mDb,
+                house_code,
                 item_packing_id,
-                weight
-        );
+                weight);
 
         return true;
     }

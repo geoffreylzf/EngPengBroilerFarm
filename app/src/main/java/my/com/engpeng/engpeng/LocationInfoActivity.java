@@ -20,6 +20,8 @@ import org.json.JSONObject;
 
 import my.com.engpeng.engpeng.controller.CatchBTAController;
 import my.com.engpeng.engpeng.controller.CatchBTADetailController;
+import my.com.engpeng.engpeng.controller.FeedDischargeController;
+import my.com.engpeng.engpeng.controller.FeedDischargeDetailController;
 import my.com.engpeng.engpeng.controller.FeedInController;
 import my.com.engpeng.engpeng.controller.FeedInDetailController;
 import my.com.engpeng.engpeng.controller.FeedTransferController;
@@ -193,11 +195,15 @@ public class LocationInfoActivity extends AppCompatActivity
                 publishProgress(80);
 
                 FeedInController.removeUploaded(db);
-                insertFeedIn(json, 80, 10);
-                publishProgress(90);
+                insertFeedIn(json, 80, 5);
+                publishProgress(85);
 
                 FeedTransferController.removeUploaded(db);
-                insertFeedTransfer(json, 90, 10);
+                insertFeedTransfer(json, 85, 5);
+                publishProgress(90);
+
+                FeedDischargeController.removeUploaded(db);
+                insertFeedDischarge(json, 90, 10);
                 publishProgress(100);
 
             } else {
@@ -357,6 +363,41 @@ public class LocationInfoActivity extends AppCompatActivity
                     publishProgress(start + (int) (((double) (i + 1) / (double) jsonArray.length()) * (double) allocate));
                 }
 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        private void insertFeedDischarge(String jsonStr, int start, int allocate) {
+            try {
+                JSONObject json = new JSONObject(jsonStr);
+                JSONArray jsonArray = json.getJSONArray("mobile_feed_discharge");
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject feed_discharge = jsonArray.getJSONObject(i);
+
+                    ContentValues cv = new ContentValues();
+                    cv.put(FeedDischargeEntry.COLUMN_COMPANY_ID, feed_discharge.getInt("company_id"));
+                    cv.put(FeedDischargeEntry.COLUMN_LOCATION_ID, feed_discharge.getInt("location_id"));
+                    cv.put(FeedDischargeEntry.COLUMN_RECORD_DATE, feed_discharge.getString("record_date"));
+                    cv.put(FeedDischargeEntry.COLUMN_DISCHARGE_CODE, feed_discharge.getString("discharge_code"));
+                    cv.put(FeedDischargeEntry.COLUMN_TRUCK_CODE, feed_discharge.getString("truck_code"));
+                    cv.put(FeedDischargeEntry.COLUMN_TIMESTAMP, feed_discharge.getString("timestamp"));
+                    cv.put(FeedDischargeEntry.COLUMN_UPLOAD, 1);
+
+                    long feed_discharge_id = db.insert(FeedDischargeEntry.TABLE_NAME, null, cv);
+
+                    JSONArray jsonArrayDetail = feed_discharge.getJSONArray("mobile_feed_discharge_detail");
+                    for (int x = 0; x < jsonArrayDetail.length(); x++) {
+                        JSONObject feed_discharge_detail = jsonArrayDetail.getJSONObject(x);
+                        FeedDischargeDetailController.add(db,
+                                feed_discharge_id,
+                                feed_discharge_detail.getInt("house_code"),
+                                feed_discharge_detail.getInt("item_packing_id"),
+                                feed_discharge_detail.getDouble("weight"));
+                    }
+                    publishProgress(start + (int) (((double) (i + 1) / (double) jsonArray.length()) * (double) allocate));
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

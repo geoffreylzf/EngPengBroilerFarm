@@ -176,7 +176,6 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
         Intent feedInDetailIntent = new Intent(TempFeedInSummaryActivity.this, TempFeedInDetailActivity.class);
         feedInDetailIntent.putExtra(I_KEY_COMPANY, company_id);
         feedInDetailIntent.putExtra(I_KEY_LOCATION, location_id);
-        Log.e("callTempFeedInDetail", qr_data);
         feedInDetailIntent.putExtra(I_KEY_QR_DATA, qr_data);
         startActivity(feedInDetailIntent);
     }

@@ -2,9 +2,13 @@ package my.com.engpeng.engpeng;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -15,9 +19,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import my.com.engpeng.engpeng.controller.TempFeedDischargeDetailController;
+import my.com.engpeng.engpeng.data.EngPengDbHelper;
+
 import static my.com.engpeng.engpeng.Global.I_KEY_COMPANY;
 import static my.com.engpeng.engpeng.Global.I_KEY_DISCHARGE_CODE;
 import static my.com.engpeng.engpeng.Global.I_KEY_LOCATION;
+import static my.com.engpeng.engpeng.Global.I_KEY_RECORD_DATE;
 import static my.com.engpeng.engpeng.Global.I_KEY_TRUCK_CODE;
 import static my.com.engpeng.engpeng.Global.sLocationName;
 
@@ -34,6 +42,8 @@ public class TempFeedDischargeHeadActivity extends AppCompatActivity {
     private Calendar calender;
     private int year, month, day;
     private SimpleDateFormat sdf, sdfYear, sdfMonthDay;
+
+    private SQLiteDatabase mDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +71,18 @@ public class TempFeedDischargeHeadActivity extends AppCompatActivity {
         company_id = Global.sCompanyId;
         location_id = Global.sLocationId;
 
+        EngPengDbHelper dbHelper = new EngPengDbHelper(this);
+        mDb = dbHelper.getWritableDatabase();
+
         setTitle("New Feed Discharge for " + sLocationName);
 
         setupListener();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        TempFeedDischargeDetailController.delete(mDb);
     }
 
     private void setupListener() {
@@ -106,10 +125,31 @@ public class TempFeedDischargeHeadActivity extends AppCompatActivity {
                 Intent sumIntent = new Intent(TempFeedDischargeHeadActivity.this, TempFeedDischargeSummaryActivity.class);
                 sumIntent.putExtra(I_KEY_COMPANY, company_id);
                 sumIntent.putExtra(I_KEY_LOCATION, location_id);
+                sumIntent.putExtra(I_KEY_RECORD_DATE, dateStr);
                 sumIntent.putExtra(I_KEY_TRUCK_CODE, truck_code);
                 sumIntent.putExtra(I_KEY_DISCHARGE_CODE, discharge_code);
                 startActivity(sumIntent);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.feed_discharge_history_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_feed_discharge_history) {
+
+            Intent intent = new Intent(this, FeedDischargeHistoryActivity.class);
+            startActivity(intent);
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
