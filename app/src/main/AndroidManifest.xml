@@ -77,7 +77,11 @@
         <activity android:name=".TempFeedDischargeHeadActivity" />
         <activity android:name=".TempFeedDischargeSummaryActivity" />
         <activity android:name=".TempFeedDischargeDetailActivity" />
-        <activity android:name=".FeedDischargeHistoryActivity"></activity>
+        <activity android:name=".FeedDischargeHistoryActivity" />
+        <activity android:name=".TempFeedReceiveHeadActivity" />
+        <activity android:name=".TempFeedReceiveSummaryActivity" />
+        <activity android:name=".TempFeedReceiveDetailActivity" />
+        <activity android:name=".FeedReceiveHistoryActivity"></activity>
     </application>
 
 </manifest>

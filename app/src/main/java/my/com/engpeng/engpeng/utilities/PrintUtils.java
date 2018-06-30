@@ -18,6 +18,8 @@ import my.com.engpeng.engpeng.controller.FeedDischargeDetailController;
 import my.com.engpeng.engpeng.controller.FeedInController;
 import my.com.engpeng.engpeng.controller.FeedInDetailController;
 import my.com.engpeng.engpeng.controller.FeedItemController;
+import my.com.engpeng.engpeng.controller.FeedReceiveController;
+import my.com.engpeng.engpeng.controller.FeedReceiveDetailController;
 import my.com.engpeng.engpeng.controller.StandardWeightController;
 import my.com.engpeng.engpeng.controller.WeightController;
 import my.com.engpeng.engpeng.controller.WeightDetailController;
@@ -588,8 +590,91 @@ public class PrintUtils {
         text += formatLine(halfLine("   Mandor/Supervisor  ") + halfLine("        Driver        "));
         text += formatLine("                  --END--                   ");
 
+        return text;
+    }
+
+    public static String printFeedReceive(SQLiteDatabase db, long feed_receive_id) {
+        String text = "";
+
+        Cursor cursorFeedReceive = FeedReceiveController.getById(db, feed_receive_id);
+        cursorFeedReceive.moveToFirst();
+
+        int company_id = cursorFeedReceive.getInt(cursorFeedReceive.getColumnIndex(FeedReceiveEntry.COLUMN_COMPANY_ID));
+        int location_id = cursorFeedReceive.getInt(cursorFeedReceive.getColumnIndex(FeedReceiveEntry.COLUMN_LOCATION_ID));
+        String record_date = cursorFeedReceive.getString(cursorFeedReceive.getColumnIndex(FeedReceiveEntry.COLUMN_RECORD_DATE));
+        String discharge_code = cursorFeedReceive.getString(cursorFeedReceive.getColumnIndex(FeedReceiveEntry.COLUMN_DISCHARGE_CODE));
+        String truck_code = cursorFeedReceive.getString(cursorFeedReceive.getColumnIndex(FeedReceiveEntry.COLUMN_TRUCK_CODE));
+
+        Cursor cursorCompany = BranchController.getBranchByErpId(db, company_id);
+        cursorCompany.moveToFirst();
+        String company_name = cursorCompany.getString(cursorCompany.getColumnIndex(BranchEntry.COLUMN_BRANCH_NAME));
+
+        Cursor cursorLocation = BranchController.getBranchByErpId(db, location_id);
+        cursorLocation.moveToFirst();
+        String location_code = cursorLocation.getString(cursorLocation.getColumnIndex(BranchEntry.COLUMN_BRANCH_CODE));
+
+        text += formatLine("");
+        text += formatLine(company_name);
+        text += formatLine("Feed Receive (Feed Pindah Masuk)");
+        text += formatLine("Location: " + location_code);
+        text += formatLine("Date: " + record_date);
+        text += formatLine("Discharge Code: " + discharge_code);
+        text += formatLine("Truck Code: " + truck_code);
+
+        Cursor cursorDetail = FeedReceiveDetailController.getAllByFeedReceiveIdOrderByItemPackingId(db, feed_receive_id);
+
+        int current_item_packing_id = 0;
+        while (cursorDetail.moveToNext()) {
+            int item_packing_id = cursorDetail.getInt(cursorDetail.getColumnIndex(FeedReceiveDetailEntry.COLUMN_ITEM_PACKING_ID));
+
+            String house_code = cursorDetail.getString(cursorDetail.getColumnIndex(FeedReceiveDetailEntry.COLUMN_HOUSE_CODE));
+            Double weight = cursorDetail.getDouble(cursorDetail.getColumnIndex(FeedReceiveDetailEntry.COLUMN_WEIGHT));
+
+            Cursor cursorFeedItem = FeedItemController.getByErpId(db, item_packing_id);
+            cursorFeedItem.moveToFirst();
+
+            String sku_code = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_CODE));
+            String sku_name = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_NAME));
+
+            if (current_item_packing_id != item_packing_id) {
+                if (current_item_packing_id != 0) {
+                    text += formatLine(PRINT_SEPERATOR);
+                }
+                text += formatLine("");
+                text += formatLine("Feed Code: " + sku_code);
+                text += formatLine("Feed Name: " + sku_name);
+
+                Double ttlWeight = FeedReceiveDetailController.getTotalWeightByFeedReceiveIdItemPackingId(db, feed_receive_id, item_packing_id);
+                text += formatLine("Total Weight (KG): " + ttlWeight);
+                text += formatLine(PRINT_HALF_SEPERATOR);
+                text += formatLine(String.format("  House  Weight(KG) "));
+            }
+
+            text += formatLine(String.format("  %4s    %9.2f ", house_code, weight));
+
+            current_item_packing_id = item_packing_id;
+
+        }
+
+        text += formatLine(PRINT_HALF_SEPERATOR);
+
+        text += formatLine("");
+        text += formatLine("Printed by: " + sUsername);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        SimpleDateFormat sdfTime = new SimpleDateFormat("hh:mm a", Locale.US);
+
+        Date currentTime = Calendar.getInstance().getTime();
+
+        text += formatLine("Date: " + sdf.format(currentTime));
+        text += formatLine("Time: " + sdfTime.format(currentTime));
+        text += formatLine("-");
+        text += formatLine("-");
+        text += formatLine("-");
+        text += formatLine("-");
+        text += formatLine(halfLine("    --------------    ") + halfLine("    --------------    "));
+        text += formatLine(halfLine("   Mandor/Supervisor  ") + halfLine("        Driver        "));
+        text += formatLine("                  --END--                   ");
 
         return text;
-
     }
 }

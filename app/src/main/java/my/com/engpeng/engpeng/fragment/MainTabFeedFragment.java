@@ -13,6 +13,7 @@ import android.widget.Button;
 import my.com.engpeng.engpeng.R;
 import my.com.engpeng.engpeng.TempFeedDischargeHeadActivity;
 import my.com.engpeng.engpeng.TempFeedInHeadActivity;
+import my.com.engpeng.engpeng.TempFeedReceiveHeadActivity;
 import my.com.engpeng.engpeng.TempFeedTransferHeadActivity;
 import my.com.engpeng.engpeng.utilities.UIUtils;
 
@@ -74,7 +75,12 @@ public class MainTabFeedFragment extends Fragment {
         btnFeedReceive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (sCompanyId != 0 && sLocationId != 0) {
+                    Intent intent = new Intent(getActivity(), TempFeedReceiveHeadActivity.class);
+                    startActivity(intent);
+                } else {
+                    alertDialog.show();
+                }
             }
         });
 
