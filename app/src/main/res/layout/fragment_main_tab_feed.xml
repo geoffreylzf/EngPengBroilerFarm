@@ -12,7 +12,7 @@
             android:id="@+id/main_f_btn_feed_in"
             style="@style/MainFragmentButtonStyle"
             android:drawableTop="@drawable/download_24"
-            android:text="Feed Dari GRN" />
+            android:text="BAJA MASUK (GRN)" />
 
         <Button
             android:id="@+id/main_f_btn_feed_transfer"
@@ -40,13 +40,13 @@
             android:id="@+id/main_f_btn_feed_discharge"
             style="@style/MainFragmentButtonStyle"
             android:drawableTop="@drawable/upload_24"
-            android:text="Feed Pindah Keluar" />
+            android:text="BAJA PINDAH KELUAR" />
 
         <Button
             android:id="@+id/main_f_btn_feed_receive"
             style="@style/MainFragmentButtonStyle"
             android:drawableTop="@drawable/download_24"
-            android:text="Feed Pindah Masuk" />
+            android:text="BAJA PINDAH KELUAR" />
 
     </LinearLayout>
 

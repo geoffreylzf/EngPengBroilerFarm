@@ -85,6 +85,7 @@
     <string name="feed_out">Feed Out</string>
     <string name="feed_hse_to_hse_transfer">Hse to Hse Transfer</string>
     <string name="feed_transfer">Feed Transfer</string>
+    <string name="feed_receive">Feed Receive</string>
     <string name="feed_discharge">Feed Discharge</string>
     <string name="new_body_weight">New Body Weight</string>
     <string name="start">Start</string>

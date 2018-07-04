@@ -34,7 +34,8 @@ import static my.com.engpeng.engpeng.Global.QR_SPLIT_FIELD;
 import static my.com.engpeng.engpeng.Global.QR_SPLIT_LINE;
 import static my.com.engpeng.engpeng.data.EngPengContract.*;
 
-public class TempFeedReceiveDetailActivity extends AppCompatActivity {
+public class TempFeedReceiveDetailActivity extends AppCompatActivity
+        implements TempFeedReceiveDetailFeedAdapter.TempFeedReceiveDetailFeedAdapterListener{
 
     private int company_id, location_id;
     private String qr_data;
@@ -68,7 +69,7 @@ public class TempFeedReceiveDetailActivity extends AppCompatActivity {
 
         mToast = new Toast(this);
 
-        setTitle("Feed In Detail");
+        setTitle("Feed Receive Detail");
 
         setupStartIntent();
         setupFeedRecycleView();
@@ -127,8 +128,21 @@ public class TempFeedReceiveDetailActivity extends AppCompatActivity {
             }
         }
 
-        mFeedAdapter = new TempFeedReceiveDetailFeedAdapter(this, mFeedItemList);
+        mFeedAdapter = new TempFeedReceiveDetailFeedAdapter(this, mFeedItemList, this);
         rvFeed.setAdapter(mFeedAdapter);
+    }
+
+    @Override
+    public void afterSelectFeed() {
+        for (FeedItem fi : mFeedItemList) {
+            if (fi.isSelect()) {
+
+                etWeight.setText(fi.getWeight()+"");
+                etWeight.selectAll();
+
+                break;
+            }
+        }
     }
 
     public void setupHouseRecycleView() {

@@ -211,7 +211,7 @@ public class EngPengContract {
     }
 
     public static final class FeedReceiveEntry implements BaseColumns {
-        public static final String TABLE_NAME = "feed_switch_in";
+        public static final String TABLE_NAME = "feed_receive";
         public static final String COLUMN_COMPANY_ID = "company_id";
         public static final String COLUMN_LOCATION_ID = "location_id";
         public static final String COLUMN_RECORD_DATE = "record_date";

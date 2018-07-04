@@ -96,4 +96,38 @@ public class FeedReceiveDetailController {
 
         return ttlWeight;
     }
+
+    public static String getUploadJsonByFeedReceiveId(SQLiteDatabase db, Long feed_receive_id) {
+        String selection = FeedReceiveDetailEntry.COLUMN_FEED_RECEIVE_ID + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(feed_receive_id),
+        };
+
+        Cursor cursor = db.query(
+                FeedReceiveDetailEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                FeedReceiveDetailEntry._ID + " DESC"
+        );
+
+        String json = " \"" + FeedReceiveDetailEntry.TABLE_NAME + "\": [";
+        while (cursor.moveToNext()) {
+            json += "{";
+            json += "\"" + FeedReceiveDetailEntry.COLUMN_HOUSE_CODE + "\": " + cursor.getString(cursor.getColumnIndex(FeedReceiveDetailEntry.COLUMN_HOUSE_CODE)) + ",";
+            json += "\"" + FeedReceiveDetailEntry.COLUMN_ITEM_PACKING_ID + "\": " + cursor.getString(cursor.getColumnIndex(FeedReceiveDetailEntry.COLUMN_ITEM_PACKING_ID)) + ",";
+            json += "\"" + FeedReceiveDetailEntry.COLUMN_WEIGHT + "\": " + cursor.getString(cursor.getColumnIndex(FeedReceiveDetailEntry.COLUMN_WEIGHT)) + "";
+            json += "";
+            if (cursor.getPosition() == (cursor.getCount() - 1)) {
+                json += "}";
+            } else {
+                json += "},";
+            }
+        }
+        json += "]";
+        return json;
+    }
 }

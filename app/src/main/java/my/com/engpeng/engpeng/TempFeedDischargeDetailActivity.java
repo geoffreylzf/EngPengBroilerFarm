@@ -168,6 +168,13 @@ public class TempFeedDischargeDetailActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btnExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     public FeedItem getSelectedFeedItem() {

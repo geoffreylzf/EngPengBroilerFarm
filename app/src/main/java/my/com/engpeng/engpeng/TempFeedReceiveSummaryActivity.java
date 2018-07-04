@@ -22,6 +22,7 @@ import my.com.engpeng.engpeng.controller.FeedReceiveDetailController;
 import my.com.engpeng.engpeng.controller.TempFeedReceiveDetailController;
 import my.com.engpeng.engpeng.data.EngPengContract;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
+import my.com.engpeng.engpeng.utilities.PrintUtils;
 
 import static my.com.engpeng.engpeng.Global.I_KEY_COMPANY;
 import static my.com.engpeng.engpeng.Global.I_KEY_DISCHARGE_CODE;
@@ -67,7 +68,7 @@ public class TempFeedReceiveSummaryActivity extends AppCompatActivity {
         setupRecycleView();
         setupSummary();
 
-        setTitle("New Feed In Summary");
+        setTitle("New Feed Receive Summary");
 
         Cursor cursor = TempFeedReceiveDetailController.getAll(db);
         if (cursor.getCount() == 0) {
@@ -133,11 +134,11 @@ public class TempFeedReceiveSummaryActivity extends AppCompatActivity {
                                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(mainIntent);
 
-                                    /*String printText = PrintUtils.printFeedReceive(db, feed_receive_id); TODO
+                                    String printText = PrintUtils.printFeedReceive(db, feed_receive_id);
 
                                     Intent ppIntent = new Intent(TempFeedReceiveSummaryActivity.this, PrintPreviewActivity.class);
                                     ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
-                                    startActivity(ppIntent);*/
+                                    startActivity(ppIntent);
                                 }
                             });
 

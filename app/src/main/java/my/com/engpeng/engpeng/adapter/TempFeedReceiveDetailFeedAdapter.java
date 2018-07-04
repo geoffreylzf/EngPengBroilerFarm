@@ -18,10 +18,16 @@ public class TempFeedReceiveDetailFeedAdapter extends RecyclerView.Adapter<TempF
 
     private Context mContext;
     private List<FeedItem> mFeedItemList;
+    private TempFeedReceiveDetailFeedAdapterListener tfrdfaListener;
 
-    public TempFeedReceiveDetailFeedAdapter(Context context, List<FeedItem> feedItemList) {
+    public TempFeedReceiveDetailFeedAdapter(Context context, List<FeedItem> feedItemList, TempFeedReceiveDetailFeedAdapterListener tfrdfaListener) {
         this.mContext = context;
         this.mFeedItemList = feedItemList;
+        this.tfrdfaListener= tfrdfaListener;
+    }
+
+    public interface TempFeedReceiveDetailFeedAdapterListener {
+        void afterSelectFeed();
     }
 
     @Override
@@ -47,6 +53,7 @@ public class TempFeedReceiveDetailFeedAdapter extends RecyclerView.Adapter<TempF
                 fi.setSelect(!fi.isSelect());
 
                 TempFeedReceiveDetailFeedAdapter.this.notifyDataSetChanged();
+                tfrdfaListener.afterSelectFeed();
             }
         });
 
@@ -57,6 +64,7 @@ public class TempFeedReceiveDetailFeedAdapter extends RecyclerView.Adapter<TempF
                 fi.setSelect(!fi.isSelect());
 
                 TempFeedReceiveDetailFeedAdapter.this.notifyDataSetChanged();
+                tfrdfaListener.afterSelectFeed();
             }
         });
     }

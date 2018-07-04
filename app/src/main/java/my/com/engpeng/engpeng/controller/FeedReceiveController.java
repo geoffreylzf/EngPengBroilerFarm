@@ -68,4 +68,83 @@ public class FeedReceiveController {
                 null
         );
     }
+
+    public static int getCount(SQLiteDatabase db, int upload) {
+        String selection = FeedReceiveEntry.COLUMN_UPLOAD + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(upload),
+        };
+
+        return db.query(
+                FeedReceiveEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                FeedReceiveEntry.COLUMN_RECORD_DATE + " DESC"
+        ).getCount();
+    }
+
+    public static String getUploadJson(SQLiteDatabase db, int upload) {
+        String selection = FeedReceiveEntry.COLUMN_UPLOAD + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(upload),
+        };
+
+        Cursor cursor = db.query(
+                FeedReceiveEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                FeedReceiveEntry.COLUMN_RECORD_DATE + " DESC"
+        );
+
+        String json = "{ \"" + FeedReceiveEntry.TABLE_NAME + "\": [";
+        while (cursor.moveToNext()) {
+            json += "{";
+            json += "\"" + FeedReceiveEntry.COLUMN_COMPANY_ID + "\": " + cursor.getString(cursor.getColumnIndex(FeedReceiveEntry.COLUMN_COMPANY_ID)) + ",";
+            json += "\"" + FeedReceiveEntry.COLUMN_LOCATION_ID + "\": " + cursor.getString(cursor.getColumnIndex(FeedReceiveEntry.COLUMN_LOCATION_ID)) + ",";
+            json += "\"" + FeedReceiveEntry.COLUMN_RECORD_DATE + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedReceiveEntry.COLUMN_RECORD_DATE)) + "\",";
+            json += "\"" + FeedReceiveEntry.COLUMN_DISCHARGE_CODE + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedReceiveEntry.COLUMN_DISCHARGE_CODE)) + "\",";
+            json += "\"" + FeedReceiveEntry.COLUMN_TRUCK_CODE + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedReceiveEntry.COLUMN_TRUCK_CODE)) + "\",";
+            json += "\"" + FeedReceiveEntry.COLUMN_TIMESTAMP + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedReceiveEntry.COLUMN_TIMESTAMP)) + "\",";
+            json += FeedReceiveDetailController.getUploadJsonByFeedReceiveId(db, cursor.getLong(cursor.getColumnIndex(FeedReceiveEntry._ID)));
+            if (cursor.getPosition() == (cursor.getCount() - 1)) {
+                json += "}";
+            } else {
+                json += "},";
+            }
+        }
+        json += "]}";
+        return json;
+    }
+
+    public static void removeUploaded(SQLiteDatabase db) {
+        String selection = FeedReceiveEntry.COLUMN_UPLOAD + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(1),
+        };
+
+        Cursor cursor = db.query(
+                FeedReceiveEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        while (cursor.moveToNext()) {
+            long feed_receive_id = cursor.getLong(cursor.getColumnIndex(FeedReceiveEntry._ID));
+            remove(db, feed_receive_id);
+            FeedReceiveDetailController.removeByFeedReceiveId(db, feed_receive_id);
+        }
+    }
 }

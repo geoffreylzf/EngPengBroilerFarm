@@ -23,6 +23,7 @@ import java.net.URLEncoder;
 import my.com.engpeng.engpeng.controller.CatchBTAController;
 import my.com.engpeng.engpeng.controller.FeedDischargeController;
 import my.com.engpeng.engpeng.controller.FeedInController;
+import my.com.engpeng.engpeng.controller.FeedReceiveController;
 import my.com.engpeng.engpeng.controller.FeedTransferController;
 import my.com.engpeng.engpeng.controller.MortalityController;
 import my.com.engpeng.engpeng.controller.WeightController;
@@ -41,7 +42,7 @@ import static my.com.engpeng.engpeng.Global.sUsername;
 public class UploadActivity extends AppCompatActivity
         implements AppLoader.AppLoaderListener, UploadAsyncTaskLoader.UploadAsyncTaskLoaderListener {
 
-    private TextView tvMortality, tvCatchBTA, tvWeight, tvFeedIn, tvFeedTransfer, tvFeedDischarge;
+    private TextView tvMortality, tvCatchBTA, tvWeight, tvFeedIn, tvFeedTransfer, tvFeedDischarge, tvFeedReceive;
     private Button btnUpload;
     private CheckBox cbLocal;
     private Dialog progressDialog;
@@ -60,6 +61,7 @@ public class UploadActivity extends AppCompatActivity
         tvFeedIn = findViewById(R.id.upload_tv_feed_in);
         tvFeedTransfer = findViewById(R.id.upload_tv_feed_transfer);
         tvFeedDischarge = findViewById(R.id.upload_tv_feed_discharge);
+        tvFeedReceive = findViewById(R.id.upload_tv_feed_receive);
         cbLocal = findViewById(R.id.upload_cb_local);
         btnUpload = findViewById(R.id.upload_btn_upload);
         progressDialog = UIUtils.getProgressDialog(this);
@@ -88,8 +90,9 @@ public class UploadActivity extends AppCompatActivity
         int feed_in_count = FeedInController.getCount(db, 0);
         int feed_transfer_count = FeedTransferController.getCount(db, 0);
         int feed_discharge_count = FeedDischargeController.getCount(db, 0);
+        int feed_receive_count = FeedReceiveController.getCount(db, 0);
 
-        ttl_row = mortality_count + catch_bta_count + weight_count + feed_in_count + feed_transfer_count + feed_discharge_count;
+        ttl_row = mortality_count + catch_bta_count + weight_count + feed_in_count + feed_transfer_count + feed_discharge_count + feed_receive_count;
 
         tvMortality.setText(String.valueOf(mortality_count));
         tvCatchBTA.setText(String.valueOf(catch_bta_count));
@@ -97,6 +100,7 @@ public class UploadActivity extends AppCompatActivity
         tvFeedIn.setText(String.valueOf(feed_in_count));
         tvFeedTransfer.setText(String.valueOf(feed_transfer_count));
         tvFeedDischarge.setText(String.valueOf(feed_discharge_count));
+        tvFeedReceive.setText(String.valueOf(feed_receive_count));
     }
 
     private void setupListener() {
@@ -153,9 +157,12 @@ public class UploadActivity extends AppCompatActivity
                     + URLEncoder.encode(feed_transfer_json, NetworkUtils.ENCODE);
 
             String feed_discharge_json = FeedDischargeController.getUploadJson(db, 0);
-            Log.e("feed_discharge_json",feed_discharge_json);
             data += "&" + URLEncoder.encode(EngPengContract.FeedDischargeEntry.TABLE_NAME, NetworkUtils.ENCODE) + "="
                     + URLEncoder.encode(feed_discharge_json, NetworkUtils.ENCODE);
+
+            String feed_receive_json = FeedReceiveController.getUploadJson(db, 0);
+            data += "&" + URLEncoder.encode(EngPengContract.FeedReceiveEntry.TABLE_NAME, NetworkUtils.ENCODE) + "="
+                    + URLEncoder.encode(feed_receive_json, NetworkUtils.ENCODE);
 
         } catch (Exception e) {
             e.printStackTrace();

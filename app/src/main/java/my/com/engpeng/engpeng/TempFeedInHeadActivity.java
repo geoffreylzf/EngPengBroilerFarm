@@ -163,7 +163,7 @@ public class TempFeedInHeadActivity extends AppCompatActivity {
                         selectionIntent.putExtra(I_KEY_QR_DATA, qr_data);
                         startActivity(selectionIntent);
 
-                    } catch (IndexOutOfBoundsException e) {
+                    } catch (Exception e) {
                         UIUtils.showToastMessage(this, "Invalid QR");
                     }
                 } else {
