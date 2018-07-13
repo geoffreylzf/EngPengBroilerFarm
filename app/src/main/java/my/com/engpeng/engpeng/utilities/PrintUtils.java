@@ -455,11 +455,17 @@ public class PrintUtils {
             Double weight = cursorDetail.getDouble(cursorDetail.getColumnIndex(FeedInDetailEntry.COLUMN_WEIGHT));
 
             Cursor cursorFeedItem = FeedItemController.getByErpId(db, item_packing_id);
-            cursorFeedItem.moveToFirst();
 
-            String sku_code = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_CODE));
-            String sku_name = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_NAME));
-
+            String sku_code = "";
+            String sku_name = "";
+            if (cursorFeedItem.moveToFirst()) {
+                sku_code = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_CODE));
+                sku_name = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_NAME));
+            }else{
+                sku_code = "New Feed";
+                sku_name = "ITEM_PACKING_ID: " + item_packing_id;
+            }
+            
             if (current_item_packing_id != item_packing_id) {
                 if (current_item_packing_id != 0) {
                     text += formatLine(PRINT_SEPERATOR);

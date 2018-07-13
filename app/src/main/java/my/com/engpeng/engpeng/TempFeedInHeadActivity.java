@@ -81,7 +81,7 @@ public class TempFeedInHeadActivity extends AppCompatActivity {
         EngPengDbHelper dbHelper = new EngPengDbHelper(this);
         mDb = dbHelper.getWritableDatabase();
 
-        setTitle("New Feed IN for " + sLocationName);
+        setTitle("New Feed IN from factory for " + sLocationName);
 
         setupListener();
 
