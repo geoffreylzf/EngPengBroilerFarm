@@ -322,6 +322,7 @@ public class LocationInfoActivity extends AppCompatActivity
                     cv.put(FeedInEntry.COLUMN_DOC_ID, feed_in.getLong("doc_id"));
                     cv.put(FeedInEntry.COLUMN_DOC_NUMBER, feed_in.getString("doc_number"));
                     cv.put(FeedInEntry.COLUMN_TRUCK_CODE, feed_in.getString("truck_code"));
+                    cv.put(FeedInEntry.COLUMN_VARIANCE, feed_in.getDouble("variance"));
                     cv.put(FeedInEntry.COLUMN_TIMESTAMP, feed_in.getString("timestamp"));
                     cv.put(FeedInEntry.COLUMN_UPLOAD, 1);
 
@@ -387,6 +388,7 @@ public class LocationInfoActivity extends AppCompatActivity
                     cv.put(FeedDischargeEntry.COLUMN_LOCATION_ID, feed_discharge.getInt("location_id"));
                     cv.put(FeedDischargeEntry.COLUMN_RECORD_DATE, feed_discharge.getString("record_date"));
                     cv.put(FeedDischargeEntry.COLUMN_DISCHARGE_CODE, feed_discharge.getString("discharge_code"));
+                    cv.put(FeedDischargeEntry.COLUMN_RUNNING_NO, feed_discharge.getString("running_no"));
                     cv.put(FeedDischargeEntry.COLUMN_TRUCK_CODE, feed_discharge.getString("truck_code"));
                     cv.put(FeedDischargeEntry.COLUMN_TIMESTAMP, feed_discharge.getString("timestamp"));
                     cv.put(FeedDischargeEntry.COLUMN_UPLOAD, 1);
@@ -422,6 +424,7 @@ public class LocationInfoActivity extends AppCompatActivity
                     cv.put(FeedReceiveEntry.COLUMN_LOCATION_ID, feed_receive.getInt("location_id"));
                     cv.put(FeedReceiveEntry.COLUMN_RECORD_DATE, feed_receive.getString("record_date"));
                     cv.put(FeedReceiveEntry.COLUMN_DISCHARGE_CODE, feed_receive.getString("discharge_code"));
+                    cv.put(FeedReceiveEntry.COLUMN_RUNNING_NO, feed_receive.getString("running_no"));
                     cv.put(FeedReceiveEntry.COLUMN_TRUCK_CODE, feed_receive.getString("truck_code"));
                     cv.put(FeedReceiveEntry.COLUMN_TIMESTAMP, feed_receive.getString("timestamp"));
                     cv.put(FeedReceiveEntry.COLUMN_UPLOAD, 1);
