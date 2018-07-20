@@ -14,7 +14,8 @@ public class FeedInController {
                            String record_date,
                            Long doc_id,
                            String doc_number,
-                           String truck_code) {
+                           String truck_code,
+                           double variance) {
 
         ContentValues cv = new ContentValues();
         cv.put(FeedInEntry.COLUMN_COMPANY_ID, company_id);
@@ -23,6 +24,7 @@ public class FeedInController {
         cv.put(FeedInEntry.COLUMN_DOC_ID, doc_id);
         cv.put(FeedInEntry.COLUMN_DOC_NUMBER, doc_number);
         cv.put(FeedInEntry.COLUMN_TRUCK_CODE, truck_code);
+        cv.put(FeedInEntry.COLUMN_VARIANCE, variance);
 
         return db.insert(FeedInEntry.TABLE_NAME, null, cv);
     }
@@ -98,6 +100,7 @@ public class FeedInController {
             json += "\"" + FeedInEntry.COLUMN_DOC_ID + "\": " + cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_DOC_ID)) + ",";
             json += "\"" + FeedInEntry.COLUMN_DOC_NUMBER + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_DOC_NUMBER)) + "\",";
             json += "\"" + FeedInEntry.COLUMN_TRUCK_CODE + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_TRUCK_CODE)) + "\",";
+            json += "\"" + FeedInEntry.COLUMN_VARIANCE + "\": " + cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_VARIANCE)) + ",";
             json += "\"" + FeedInEntry.COLUMN_TIMESTAMP + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_TIMESTAMP)) + "\",";
             json += FeedInDetailController.getUploadJsonByFeedInId(db, cursor.getLong(cursor.getColumnIndex(FeedInEntry._ID)));
             if (cursor.getPosition() == (cursor.getCount() - 1)) {

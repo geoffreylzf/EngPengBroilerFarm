@@ -93,6 +93,17 @@
             android:layout_below="@id/li_feed_in_history_ll_detail_end"
             android:background="@color/colorPrimaryXLight">
 
+            <TextView
+                android:id="@+id/li_feed_in_history_tv_variance"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/variance" />
+
             <Button
                 android:id="@+id/li_feed_in_history_btn_delete"
                 style="@style/Widget.AppCompat.Button.Colored"

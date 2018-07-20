@@ -276,6 +276,7 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
             FeedInEntry.COLUMN_DOC_ID + " INTEGER, " +
             FeedInEntry.COLUMN_DOC_NUMBER + " TEXT, " +
             FeedInEntry.COLUMN_TRUCK_CODE + " TEXT, " +
+            FeedInEntry.COLUMN_VARIANCE + " REAL, " +
             FeedInEntry.COLUMN_UPLOAD + " INTEGER DEFAULT 0, " +
             FeedInEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP " +
             "); ";
@@ -306,6 +307,7 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
             FeedTransferEntry.COLUMN_COMPANY_ID + " INTEGER," +
             FeedTransferEntry.COLUMN_LOCATION_ID + " INTEGER, " +
             FeedTransferEntry.COLUMN_RECORD_DATE + " DATE, " +
+            FeedTransferEntry.COLUMN_RUNNING_NO + " TEXT, " +
             FeedTransferEntry.COLUMN_DISCHARGE_HOUSE + " INTEGER, " +
             FeedTransferEntry.COLUMN_RECEIVE_HOUSE + " INTEGER, " +
             FeedTransferEntry.COLUMN_ITEM_PACKING_ID + " INTEGER, " +
@@ -320,6 +322,7 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
             FeedDischargeEntry.COLUMN_LOCATION_ID + " INTEGER, " +
             FeedDischargeEntry.COLUMN_RECORD_DATE + " DATE, " +
             FeedDischargeEntry.COLUMN_DISCHARGE_CODE + " TEXT, " +
+            FeedDischargeEntry.COLUMN_RUNNING_NO + " TEXT, " +
             FeedDischargeEntry.COLUMN_TRUCK_CODE + " TEXT, " +
             FeedDischargeEntry.COLUMN_UPLOAD + " INTEGER DEFAULT 0, " +
             FeedDischargeEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP " +
@@ -346,6 +349,7 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
             FeedReceiveEntry.COLUMN_LOCATION_ID + " INTEGER, " +
             FeedReceiveEntry.COLUMN_RECORD_DATE + " DATE, " +
             FeedReceiveEntry.COLUMN_DISCHARGE_CODE + " TEXT, " +
+            FeedReceiveEntry.COLUMN_RUNNING_NO + " TEXT, " +
             FeedReceiveEntry.COLUMN_TRUCK_CODE + " TEXT, " +
             FeedReceiveEntry.COLUMN_UPLOAD + " INTEGER DEFAULT 0, " +
             FeedReceiveEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP " +

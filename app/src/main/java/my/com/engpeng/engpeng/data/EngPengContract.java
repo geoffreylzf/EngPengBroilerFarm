@@ -146,6 +146,7 @@ public class EngPengContract {
         public static final String COLUMN_DOC_ID = "doc_id";
         public static final String COLUMN_DOC_NUMBER = "doc_number";
         public static final String COLUMN_TRUCK_CODE = "truck_code";
+        public static final String COLUMN_VARIANCE = "variance";
         public static final String COLUMN_UPLOAD = "upload";
         public static final String COLUMN_TIMESTAMP = "timestamp";
     }
@@ -176,6 +177,7 @@ public class EngPengContract {
         public static final String COLUMN_COMPANY_ID = "company_id";
         public static final String COLUMN_LOCATION_ID = "location_id";
         public static final String COLUMN_RECORD_DATE = "record_date";
+        public static final String COLUMN_RUNNING_NO = "running_no";
         public static final String COLUMN_DISCHARGE_HOUSE = "discharge_house";
         public static final String COLUMN_RECEIVE_HOUSE = "receive_house";
         public static final String COLUMN_ITEM_PACKING_ID = "item_packing_id";
@@ -190,6 +192,7 @@ public class EngPengContract {
         public static final String COLUMN_LOCATION_ID = "location_id";
         public static final String COLUMN_RECORD_DATE = "record_date";
         public static final String COLUMN_DISCHARGE_CODE = "discharge_code";
+        public static final String COLUMN_RUNNING_NO = "running_no";
         public static final String COLUMN_TRUCK_CODE = "truck_code";
         public static final String COLUMN_UPLOAD = "upload";
         public static final String COLUMN_TIMESTAMP = "timestamp";
@@ -216,6 +219,7 @@ public class EngPengContract {
         public static final String COLUMN_LOCATION_ID = "location_id";
         public static final String COLUMN_RECORD_DATE = "record_date";
         public static final String COLUMN_DISCHARGE_CODE = "discharge_code";
+        public static final String COLUMN_RUNNING_NO = "running_no";
         public static final String COLUMN_TRUCK_CODE = "truck_code";
         public static final String COLUMN_UPLOAD = "upload";
         public static final String COLUMN_TIMESTAMP = "timestamp";

@@ -41,9 +41,11 @@ import static my.com.engpeng.engpeng.Global.QR_SPLIT_FIELD;
 import static my.com.engpeng.engpeng.Global.QR_SPLIT_LINE;
 import static my.com.engpeng.engpeng.Global.UOM_CODE_BG;
 import static my.com.engpeng.engpeng.Global.UOM_CODE_MT;
+import static my.com.engpeng.engpeng.data.EngPengContract.*;
 
 public class TempFeedInDetailActivity extends AppCompatActivity
-        implements TempFeedInDetailFeedAdapter.TempFeedInDetailFeedAdapterListener {
+        implements TempFeedInDetailFeedAdapter.TempFeedInDetailFeedAdapterListener,
+        TempFeedInDetailCompartmentAdapter.TempFeedInDetailCompartmentAdapterListener {
 
     private int company_id, location_id;
     private String qr_data;
@@ -113,7 +115,7 @@ public class TempFeedInDetailActivity extends AppCompatActivity
         String[] lines = qr_data.split(QR_SPLIT_LINE);
 
         for (String line : lines) {
-            String[] fields = line.split(QR_SPLIT_FIELD);
+                String[] fields = line.split(QR_SPLIT_FIELD);
 
             String type = fields[0];
             if (type.equals(QR_LINE_TYPE_DETAIL)) {
@@ -130,13 +132,22 @@ public class TempFeedInDetailActivity extends AppCompatActivity
                 String sku_name = "";
                 Cursor cursor = FeedItemController.getByErpId(mDb, sku_id);
                 if (cursor.moveToFirst()) {
-                    sku_code = cursor.getString(cursor.getColumnIndex(EngPengContract.FeedItemEntry.COLUMN_SKU_CODE));
-                    sku_name = cursor.getString(cursor.getColumnIndex(EngPengContract.FeedItemEntry.COLUMN_SKU_NAME));
-                }else{
+                    sku_code = cursor.getString(cursor.getColumnIndex(FeedItemEntry.COLUMN_SKU_CODE));
+                    sku_name = cursor.getString(cursor.getColumnIndex(FeedItemEntry.COLUMN_SKU_NAME));
+                } else {
                     sku_code = "New Feed";
                     sku_name = "ITEM_PACKING_ID: " + sku_id;
                 }
 
+                Cursor c = TempFeedInDetailController.getAllByByItemPackingId(mDb, sku_id);
+                double qty_assigned = 0;
+                double weight_assigned = 0;
+                while (c.moveToNext()) {
+                    qty_assigned += c.getDouble(c.getColumnIndex(TempFeedInDetailEntry.COLUMN_QTY));
+                    weight_assigned += c.getDouble(c.getColumnIndex(TempFeedInDetailEntry.COLUMN_WEIGHT));
+                }
+                qty -= qty_assigned;
+                weight -= weight_assigned;
 
                 FeedItem fi = new FeedItem();
                 fi.setErpId(sku_id);
@@ -170,7 +181,6 @@ public class TempFeedInDetailActivity extends AppCompatActivity
 
                 etQty.setText("");
                 etWeight.setText("");
-                etQty.requestFocus();
                 setupCompartmentRecycleView();
 
                 break;
@@ -212,6 +222,16 @@ public class TempFeedInDetailActivity extends AppCompatActivity
                         double qty = Double.parseDouble(fields[2]);
                         double weight = Double.parseDouble(fields[3]);
 
+                        Cursor cursor = TempFeedInDetailController.getAllByByItemPackingIdCompartment(mDb, fi.getErpId(), compartment);
+                        double qty_assigned = 0;
+                        double weight_assigned = 0;
+                        while (cursor.moveToNext()) {
+                            qty_assigned += cursor.getDouble(cursor.getColumnIndex(TempFeedInDetailEntry.COLUMN_QTY));
+                            weight_assigned += cursor.getDouble(cursor.getColumnIndex(TempFeedInDetailEntry.COLUMN_WEIGHT));
+                        }
+                        qty -= qty_assigned;
+                        weight -= weight_assigned;
+
                         Compartment c = new Compartment();
                         c.setCompartmentNo(compartment);
                         c.setQty(qty);
@@ -221,10 +241,28 @@ public class TempFeedInDetailActivity extends AppCompatActivity
                     }
                 }
             }
+
+            if (mCompartmentList != null && mCompartmentList.size() == 0) {
+                etQty.setText(fi.getQty() + "");
+                etWeight.setText(fi.getWeight() + "");
+                etQty.selectAll();
+            }
         }
 
-        mCompartmentAdapter = new TempFeedInDetailCompartmentAdapter(this, mCompartmentList);
+        mCompartmentAdapter = new TempFeedInDetailCompartmentAdapter(this, mCompartmentList, this);
         rvCompartment.setAdapter(mCompartmentAdapter);
+    }
+
+    @Override
+    public void afterSelectCompartment() {
+        for (Compartment c : mCompartmentList) {
+            if (c.isSelect()) {
+                etQty.setText(c.getQty() + "");
+                etWeight.setText(c.getWeight() + "");
+                etQty.selectAll();
+                break;
+            }
+        }
     }
 
     public void setupHouseRecycleView() {
@@ -235,7 +273,7 @@ public class TempFeedInDetailActivity extends AppCompatActivity
         mHouseList = new ArrayList<>();
 
         while (cursor.moveToNext()) {
-            int house_code = cursor.getInt(cursor.getColumnIndex(EngPengContract.HouseEntry.COLUMN_HOUSE_CODE));
+            int house_code = cursor.getInt(cursor.getColumnIndex(HouseEntry.COLUMN_HOUSE_CODE));
 
             HouseCode hc = new HouseCode();
             hc.setHouseCode(house_code);
@@ -375,6 +413,12 @@ public class TempFeedInDetailActivity extends AppCompatActivity
         } else {
             try {
                 qty = Double.parseDouble(etQty.getText().toString());
+                if(qty == 0){
+                    etQty.setError(getString(R.string.error_field_no_zero));
+                    etQty.requestFocus();
+                    return false;
+                }
+                etWeight.setText(String.valueOf(qty * getSelectedFeedItem().getStdWeight()));
             } catch (NumberFormatException ex) {
                 etQty.setError(getString(R.string.error_field_number_only));
                 etQty.requestFocus();

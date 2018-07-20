@@ -70,17 +70,24 @@ public class FeedInHistoryAdapter extends RecyclerView.Adapter<FeedInHistoryAdap
         String date = cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_RECORD_DATE));
         String document = cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_DOC_NUMBER));
         String truck_code = cursor.getString(cursor.getColumnIndex(FeedInEntry.COLUMN_TRUCK_CODE));
+        double variance = cursor.getDouble(cursor.getColumnIndex(FeedInEntry.COLUMN_VARIANCE));
         final int is_upload = cursor.getInt(cursor.getColumnIndex(FeedInEntry.COLUMN_UPLOAD));
 
         String upload_str = "No";
         if (is_upload == 1) {
             upload_str = "Yes";
         }
+        String variance_str = "Variance : ";
+        if (variance > 0) {
+            variance_str += "+";
+        }
+        variance_str += variance + " KG";
 
         holder.tvDate.setText(date);
         holder.tvDocument.setText(document);
         holder.tvTruckCode.setText(truck_code);
         holder.tvUpload.setText(upload_str);
+        holder.tvVariance.setText(variance_str);
         holder.itemView.setTag(feed_in_id);
 
         holder.rvDetail.setLayoutManager(new LinearLayoutManager(context));
@@ -167,7 +174,7 @@ public class FeedInHistoryAdapter extends RecyclerView.Adapter<FeedInHistoryAdap
     }
 
     class FeedInViewHolder extends RecyclerView.ViewHolder {
-        TextView tvDate, tvDocument, tvTruckCode, tvUpload;
+        TextView tvDate, tvDocument, tvTruckCode, tvUpload, tvVariance;
         RecyclerView rvDetail;
         RelativeLayout rlDetail;
         LinearLayout ll;
@@ -180,6 +187,7 @@ public class FeedInHistoryAdapter extends RecyclerView.Adapter<FeedInHistoryAdap
             tvDocument = itemView.findViewById(R.id.li_feed_in_history_tv_document);
             tvTruckCode = itemView.findViewById(R.id.li_feed_in_history_tv_truck_code);
             tvUpload = itemView.findViewById(R.id.li_feed_in_history_tv_upload);
+            tvVariance = itemView.findViewById(R.id.li_feed_in_history_tv_variance);
 
             rlDetail = itemView.findViewById(R.id.li_feed_in_history_rl_detail);
             rvDetail = itemView.findViewById(R.id.li_feed_in_history_rv_detail);

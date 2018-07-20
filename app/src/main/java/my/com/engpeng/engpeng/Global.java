@@ -68,6 +68,7 @@ public class Global {
     public static final String I_KEY_DISCHARGE_HOUSE = "I_KEY_DISCHARGE_HOUSE";
     public static final String I_KEY_RECEIVE_HOUSE = "I_KEY_RECEIVE_HOUSE";
     public static final String I_KEY_DISCHARGE_CODE = "I_KEY_DISCHARGE_CODE";
+    public static final String I_KEY_RUNNING_NO = "I_KEY_RUNNING_NO";
 
     //Preferences param keys
     public static final String P_KEY_USERNAME = "P_KEY_USERNAME";

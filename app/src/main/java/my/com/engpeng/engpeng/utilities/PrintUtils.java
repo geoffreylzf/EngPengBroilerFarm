@@ -425,6 +425,7 @@ public class PrintUtils {
         Long doc_id = cursorFeedIn.getLong(cursorFeedIn.getColumnIndex(FeedInEntry.COLUMN_DOC_ID));
         String doc_number = cursorFeedIn.getString(cursorFeedIn.getColumnIndex(FeedInEntry.COLUMN_DOC_NUMBER));
         String truck_code = cursorFeedIn.getString(cursorFeedIn.getColumnIndex(FeedInEntry.COLUMN_TRUCK_CODE));
+        double variance = cursorFeedIn.getDouble(cursorFeedIn.getColumnIndex(FeedInEntry.COLUMN_VARIANCE));
 
         Cursor cursorCompany = BranchController.getBranchByErpId(db, company_id);
         cursorCompany.moveToFirst();
@@ -443,7 +444,47 @@ public class PrintUtils {
         text += formatLine("ID: " + doc_id);
         text += formatLine("Truck Code: " + truck_code);
 
-        Cursor cursorDetail = FeedInDetailController.getAllByFeedInIdOrderByItemPackingId(db, feed_in_id);
+        Cursor cursorGroup = FeedInDetailController.getItemPackingIdByFeedInId(db, feed_in_id);
+
+        while (cursorGroup.moveToNext()) {
+            int item_packing_id = cursorGroup.getInt(cursorGroup.getColumnIndex(FeedInDetailEntry.COLUMN_ITEM_PACKING_ID));
+            Cursor cursorFeedItem = FeedItemController.getByErpId(db, item_packing_id);
+            String sku_code = "";
+            String sku_name = "";
+            if (cursorFeedItem.moveToFirst()) {
+                sku_code = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_CODE));
+                sku_name = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_NAME));
+            } else {
+                sku_code = "New Feed";
+                sku_name = "ITEM_PACKING_ID: " + item_packing_id;
+            }
+
+            text += formatLine("");
+            text += formatLine("Feed Code: " + sku_code);
+            text += formatLine("Feed Name: " + sku_name);
+            text += formatLine(PRINT_SEPERATOR);
+            text += formatLine(String.format("  House  Compartment  Quantity  Weight(KG)"));
+
+            double ttl_qty = 0;
+            double ttl_weight = 0;
+            Cursor cursorDetail = FeedInDetailController.getAllByFeedInIdItemPackingId(db, feed_in_id, item_packing_id);
+            while (cursorDetail.moveToNext()) {
+                String house_code = cursorDetail.getString(cursorDetail.getColumnIndex(FeedInDetailEntry.COLUMN_HOUSE_CODE));
+                String compartment_no = cursorDetail.getString(cursorDetail.getColumnIndex(FeedInDetailEntry.COLUMN_COMPARTMENT_NO));
+                Double qty = cursorDetail.getDouble(cursorDetail.getColumnIndex(FeedInDetailEntry.COLUMN_QTY));
+                Double weight = cursorDetail.getDouble(cursorDetail.getColumnIndex(FeedInDetailEntry.COLUMN_WEIGHT));
+
+                ttl_qty += qty;
+                ttl_weight += weight;
+
+                text += formatLine(String.format("  %4s        %s       %8.3f   %9.2f", house_code, compartment_no, qty, weight));
+            }
+            text += formatLine(PRINT_SEPERATOR);
+            text += formatLine(String.format("Total:               %8.3f   %9.2f", ttl_qty, ttl_weight));
+            text += formatLine(String.format("                     =========  =========="));
+        }
+
+        /*Cursor cursorDetail = FeedInDetailController.getAllByFeedInIdOrderByItemPackingId(db, feed_in_id);
 
         int current_item_packing_id = 0;
         while (cursorDetail.moveToNext()) {
@@ -489,11 +530,20 @@ public class PrintUtils {
 
             text += formatLine(String.format("  %4s        %s       %8.3f   %9.2f", house_code, compartment_no, qty, weight));
 
+            if (current_item_packing_id != item_packing_id) {
+
+            }
+
             current_item_packing_id = item_packing_id;
         }
-        text += formatLine(PRINT_SEPERATOR);
+        text += formatLine(PRINT_SEPERATOR);*/
 
         text += formatLine("");
+        String variance_str = variance + " KG";
+        if (variance > 0) {
+            variance_str = "+" + variance_str;
+        }
+        text += formatLine("Variance : " + variance_str);
         text += formatLine("Printed by: " + sUsername);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         SimpleDateFormat sdfTime = new SimpleDateFormat("hh:mm a", Locale.US);
@@ -524,6 +574,7 @@ public class PrintUtils {
         int location_id = cursorFeedDischarge.getInt(cursorFeedDischarge.getColumnIndex(FeedDischargeEntry.COLUMN_LOCATION_ID));
         String record_date = cursorFeedDischarge.getString(cursorFeedDischarge.getColumnIndex(FeedDischargeEntry.COLUMN_RECORD_DATE));
         String discharge_code = cursorFeedDischarge.getString(cursorFeedDischarge.getColumnIndex(FeedDischargeEntry.COLUMN_DISCHARGE_CODE));
+        String running_no = cursorFeedDischarge.getString(cursorFeedDischarge.getColumnIndex(FeedDischargeEntry.COLUMN_RUNNING_NO));
         String truck_code = cursorFeedDischarge.getString(cursorFeedDischarge.getColumnIndex(FeedDischargeEntry.COLUMN_TRUCK_CODE));
 
         Cursor cursorCompany = BranchController.getBranchByErpId(db, company_id);
@@ -536,10 +587,11 @@ public class PrintUtils {
 
         text += formatLine("");
         text += formatLine(company_name);
-        text += formatLine("Feed Discharge (Feed Pindah Keluar)");
+        text += formatLine("Inter Farm Transfer-Out");
         text += formatLine("Location: " + location_code);
         text += formatLine("Date: " + record_date);
-        text += formatLine("Discharge code: " + discharge_code);
+        text += formatLine("Discharge Code: " + discharge_code);
+        text += formatLine("Running No: " + running_no);
         text += formatLine("Truck Code: " + truck_code);
 
         Cursor cursorDetail = FeedDischargeDetailController.getAllByFeedDischargeIdOrderByItemPackingId(db, feed_discharge_id);
@@ -609,6 +661,7 @@ public class PrintUtils {
         int location_id = cursorFeedReceive.getInt(cursorFeedReceive.getColumnIndex(FeedReceiveEntry.COLUMN_LOCATION_ID));
         String record_date = cursorFeedReceive.getString(cursorFeedReceive.getColumnIndex(FeedReceiveEntry.COLUMN_RECORD_DATE));
         String discharge_code = cursorFeedReceive.getString(cursorFeedReceive.getColumnIndex(FeedReceiveEntry.COLUMN_DISCHARGE_CODE));
+        String running_no = cursorFeedReceive.getString(cursorFeedReceive.getColumnIndex(FeedReceiveEntry.COLUMN_RUNNING_NO));
         String truck_code = cursorFeedReceive.getString(cursorFeedReceive.getColumnIndex(FeedReceiveEntry.COLUMN_TRUCK_CODE));
 
         Cursor cursorCompany = BranchController.getBranchByErpId(db, company_id);
@@ -621,10 +674,11 @@ public class PrintUtils {
 
         text += formatLine("");
         text += formatLine(company_name);
-        text += formatLine("Feed Receive (Feed Pindah Masuk)");
+        text += formatLine("Inter Farm Transfer-In");
         text += formatLine("Location: " + location_code);
         text += formatLine("Date: " + record_date);
         text += formatLine("Discharge Code: " + discharge_code);
+        text += formatLine("Running No: " + running_no);
         text += formatLine("Truck Code: " + truck_code);
 
         Cursor cursorDetail = FeedReceiveDetailController.getAllByFeedReceiveIdOrderByItemPackingId(db, feed_receive_id);

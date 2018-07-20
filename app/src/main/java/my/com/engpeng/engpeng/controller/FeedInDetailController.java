@@ -51,12 +51,36 @@ public class FeedInDetailController {
         );
     }
 
-    public static Cursor getAllByFeedInIdOrderByItemPackingId(SQLiteDatabase db, Long feed_in_id) {
+    public static Cursor getItemPackingIdByFeedInId(SQLiteDatabase db, long feed_in_id) {
+        String[] columns = new String[]{
+                "DISTINCT(" + FeedInDetailEntry.COLUMN_ITEM_PACKING_ID + ") AS " + FeedInDetailEntry.COLUMN_ITEM_PACKING_ID,
+        };
 
         String selection = FeedInDetailEntry.COLUMN_FEED_IN_ID + " = ? ";
 
         String[] selectionArgs = new String[]{
                 String.valueOf(feed_in_id),
+        };
+
+        return db.query(
+                EngPengContract.FeedInDetailEntry.TABLE_NAME,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                EngPengContract.FeedInDetailEntry._ID
+        );
+    }
+
+    public static Cursor getAllByFeedInIdItemPackingId(SQLiteDatabase db, Long feed_in_id, int item_packing_id) {
+
+        String selection = FeedInDetailEntry.COLUMN_FEED_IN_ID + " = ? AND " +
+                FeedInDetailEntry.COLUMN_ITEM_PACKING_ID + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(feed_in_id),
+                String.valueOf(item_packing_id),
         };
 
         return db.query(
@@ -66,9 +90,10 @@ public class FeedInDetailController {
                 selectionArgs,
                 null,
                 null,
-                FeedInDetailEntry.COLUMN_ITEM_PACKING_ID
+                FeedInDetailEntry._ID + " DESC"
         );
     }
+
     public static Cursor getTotalQtyWeightByFeedInIdItemPackingId(SQLiteDatabase db, Long feed_in_id, int item_packing_id) {
 
         String[] columns = new String[]{

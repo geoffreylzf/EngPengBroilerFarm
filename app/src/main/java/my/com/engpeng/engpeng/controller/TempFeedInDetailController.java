@@ -47,4 +47,43 @@ public class TempFeedInDetailController {
     public static void delete(SQLiteDatabase db) {
         db.delete(TempFeedInDetailEntry.TABLE_NAME, null, null);
     }
+
+    public static Cursor getAllByByItemPackingId(SQLiteDatabase db, int item_packing_id){
+        String selection = TempFeedInDetailEntry.COLUMN_ITEM_PACKING_ID + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(item_packing_id),
+        };
+
+        return db.query(
+                TempFeedInDetailEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+    }
+
+    public static Cursor getAllByByItemPackingIdCompartment(SQLiteDatabase db, int item_packing_id, String compartment_no){
+
+        String selection = TempFeedInDetailEntry.COLUMN_ITEM_PACKING_ID + " = ? AND " +
+                TempFeedInDetailEntry.COLUMN_COMPARTMENT_NO + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(item_packing_id),
+                String.valueOf(compartment_no),
+        };
+
+        return db.query(
+                TempFeedInDetailEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+    }
 }

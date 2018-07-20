@@ -19,10 +19,16 @@ public class TempFeedInDetailCompartmentAdapter extends RecyclerView.Adapter<Tem
 
     private Context context;
     private List<Compartment> compartmentList;
+    private TempFeedInDetailCompartmentAdapterListener tfidcaListener;
 
-    public TempFeedInDetailCompartmentAdapter(Context context, List<Compartment> compartmentList) {
+    public TempFeedInDetailCompartmentAdapter(Context context, List<Compartment> compartmentList, TempFeedInDetailCompartmentAdapterListener tfidcaListener) {
         this.context = context;
         this.compartmentList = compartmentList;
+        this.tfidcaListener = tfidcaListener;
+    }
+
+    public interface TempFeedInDetailCompartmentAdapterListener {
+        void afterSelectCompartment();
     }
 
     @Override
@@ -48,6 +54,7 @@ public class TempFeedInDetailCompartmentAdapter extends RecyclerView.Adapter<Tem
                 compartment.setSelect(!compartment.isSelect());
 
                 TempFeedInDetailCompartmentAdapter.this.notifyDataSetChanged();
+                tfidcaListener.afterSelectCompartment();
             }
         });
 
@@ -58,6 +65,7 @@ public class TempFeedInDetailCompartmentAdapter extends RecyclerView.Adapter<Tem
                 compartment.setSelect(!compartment.isSelect());
 
                 TempFeedInDetailCompartmentAdapter.this.notifyDataSetChanged();
+                tfidcaListener.afterSelectCompartment();
             }
         });
     }

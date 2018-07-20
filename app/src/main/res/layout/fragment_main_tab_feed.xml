@@ -11,6 +11,7 @@
         <Button
             android:id="@+id/main_f_btn_feed_in"
             style="@style/MainFragmentButtonStyle"
+            android:textSize="15dp"
             android:drawableTop="@drawable/download_24"
             android:text="BAJA MASUK DARI KILANG (GRN)" />
 

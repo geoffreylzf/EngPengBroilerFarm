@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import my.com.engpeng.engpeng.barcode.BarcodeCaptureActivity;
+import my.com.engpeng.engpeng.controller.FeedReceiveController;
 import my.com.engpeng.engpeng.controller.TempFeedReceiveDetailController;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
 import my.com.engpeng.engpeng.utilities.UIUtils;
@@ -30,11 +31,13 @@ import static my.com.engpeng.engpeng.Global.I_KEY_DISCHARGE_CODE;
 import static my.com.engpeng.engpeng.Global.I_KEY_LOCATION;
 import static my.com.engpeng.engpeng.Global.I_KEY_QR_DATA;
 import static my.com.engpeng.engpeng.Global.I_KEY_RECORD_DATE;
+import static my.com.engpeng.engpeng.Global.I_KEY_RUNNING_NO;
 import static my.com.engpeng.engpeng.Global.I_KEY_TRUCK_CODE;
 import static my.com.engpeng.engpeng.Global.QR_LINE_TYPE_HEAD;
 import static my.com.engpeng.engpeng.Global.QR_SPLIT_FIELD;
 import static my.com.engpeng.engpeng.Global.QR_SPLIT_LINE;
 import static my.com.engpeng.engpeng.Global.sLocationName;
+import static my.com.engpeng.engpeng.Global.sUsername;
 
 public class TempFeedReceiveHeadActivity extends AppCompatActivity {
 
@@ -91,7 +94,7 @@ public class TempFeedReceiveHeadActivity extends AppCompatActivity {
         TempFeedReceiveDetailController.delete(mDb);
     }
 
-    private void setupListener(){
+    private void setupListener() {
         btnDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,11 +149,19 @@ public class TempFeedReceiveHeadActivity extends AppCompatActivity {
                             truck_code = fields[3];
 
                             if (type.equals(QR_LINE_TYPE_HEAD)) {
-                                if(!type_code.equals("FEED_DISCHARGE")){
+                                if (!type_code.equals("FEED_DISCHARGE")) {
                                     throw new IndexOutOfBoundsException();
                                 }
                                 break;
                             }
+                        }
+
+                        String running_no = "R-" + sUsername + "-1";
+                        String last_running_no = FeedReceiveController.getLastRunningNo(mDb);
+                        if (!last_running_no.equals("")) {
+                            String[] arr = last_running_no.split("-");
+                            int new_no = Integer.parseInt(arr[2]) + 1;
+                            running_no = "R-" + sUsername + "-" + new_no;
                         }
 
                         Intent selectionIntent = new Intent(TempFeedReceiveHeadActivity.this, TempFeedReceiveSummaryActivity.class);
@@ -160,6 +171,7 @@ public class TempFeedReceiveHeadActivity extends AppCompatActivity {
                         selectionIntent.putExtra(I_KEY_DISCHARGE_CODE, discharge_code);
                         selectionIntent.putExtra(I_KEY_TRUCK_CODE, truck_code);
                         selectionIntent.putExtra(I_KEY_QR_DATA, qr_data);
+                        selectionIntent.putExtra(I_KEY_RUNNING_NO, running_no);
                         startActivity(selectionIntent);
 
                     } catch (Exception e) {

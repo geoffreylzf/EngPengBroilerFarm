@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import static my.com.engpeng.engpeng.Global.sUsername;
 import static my.com.engpeng.engpeng.data.EngPengContract.FeedReceiveEntry;
 
 public class FeedReceiveController {
@@ -13,13 +14,15 @@ public class FeedReceiveController {
                            int location_id,
                            String record_date,
                            String discharge_code,
-                           String truck_code) {
+                           String truck_code,
+                           String running_no) {
 
         ContentValues cv = new ContentValues();
         cv.put(FeedReceiveEntry.COLUMN_COMPANY_ID, company_id);
         cv.put(FeedReceiveEntry.COLUMN_LOCATION_ID, location_id);
         cv.put(FeedReceiveEntry.COLUMN_RECORD_DATE, record_date);
         cv.put(FeedReceiveEntry.COLUMN_DISCHARGE_CODE, discharge_code);
+        cv.put(FeedReceiveEntry.COLUMN_RUNNING_NO, running_no);
         cv.put(FeedReceiveEntry.COLUMN_TRUCK_CODE, truck_code);
 
         return db.insert(FeedReceiveEntry.TABLE_NAME, null, cv);
@@ -111,6 +114,7 @@ public class FeedReceiveController {
             json += "\"" + FeedReceiveEntry.COLUMN_LOCATION_ID + "\": " + cursor.getString(cursor.getColumnIndex(FeedReceiveEntry.COLUMN_LOCATION_ID)) + ",";
             json += "\"" + FeedReceiveEntry.COLUMN_RECORD_DATE + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedReceiveEntry.COLUMN_RECORD_DATE)) + "\",";
             json += "\"" + FeedReceiveEntry.COLUMN_DISCHARGE_CODE + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedReceiveEntry.COLUMN_DISCHARGE_CODE)) + "\",";
+            json += "\"" + FeedReceiveEntry.COLUMN_RUNNING_NO + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedReceiveEntry.COLUMN_RUNNING_NO)) + "\",";
             json += "\"" + FeedReceiveEntry.COLUMN_TRUCK_CODE + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedReceiveEntry.COLUMN_TRUCK_CODE)) + "\",";
             json += "\"" + FeedReceiveEntry.COLUMN_TIMESTAMP + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedReceiveEntry.COLUMN_TIMESTAMP)) + "\",";
             json += FeedReceiveDetailController.getUploadJsonByFeedReceiveId(db, cursor.getLong(cursor.getColumnIndex(FeedReceiveEntry._ID)));
@@ -146,5 +150,34 @@ public class FeedReceiveController {
             remove(db, feed_receive_id);
             FeedReceiveDetailController.removeByFeedReceiveId(db, feed_receive_id);
         }
+    }
+
+    public static String getLastRunningNo(SQLiteDatabase db) {
+        String running_no = "";
+        String filter = "R-" + sUsername + "-";
+
+        String[] columns = new String[]{
+                "MAX(" + FeedReceiveEntry.COLUMN_RUNNING_NO + ") AS " + FeedReceiveEntry.COLUMN_RUNNING_NO,
+        };
+
+        String selection = FeedReceiveEntry.COLUMN_RUNNING_NO + " LIKE '" + filter + "%' ";
+
+        Cursor cursor = db.query(
+                FeedReceiveEntry.TABLE_NAME,
+                columns,
+                selection,
+                null,
+                null,
+                null,
+                null
+        );
+
+        if(cursor.moveToFirst()){
+            running_no = cursor.getString(cursor.getColumnIndex(FeedReceiveEntry.COLUMN_RUNNING_NO));
+            if(running_no == null){
+                running_no = "";
+            }
+        }
+        return  running_no;
     }
 }

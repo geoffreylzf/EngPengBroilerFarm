@@ -38,6 +38,9 @@ import static my.com.engpeng.engpeng.Global.I_KEY_RECORD_DATE;
 import static my.com.engpeng.engpeng.Global.I_KEY_TRUCK_CODE;
 import static my.com.engpeng.engpeng.Global.I_KEY_TYPE;
 import static my.com.engpeng.engpeng.Global.MODULE_CATCH_BTA;
+import static my.com.engpeng.engpeng.Global.QR_LINE_TYPE_DETAIL;
+import static my.com.engpeng.engpeng.Global.QR_SPLIT_FIELD;
+import static my.com.engpeng.engpeng.Global.QR_SPLIT_LINE;
 import static my.com.engpeng.engpeng.Global.sLocationName;
 import static my.com.engpeng.engpeng.data.EngPengContract.*;
 
@@ -45,7 +48,7 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
 
     private FloatingActionButton fabAdd;
     private Button btnEnd;
-    private TextView tvLocation, tvDocNumber, tvTruckCode;
+    private TextView tvLocation, tvDocNumber, tvTruckCode, tvVariance;
     private RecyclerView rv;
 
     private int company_id, location_id;
@@ -54,6 +57,7 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private Toast mToast;
     private TempFeedInSummaryAdapter adapter;
+    private double variance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +74,7 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
         tvLocation = findViewById(R.id.temp_feed_in_summary_tv_location_name);
         tvDocNumber = findViewById(R.id.temp_feed_in_summary_tv_doc_number);
         tvTruckCode = findViewById(R.id.temp_feed_in_summary_tv_truck_code);
+        tvVariance = findViewById(R.id.temp_feed_in_summary_tv_variance);
 
         setupStartIntent();
         setupListener();
@@ -88,6 +93,7 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         refreshRecycleView();
+        tvVariance.setText("Baki Baja : " + getCalculateVariance());
     }
 
     public void setupStartIntent() {
@@ -121,6 +127,36 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
         tvTruckCode.setText("Truck Code : " + truck_code);
     }
 
+    private String getCalculateVariance() {
+        double weight_received = 0;
+        double weight_assigned = 0;
+
+        String[] lines = qr_data.split(QR_SPLIT_LINE);
+        for (String line : lines) {
+            String[] fields = line.split(QR_SPLIT_FIELD);
+
+            String type = fields[0];
+            if (type.equals(QR_LINE_TYPE_DETAIL)) {
+                double weight = Double.parseDouble(fields[4]);
+                weight_received += weight;
+            }
+        }
+
+        Cursor c = TempFeedInDetailController.getAll(db);
+        while (c.moveToNext()) {
+            weight_assigned += c.getDouble(c.getColumnIndex(TempFeedInDetailEntry.COLUMN_WEIGHT));
+        }
+
+        variance = weight_received - weight_assigned;
+        String display_variance = "";
+        if (variance > 0) {
+            display_variance += "+" + variance + " KG";
+        } else {
+            display_variance += variance + " KG";
+        }
+        return display_variance;
+    }
+
     private void setupListener() {
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +171,11 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
                 if (TempFeedInDetailController.getAll(db).getCount() > 0) {
                     AlertDialog alertDialog = new AlertDialog.Builder(TempFeedInSummaryActivity.this).create();
                     alertDialog.setTitle("Confirm to save? (Simpan?)");
-                    alertDialog.setMessage("Edit is unable after save, please check carefully before save.\n(Pengubahan dihalang selepas simpan, pastikan semua betul sebelum simpan.)");
+
+                    String message = "Edit is unable after save, please check carefully before save.\n" +
+                            "(Pengubahan dihalang selepas simpan, pastikan semua betul sebelum simpan.)";
+
+                    alertDialog.setMessage(message);
                     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "SAVE (SIMPAN)",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
@@ -269,7 +309,8 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
                 record_date,
                 doc_id,
                 doc_number,
-                truck_code);
+                truck_code,
+                variance);
 
         Cursor tempDetail = TempFeedInDetailController.getAll(db);
 

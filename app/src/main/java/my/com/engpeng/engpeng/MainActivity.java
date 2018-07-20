@@ -25,6 +25,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import my.com.engpeng.engpeng.adapter.MainTabFragmentAdapter;
+import my.com.engpeng.engpeng.controller.CatchBTAController;
+import my.com.engpeng.engpeng.controller.FeedDischargeController;
+import my.com.engpeng.engpeng.controller.FeedInController;
+import my.com.engpeng.engpeng.controller.FeedReceiveController;
+import my.com.engpeng.engpeng.controller.FeedTransferController;
+import my.com.engpeng.engpeng.controller.MortalityController;
+import my.com.engpeng.engpeng.controller.WeightController;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
 import my.com.engpeng.engpeng.utilities.UIUtils;
 
@@ -63,13 +70,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         setupTextView();
+        setupUploadStatus();
     }
 
-    private void setupVersion(){
+    private void setupVersion() {
         tvVersion = findViewById(R.id.main_tv_version_name);
         try {
             PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
-            tvVersion.setText("Ver"+pInfo.versionName);
+            tvVersion.setText("Ver" + pInfo.versionName);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -100,6 +108,20 @@ public class MainActivity extends AppCompatActivity {
         navTvCompanyName.setText(sCompanyName);
         navTvLocationName.setText(sLocationName);
         navTvLoginAs.setText(sUsername);
+    }
+
+    private void setupUploadStatus() {
+        int mortality_count = MortalityController.getCount(db, 0);
+        int catch_bta_count = CatchBTAController.getCount(db, 0);
+        int weight_count = WeightController.getCount(db, 0);
+        int feed_in_count = FeedInController.getCount(db, 0);
+        int feed_transfer_count = FeedTransferController.getCount(db, 0);
+        int feed_discharge_count = FeedDischargeController.getCount(db, 0);
+        int feed_receive_count = FeedReceiveController.getCount(db, 0);
+
+        int ttl_row = mortality_count + catch_bta_count + weight_count + feed_in_count + feed_transfer_count + feed_discharge_count + feed_receive_count;
+
+        btnUpload.setText("Upload (" + ttl_row + ")");
     }
 
     private void setupDrawerLayout() {
@@ -152,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
 
                     startActivity(new Intent(MainActivity.this, WeightReportActivity.class));
 
-                }else if (id == R.id.nav_test) {
+                } else if (id == R.id.nav_test) {
 
                     startActivity(new Intent(MainActivity.this, FunctionTestActivity.class));
 

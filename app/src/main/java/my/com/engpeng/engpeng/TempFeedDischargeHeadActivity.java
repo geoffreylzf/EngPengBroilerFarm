@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import my.com.engpeng.engpeng.controller.FeedDischargeController;
 import my.com.engpeng.engpeng.controller.TempFeedDischargeDetailController;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
 
@@ -26,8 +27,10 @@ import static my.com.engpeng.engpeng.Global.I_KEY_COMPANY;
 import static my.com.engpeng.engpeng.Global.I_KEY_DISCHARGE_CODE;
 import static my.com.engpeng.engpeng.Global.I_KEY_LOCATION;
 import static my.com.engpeng.engpeng.Global.I_KEY_RECORD_DATE;
+import static my.com.engpeng.engpeng.Global.I_KEY_RUNNING_NO;
 import static my.com.engpeng.engpeng.Global.I_KEY_TRUCK_CODE;
 import static my.com.engpeng.engpeng.Global.sLocationName;
+import static my.com.engpeng.engpeng.Global.sUsername;
 
 public class TempFeedDischargeHeadActivity extends AppCompatActivity {
 
@@ -122,12 +125,21 @@ public class TempFeedDischargeHeadActivity extends AppCompatActivity {
                 Calendar c = Calendar.getInstance();
                 String discharge_code = sdfDateTime.format(c.getTime()) + String.format(Locale.US, "%04d%04d", company_id, location_id);
 
+                String running_no = "D-" + sUsername + "-1";
+                String last_running_no = FeedDischargeController.getLastRunningNo(mDb);
+                if (!last_running_no.equals("")) {
+                    String[] arr = last_running_no.split("-");
+                    int new_no = Integer.parseInt(arr[2]) + 1;
+                    running_no = "D-" + sUsername + "-" + new_no;
+                }
+
                 Intent sumIntent = new Intent(TempFeedDischargeHeadActivity.this, TempFeedDischargeSummaryActivity.class);
                 sumIntent.putExtra(I_KEY_COMPANY, company_id);
                 sumIntent.putExtra(I_KEY_LOCATION, location_id);
                 sumIntent.putExtra(I_KEY_RECORD_DATE, dateStr);
                 sumIntent.putExtra(I_KEY_TRUCK_CODE, truck_code);
                 sumIntent.putExtra(I_KEY_DISCHARGE_CODE, discharge_code);
+                sumIntent.putExtra(I_KEY_RUNNING_NO, running_no);
                 startActivity(sumIntent);
             }
         });

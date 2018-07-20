@@ -30,6 +30,7 @@ import static my.com.engpeng.engpeng.Global.I_KEY_LOCATION;
 import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_QR_TEXT;
 import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_TEXT;
 import static my.com.engpeng.engpeng.Global.I_KEY_RECORD_DATE;
+import static my.com.engpeng.engpeng.Global.I_KEY_RUNNING_NO;
 import static my.com.engpeng.engpeng.Global.I_KEY_TRUCK_CODE;
 import static my.com.engpeng.engpeng.Global.sLocationName;
 import static my.com.engpeng.engpeng.data.EngPengContract.*;
@@ -42,7 +43,7 @@ public class TempFeedDischargeSummaryActivity extends AppCompatActivity {
     private RecyclerView rv;
 
     private int company_id, location_id;
-    private String record_date, truck_code, discharge_code;
+    private String record_date, truck_code, discharge_code, running_no;
     private SQLiteDatabase db;
     private Toast mToast;
     private TempFeedDischargeSummaryAdapter adapter;
@@ -98,6 +99,9 @@ public class TempFeedDischargeSummaryActivity extends AppCompatActivity {
         }
         if (intentStart.hasExtra(I_KEY_DISCHARGE_CODE)) {
             discharge_code = intentStart.getStringExtra(I_KEY_DISCHARGE_CODE);
+        }
+        if (intentStart.hasExtra(I_KEY_RUNNING_NO)) {
+            running_no = intentStart.getStringExtra(I_KEY_RUNNING_NO);
         }
     }
 
@@ -253,7 +257,8 @@ public class TempFeedDischargeSummaryActivity extends AppCompatActivity {
                 location_id,
                 record_date,
                 discharge_code,
-                truck_code);
+                truck_code,
+                running_no);
 
         Cursor tempDetail = TempFeedDischargeDetailController.getAll(db);
         while(tempDetail.moveToNext()){
