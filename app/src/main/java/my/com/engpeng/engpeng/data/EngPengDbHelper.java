@@ -351,6 +351,7 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
             FeedReceiveEntry.COLUMN_DISCHARGE_CODE + " TEXT, " +
             FeedReceiveEntry.COLUMN_RUNNING_NO + " TEXT, " +
             FeedReceiveEntry.COLUMN_TRUCK_CODE + " TEXT, " +
+            FeedReceiveEntry.COLUMN_VARIANCE + " REAL, " +
             FeedReceiveEntry.COLUMN_UPLOAD + " INTEGER DEFAULT 0, " +
             FeedReceiveEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP " +
             "); ";

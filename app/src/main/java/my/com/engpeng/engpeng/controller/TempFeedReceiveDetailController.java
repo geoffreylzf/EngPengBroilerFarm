@@ -40,4 +40,22 @@ public class TempFeedReceiveDetailController {
         cv.put(TempFeedReceiveDetailEntry.COLUMN_WEIGHT, weight);
         return db.insert(TempFeedReceiveDetailEntry.TABLE_NAME, null, cv);
     }
+
+    public static Cursor getAllByByItemPackingId(SQLiteDatabase db, int item_packing_id){
+        String selection = TempFeedReceiveDetailEntry.COLUMN_ITEM_PACKING_ID + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(item_packing_id),
+        };
+
+        return db.query(
+                TempFeedReceiveDetailEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+    }
 }

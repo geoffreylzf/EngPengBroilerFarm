@@ -20,6 +20,7 @@ import my.com.engpeng.engpeng.controller.FeedInDetailController;
 import my.com.engpeng.engpeng.controller.FeedItemController;
 import my.com.engpeng.engpeng.controller.FeedReceiveController;
 import my.com.engpeng.engpeng.controller.FeedReceiveDetailController;
+import my.com.engpeng.engpeng.controller.FeedTransferController;
 import my.com.engpeng.engpeng.controller.StandardWeightController;
 import my.com.engpeng.engpeng.controller.WeightController;
 import my.com.engpeng.engpeng.controller.WeightDetailController;
@@ -506,7 +507,7 @@ public class PrintUtils {
                 sku_code = "New Feed";
                 sku_name = "ITEM_PACKING_ID: " + item_packing_id;
             }
-            
+
             if (current_item_packing_id != item_packing_id) {
                 if (current_item_packing_id != 0) {
                     text += formatLine(PRINT_SEPERATOR);
@@ -604,11 +605,13 @@ public class PrintUtils {
             Double weight = cursorDetail.getDouble(cursorDetail.getColumnIndex(FeedDischargeDetailEntry.COLUMN_WEIGHT));
 
             Cursor cursorFeedItem = FeedItemController.getByErpId(db, item_packing_id);
-            cursorFeedItem.moveToFirst();
 
-            String sku_code = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_CODE));
-            String sku_name = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_NAME));
-
+            String sku_code = "New Feed";
+            String sku_name = "ITEM_PACKING_ID: " + item_packing_id;
+            if (cursorFeedItem.moveToFirst()) {
+                sku_code = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_CODE));
+                sku_name = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_NAME));
+            }
             if (current_item_packing_id != item_packing_id) {
                 if (current_item_packing_id != 0) {
                     text += formatLine(PRINT_SEPERATOR);
@@ -663,6 +666,7 @@ public class PrintUtils {
         String discharge_code = cursorFeedReceive.getString(cursorFeedReceive.getColumnIndex(FeedReceiveEntry.COLUMN_DISCHARGE_CODE));
         String running_no = cursorFeedReceive.getString(cursorFeedReceive.getColumnIndex(FeedReceiveEntry.COLUMN_RUNNING_NO));
         String truck_code = cursorFeedReceive.getString(cursorFeedReceive.getColumnIndex(FeedReceiveEntry.COLUMN_TRUCK_CODE));
+        double variance = cursorFeedReceive.getDouble(cursorFeedReceive.getColumnIndex(FeedReceiveEntry.COLUMN_VARIANCE));
 
         Cursor cursorCompany = BranchController.getBranchByErpId(db, company_id);
         cursorCompany.moveToFirst();
@@ -691,11 +695,13 @@ public class PrintUtils {
             Double weight = cursorDetail.getDouble(cursorDetail.getColumnIndex(FeedReceiveDetailEntry.COLUMN_WEIGHT));
 
             Cursor cursorFeedItem = FeedItemController.getByErpId(db, item_packing_id);
-            cursorFeedItem.moveToFirst();
 
-            String sku_code = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_CODE));
-            String sku_name = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_NAME));
-
+            String sku_code = "New Feed";
+            String sku_name = "ITEM_PACKING_ID: " + item_packing_id;
+            if (cursorFeedItem.moveToFirst()) {
+                sku_code = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_CODE));
+                sku_name = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_NAME));
+            }
             if (current_item_packing_id != item_packing_id) {
                 if (current_item_packing_id != 0) {
                     text += formatLine(PRINT_SEPERATOR);
@@ -719,6 +725,11 @@ public class PrintUtils {
         text += formatLine(PRINT_HALF_SEPERATOR);
 
         text += formatLine("");
+        String variance_str = variance + " KG";
+        if (variance > 0) {
+            variance_str = "+" + variance_str;
+        }
+        text += formatLine("Variance : " + variance_str);
         text += formatLine("Printed by: " + sUsername);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         SimpleDateFormat sdfTime = new SimpleDateFormat("hh:mm a", Locale.US);
@@ -734,6 +745,71 @@ public class PrintUtils {
         text += formatLine(halfLine("    --------------    ") + halfLine("    --------------    "));
         text += formatLine(halfLine("   Mandor/Supervisor  ") + halfLine("        Driver        "));
         text += formatLine("                  --END--                   ");
+
+        return text;
+    }
+
+    public static String printFeedTransfer(SQLiteDatabase db, long feed_transfer_id) {
+        String text = "";
+
+        Cursor cursorFeedTransfer = FeedTransferController.getById(db, feed_transfer_id);
+        cursorFeedTransfer.moveToFirst();
+
+        int company_id = cursorFeedTransfer.getInt(cursorFeedTransfer.getColumnIndex(FeedTransferEntry.COLUMN_COMPANY_ID));
+        int location_id = cursorFeedTransfer.getInt(cursorFeedTransfer.getColumnIndex(FeedTransferEntry.COLUMN_LOCATION_ID));
+        String record_date = cursorFeedTransfer.getString(cursorFeedTransfer.getColumnIndex(FeedTransferEntry.COLUMN_RECORD_DATE));
+        String running_no = cursorFeedTransfer.getString(cursorFeedTransfer.getColumnIndex(FeedTransferEntry.COLUMN_RUNNING_NO));
+        int discharge_house = cursorFeedTransfer.getInt(cursorFeedTransfer.getColumnIndex(FeedTransferEntry.COLUMN_DISCHARGE_HOUSE));
+        int receive_house = cursorFeedTransfer.getInt(cursorFeedTransfer.getColumnIndex(FeedTransferEntry.COLUMN_RECEIVE_HOUSE));
+        int item_packing_id = cursorFeedTransfer.getInt(cursorFeedTransfer.getColumnIndex(FeedTransferEntry.COLUMN_ITEM_PACKING_ID));
+        double weight = cursorFeedTransfer.getDouble(cursorFeedTransfer.getColumnIndex(FeedTransferEntry.COLUMN_WEIGHT));
+
+        Cursor cursorCompany = BranchController.getBranchByErpId(db, company_id);
+        cursorCompany.moveToFirst();
+        String company_name = cursorCompany.getString(cursorCompany.getColumnIndex(BranchEntry.COLUMN_BRANCH_NAME));
+
+        Cursor cursorLocation = BranchController.getBranchByErpId(db, location_id);
+        cursorLocation.moveToFirst();
+        String location_code = cursorLocation.getString(cursorLocation.getColumnIndex(BranchEntry.COLUMN_BRANCH_CODE));
+
+        text += formatLine("");
+        text += formatLine(company_name);
+        text += formatLine("Inter House Transfer");
+        text += formatLine("Location: " + location_code);
+        text += formatLine("Date: " + record_date);
+        text += formatLine("Running No: " + running_no);
+        text += formatLine("");
+        text += formatLine("Discharge House: #" + discharge_house);
+        text += formatLine("Receive House: #" + receive_house);
+
+        Cursor cursorFeedItem = FeedItemController.getByErpId(db, item_packing_id);
+
+        String sku_code = "New Feed";
+        String sku_name = "ITEM_PACKING_ID: " + item_packing_id;
+        if (cursorFeedItem.moveToFirst()) {
+            sku_code = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_CODE));
+            sku_name = cursorFeedItem.getString(cursorFeedItem.getColumnIndex(FeedItemEntry.COLUMN_SKU_NAME));
+        }
+
+        text += formatLine("Feed Code: " + sku_code);
+        text += formatLine("Feed Name: " + sku_name);
+        text += formatLine("Feed Weight: " + weight +"KG");
+        text += formatLine("");
+        text += formatLine("Printed by: " + sUsername);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        SimpleDateFormat sdfTime = new SimpleDateFormat("hh:mm a", Locale.US);
+        Date currentTime = Calendar.getInstance().getTime();
+
+        text += formatLine("Date: " + sdf.format(currentTime));
+        text += formatLine("Time: " + sdfTime.format(currentTime));
+        text += formatLine("-");
+        text += formatLine("-");
+        text += formatLine("-");
+        text += formatLine("-");
+        text += formatLine(halfLine("    --------------    ") + halfLine("    --------------    "));
+        text += formatLine(halfLine("         Keluar       ") + halfLine("        Terima        "));
+        text += formatLine("                  --END--                   ");
+
 
         return text;
     }

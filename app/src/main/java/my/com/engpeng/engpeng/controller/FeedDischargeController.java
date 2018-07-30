@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import static my.com.engpeng.engpeng.Global.RUNNING_CODE_DISCHARGE;
 import static my.com.engpeng.engpeng.Global.sUsername;
 import static my.com.engpeng.engpeng.data.EngPengContract.FeedDischargeEntry;
 
@@ -188,7 +189,7 @@ public class FeedDischargeController {
 
     public static String getLastRunningNo(SQLiteDatabase db) {
         String running_no = "";
-        String filter = "D-" + sUsername + "-";
+        String filter = RUNNING_CODE_DISCHARGE + "-" + sUsername + "-";
 
         String[] columns = new String[]{
                 "MAX(" + FeedDischargeEntry.COLUMN_RUNNING_NO + ") AS " + FeedDischargeEntry.COLUMN_RUNNING_NO,
@@ -206,12 +207,12 @@ public class FeedDischargeController {
                 null
         );
 
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             running_no = cursor.getString(cursor.getColumnIndex(FeedDischargeEntry.COLUMN_RUNNING_NO));
-            if(running_no == null){
+            if (running_no == null) {
                 running_no = "";
             }
         }
-        return  running_no;
+        return running_no;
     }
 }

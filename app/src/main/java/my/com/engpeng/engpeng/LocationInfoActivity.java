@@ -358,6 +358,7 @@ public class LocationInfoActivity extends AppCompatActivity
                     cv.put(FeedTransferEntry.COLUMN_COMPANY_ID, feed_transfer.getInt("company_id"));
                     cv.put(FeedTransferEntry.COLUMN_LOCATION_ID, feed_transfer.getInt("location_id"));
                     cv.put(FeedTransferEntry.COLUMN_RECORD_DATE, feed_transfer.getString("record_date"));
+                    cv.put(FeedTransferEntry.COLUMN_RUNNING_NO, feed_transfer.getString("running_no"));
                     cv.put(FeedTransferEntry.COLUMN_DISCHARGE_HOUSE, feed_transfer.getInt("discharge_house"));
                     cv.put(FeedTransferEntry.COLUMN_RECEIVE_HOUSE, feed_transfer.getInt("receive_house"));
                     cv.put(FeedTransferEntry.COLUMN_ITEM_PACKING_ID, feed_transfer.getInt("item_packing_id"));
@@ -426,6 +427,7 @@ public class LocationInfoActivity extends AppCompatActivity
                     cv.put(FeedReceiveEntry.COLUMN_DISCHARGE_CODE, feed_receive.getString("discharge_code"));
                     cv.put(FeedReceiveEntry.COLUMN_RUNNING_NO, feed_receive.getString("running_no"));
                     cv.put(FeedReceiveEntry.COLUMN_TRUCK_CODE, feed_receive.getString("truck_code"));
+                    cv.put(FeedReceiveEntry.COLUMN_VARIANCE, feed_receive.getDouble("variance"));
                     cv.put(FeedReceiveEntry.COLUMN_TIMESTAMP, feed_receive.getString("timestamp"));
                     cv.put(FeedReceiveEntry.COLUMN_UPLOAD, 1);
 

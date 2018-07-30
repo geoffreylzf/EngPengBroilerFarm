@@ -26,12 +26,16 @@ import my.com.engpeng.engpeng.controller.FeedTransferController;
 import my.com.engpeng.engpeng.data.EngPengContract;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
 import my.com.engpeng.engpeng.model.FeedItem;
+import my.com.engpeng.engpeng.utilities.PrintUtils;
 
 import static my.com.engpeng.engpeng.Global.I_KEY_COMPANY;
 import static my.com.engpeng.engpeng.Global.I_KEY_DISCHARGE_HOUSE;
 import static my.com.engpeng.engpeng.Global.I_KEY_LOCATION;
+import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_TEXT;
 import static my.com.engpeng.engpeng.Global.I_KEY_RECEIVE_HOUSE;
 import static my.com.engpeng.engpeng.Global.I_KEY_RECORD_DATE;
+import static my.com.engpeng.engpeng.Global.RUNNING_CODE_TRANSFER;
+import static my.com.engpeng.engpeng.Global.sUsername;
 
 public class TempFeedTransferDetailActivity extends AppCompatActivity {
 
@@ -46,6 +50,7 @@ public class TempFeedTransferDetailActivity extends AppCompatActivity {
     private String record_date;
     private int company_id, location_id, discharge_house, receive_house;
     private Toast mToast;
+    private Long feed_transfer_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,8 +156,11 @@ public class TempFeedTransferDetailActivity extends AppCompatActivity {
                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(mainIntent);
 
-                    Intent historyIntent = new Intent(TempFeedTransferDetailActivity.this, FeedTransferHistoryActivity.class);
-                    startActivity(historyIntent);
+                    String printText = PrintUtils.printFeedTransfer(mDb, feed_transfer_id);
+
+                    Intent ppIntent = new Intent(TempFeedTransferDetailActivity.this, PrintPreviewActivity.class);
+                    ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
+                    startActivity(ppIntent);
                 }
             }
         });
@@ -194,10 +202,19 @@ public class TempFeedTransferDetailActivity extends AppCompatActivity {
             }
         }
 
-        FeedTransferController.add(mDb,
+        String running_no = RUNNING_CODE_TRANSFER +"-" + sUsername + "-1";
+        String last_running_no = FeedTransferController.getLastRunningNo(mDb);
+        if (!last_running_no.equals("")) {
+            String[] arr = last_running_no.split("-");
+            int new_no = Integer.parseInt(arr[2]) + 1;
+            running_no = RUNNING_CODE_TRANSFER +"-" + sUsername + "-" + new_no;
+        }
+
+        feed_transfer_id = FeedTransferController.add(mDb,
                 company_id,
                 location_id,
                 record_date,
+                running_no,
                 discharge_house,
                 receive_house,
                 item_packing_id,

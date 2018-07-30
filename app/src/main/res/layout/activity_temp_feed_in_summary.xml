@@ -88,7 +88,7 @@
 
         <TextView
             style="@style/TableHeaderTextViewStyle"
-            android:text="@string/wgt"
+            android:text="@string/wgt_kg"
             android:layout_weight="0.4"/>
 
     </LinearLayout>

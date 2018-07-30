@@ -94,6 +94,11 @@ public class Global {
     public static final String QR_LINE_TYPE_DETAIL = "D";
     public static final String QR_LINE_TYPE_COMPARTMENT = "C";
 
+    //running_code
+    public static final String RUNNING_CODE_DISCHARGE = "D";
+    public static final String RUNNING_CODE_RECEIVE = "R";
+    public static final String RUNNING_CODE_TRANSFER = "T";
+
     public static void setupGlobalVariables(Context context, SQLiteDatabase db) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
         if (prefs.contains(P_KEY_USERNAME) && prefs.contains(P_KEY_PASSWORD)) {
@@ -115,13 +120,13 @@ public class Global {
             } else {
                 Cursor companyCursor = BranchController.getBranchByErpId(db, sCompanyId);
                 Cursor locationCursor = BranchController.getBranchByErpId(db, sLocationId);
-                if (companyCursor.moveToFirst() && locationCursor.moveToFirst() ) {
+                if (companyCursor.moveToFirst() && locationCursor.moveToFirst()) {
                     sCompanyCode = companyCursor.getString(companyCursor.getColumnIndex(EngPengContract.BranchEntry.COLUMN_BRANCH_CODE));
                     sCompanyName = companyCursor.getString(companyCursor.getColumnIndex(EngPengContract.BranchEntry.COLUMN_BRANCH_NAME));
 
                     sLocationCode = locationCursor.getString(locationCursor.getColumnIndex(EngPengContract.BranchEntry.COLUMN_BRANCH_CODE));
                     sLocationName = locationCursor.getString(locationCursor.getColumnIndex(EngPengContract.BranchEntry.COLUMN_BRANCH_NAME));
-                }else{
+                } else {
                     setEmptyCompanyLocation();
                 }
             }
@@ -131,7 +136,7 @@ public class Global {
         }
     }
 
-    public static void setEmptyCompanyLocation(){
+    public static void setEmptyCompanyLocation() {
         sCompanyId = 0;
         sLocationId = 0;
 

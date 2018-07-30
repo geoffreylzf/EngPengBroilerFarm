@@ -36,6 +36,7 @@ import static my.com.engpeng.engpeng.Global.I_KEY_TRUCK_CODE;
 import static my.com.engpeng.engpeng.Global.QR_LINE_TYPE_HEAD;
 import static my.com.engpeng.engpeng.Global.QR_SPLIT_FIELD;
 import static my.com.engpeng.engpeng.Global.QR_SPLIT_LINE;
+import static my.com.engpeng.engpeng.Global.RUNNING_CODE_RECEIVE;
 import static my.com.engpeng.engpeng.Global.sLocationName;
 import static my.com.engpeng.engpeng.Global.sUsername;
 
@@ -112,6 +113,7 @@ public class TempFeedReceiveHeadActivity extends AppCompatActivity {
                             }
                         }, year, month, day);
                 dpd.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                dpd.getDatePicker().setMaxDate((System.currentTimeMillis() - 1000) + (1000 * 60 * 60 * 24 * 1));
                 dpd.show();
             }
         });
@@ -156,12 +158,12 @@ public class TempFeedReceiveHeadActivity extends AppCompatActivity {
                             }
                         }
 
-                        String running_no = "R-" + sUsername + "-1";
+                        String running_no = RUNNING_CODE_RECEIVE + "-" + sUsername + "-1";
                         String last_running_no = FeedReceiveController.getLastRunningNo(mDb);
                         if (!last_running_no.equals("")) {
                             String[] arr = last_running_no.split("-");
                             int new_no = Integer.parseInt(arr[2]) + 1;
-                            running_no = "R-" + sUsername + "-" + new_no;
+                            running_no = RUNNING_CODE_RECEIVE + "-" + sUsername + "-" + new_no;
                         }
 
                         Intent selectionIntent = new Intent(TempFeedReceiveHeadActivity.this, TempFeedReceiveSummaryActivity.class);

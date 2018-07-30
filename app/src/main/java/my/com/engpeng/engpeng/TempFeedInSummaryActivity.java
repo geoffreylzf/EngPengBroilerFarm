@@ -93,7 +93,6 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         refreshRecycleView();
-        tvVariance.setText("Baki Baja : " + getCalculateVariance());
     }
 
     public void setupStartIntent() {
@@ -278,6 +277,7 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
 
     private void refreshRecycleView() {
         adapter.swapCursor(TempFeedInDetailController.getAll(db));
+        tvVariance.setText("Baki Baja : " + getCalculateVariance());
     }
 
     @Override

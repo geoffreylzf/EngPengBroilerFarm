@@ -118,6 +118,13 @@ public class TempFeedReceiveDetailActivity extends AppCompatActivity
                     sku_name = "ITEM_PACKING_ID: " + sku_id;
                 }
 
+                Cursor c = TempFeedReceiveDetailController.getAllByByItemPackingId(mDb, sku_id);
+                double weight_assigned = 0;
+                while (c.moveToNext()) {
+                    weight_assigned += c.getDouble(c.getColumnIndex(TempFeedReceiveDetailEntry.COLUMN_WEIGHT));
+                }
+                weight -= weight_assigned;
+
                 FeedItem fi = new FeedItem();
                 fi.setErpId(sku_id);
                 fi.setSkuCode(sku_code);

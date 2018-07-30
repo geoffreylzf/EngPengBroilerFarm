@@ -1,6 +1,7 @@
 package my.com.engpeng.engpeng.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +11,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import my.com.engpeng.engpeng.PrintPreviewActivity;
 import my.com.engpeng.engpeng.R;
 import my.com.engpeng.engpeng.controller.FeedItemController;
 import my.com.engpeng.engpeng.data.EngPengContract;
+import my.com.engpeng.engpeng.utilities.PrintUtils;
 
+import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_TEXT;
 import static my.com.engpeng.engpeng.data.EngPengContract.*;
 
 public class FeedTransferHistoryAdapter extends RecyclerView.Adapter<FeedTransferHistoryAdapter.ItemViewHolder> {
@@ -38,7 +42,7 @@ public class FeedTransferHistoryAdapter extends RecyclerView.Adapter<FeedTransfe
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         if (!cursor.moveToPosition(position)) return;
-        long id = cursor.getLong(cursor.getColumnIndex(FeedTransferEntry._ID));
+        final long feed_transfer_id = cursor.getLong(cursor.getColumnIndex(FeedTransferEntry._ID));
         String record_date = cursor.getString(cursor.getColumnIndex(FeedTransferEntry.COLUMN_RECORD_DATE));
         String discharge_house = cursor.getString(cursor.getColumnIndex(FeedTransferEntry.COLUMN_DISCHARGE_HOUSE));
         String receive_house = cursor.getString(cursor.getColumnIndex(FeedTransferEntry.COLUMN_RECEIVE_HOUSE));
@@ -67,13 +71,23 @@ public class FeedTransferHistoryAdapter extends RecyclerView.Adapter<FeedTransfe
         holder.tvWeight.setText(weight);
         holder.tvUpload.setText(str_upload);
 
-        holder.itemView.setTag(id);
+        holder.itemView.setTag(feed_transfer_id);
 
         if (position % 2 == 0) {
             holder.ll.setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryXLight));
         } else {
             holder.ll.setBackgroundColor(context.getResources().getColor(R.color.colorLayoutBackground));
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String printText = PrintUtils.printFeedTransfer(db, feed_transfer_id);
+                Intent ppIntent = new Intent(context, PrintPreviewActivity.class);
+                ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
+                context.startActivity(ppIntent);
+            }
+        });
     }
 
     @Override

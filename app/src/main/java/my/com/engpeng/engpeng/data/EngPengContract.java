@@ -221,6 +221,7 @@ public class EngPengContract {
         public static final String COLUMN_DISCHARGE_CODE = "discharge_code";
         public static final String COLUMN_RUNNING_NO = "running_no";
         public static final String COLUMN_TRUCK_CODE = "truck_code";
+        public static final String COLUMN_VARIANCE = "variance";
         public static final String COLUMN_UPLOAD = "upload";
         public static final String COLUMN_TIMESTAMP = "timestamp";
     }

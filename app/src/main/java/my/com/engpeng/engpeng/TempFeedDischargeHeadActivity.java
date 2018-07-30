@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,6 +28,7 @@ import static my.com.engpeng.engpeng.Global.I_KEY_LOCATION;
 import static my.com.engpeng.engpeng.Global.I_KEY_RECORD_DATE;
 import static my.com.engpeng.engpeng.Global.I_KEY_RUNNING_NO;
 import static my.com.engpeng.engpeng.Global.I_KEY_TRUCK_CODE;
+import static my.com.engpeng.engpeng.Global.RUNNING_CODE_DISCHARGE;
 import static my.com.engpeng.engpeng.Global.sLocationName;
 import static my.com.engpeng.engpeng.Global.sUsername;
 
@@ -106,6 +106,7 @@ public class TempFeedDischargeHeadActivity extends AppCompatActivity {
                             }
                         }, year, month, day);
                 dpd.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                dpd.getDatePicker().setMaxDate((System.currentTimeMillis() - 1000) + (1000 * 60 * 60 * 24 * 1));
                 dpd.show();
             }
         });
@@ -125,12 +126,12 @@ public class TempFeedDischargeHeadActivity extends AppCompatActivity {
                 Calendar c = Calendar.getInstance();
                 String discharge_code = sdfDateTime.format(c.getTime()) + String.format(Locale.US, "%04d%04d", company_id, location_id);
 
-                String running_no = "D-" + sUsername + "-1";
+                String running_no = RUNNING_CODE_DISCHARGE + "-" + sUsername + "-1";
                 String last_running_no = FeedDischargeController.getLastRunningNo(mDb);
                 if (!last_running_no.equals("")) {
                     String[] arr = last_running_no.split("-");
                     int new_no = Integer.parseInt(arr[2]) + 1;
-                    running_no = "D-" + sUsername + "-" + new_no;
+                    running_no = RUNNING_CODE_DISCHARGE + "-" + sUsername + "-" + new_no;
                 }
 
                 Intent sumIntent = new Intent(TempFeedDischargeHeadActivity.this, TempFeedDischargeSummaryActivity.class);

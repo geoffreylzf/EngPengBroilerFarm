@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import my.com.engpeng.engpeng.adapter.CatchBTAAdapter;
@@ -175,21 +177,55 @@ public class CatchBTAActivity extends AppCompatActivity {
             }
         }
         if (id == R.id.action_catch_bta_print) {
-            if (false) { //TODO change false to is_upload when deploy
+            if (is_upload) {
 
-                UIUtils.getMessageDialog(CatchBTAActivity.this, "Print Failed", "Uploaded data is unable to print").show();
+                //UIUtils.getMessageDialog(CatchBTAActivity.this, "Print Failed", "Uploaded data is unable to print").show();
+
+                AlertDialog alertDialog = new AlertDialog.Builder(CatchBTAActivity.this).create();
+                alertDialog.setTitle("Uploaded data need enter password to print");
+
+                final EditText etPassword = new EditText(this);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                etPassword.setLayoutParams(lp);
+                alertDialog.setView(etPassword);
+
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "PRINT",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (etPassword.getText().toString().equals("8833")) {
+                                    dialog.dismiss();
+                                    printReceipt();
+                                }else{
+                                    UIUtils.getMessageDialog(CatchBTAActivity.this, "Unable to print", "Wrong password").show();
+                                    dialog.dismiss();
+                                }
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
 
             } else {
-                String printText = PrintUtils.printCatchBTA(this, db, catch_bta_id);
-
-                Intent ppIntent = new Intent(CatchBTAActivity.this, PrintPreviewActivity.class);
-                ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
-                ppIntent.putExtra(I_KEY_MODULE, MODULE_CATCH_BTA);
-                ppIntent.putExtra(I_KEY_ID, catch_bta_id);
-                startActivity(ppIntent);
+                printReceipt();
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void printReceipt(){
+        String printText = PrintUtils.printCatchBTA(this, db, catch_bta_id);
+
+        Intent ppIntent = new Intent(CatchBTAActivity.this, PrintPreviewActivity.class);
+        ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
+        ppIntent.putExtra(I_KEY_MODULE, MODULE_CATCH_BTA);
+        ppIntent.putExtra(I_KEY_ID, catch_bta_id);
+        startActivity(ppIntent);
     }
 
 }

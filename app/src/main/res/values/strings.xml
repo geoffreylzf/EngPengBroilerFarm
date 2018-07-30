@@ -158,6 +158,7 @@
     <string name="doc_number2">Document Number (No. Dokumen)</string>
     <string name="catching_bta">Catching (BTA)</string>
     <string name="weight_kg">Weight (KG)</string>
+    <string name="wgt_kg">Wgt (KG)</string>
     <string name="weight_kg2">Weight (Timbangan - KG)</string>
     <string name="cage">Cage</string>
     <string name="with_cover_qty">With Cover Qty</string>
@@ -168,6 +169,7 @@
     <string name="hint_enter_mortality">Enter amount for mortality</string>
     <string name="hint_enter_reject">Enter amount for reject</string>
     <string name="hint_swipe_to_delete">Swipe to delete</string>
+    <string name="hint_swipe_to_delete_and_tap_to_print">Swipe to delete / Tap to print</string>
     <string name="hint_enter_kfc">Enter amount for KFC</string>
     <string name="hint_enter_grade_a">Enter amount for Grade A</string>
     <string name="hint_enter_grade_b">Enter amount for Grade B</string>

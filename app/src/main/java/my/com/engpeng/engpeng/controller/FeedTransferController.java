@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import static my.com.engpeng.engpeng.Global.RUNNING_CODE_TRANSFER;
+import static my.com.engpeng.engpeng.Global.sUsername;
 import static my.com.engpeng.engpeng.data.EngPengContract.FeedTransferEntry;
 
 public class FeedTransferController {
@@ -12,6 +14,7 @@ public class FeedTransferController {
                            int company_id,
                            int location_id,
                            String record_date,
+                           String running_no,
                            int discharge_house,
                            int receive_house,
                            int item_packing_id,
@@ -21,6 +24,7 @@ public class FeedTransferController {
         cv.put(FeedTransferEntry.COLUMN_COMPANY_ID, company_id);
         cv.put(FeedTransferEntry.COLUMN_LOCATION_ID, location_id);
         cv.put(FeedTransferEntry.COLUMN_RECORD_DATE, record_date);
+        cv.put(FeedTransferEntry.COLUMN_RUNNING_NO, running_no);
         cv.put(FeedTransferEntry.COLUMN_DISCHARGE_HOUSE, discharge_house);
         cv.put(FeedTransferEntry.COLUMN_RECEIVE_HOUSE, receive_house);
         cv.put(FeedTransferEntry.COLUMN_ITEM_PACKING_ID, item_packing_id);
@@ -92,7 +96,7 @@ public class FeedTransferController {
         ).getCount();
     }
 
-    public static String getUploadJson(SQLiteDatabase db, int upload){
+    public static String getUploadJson(SQLiteDatabase db, int upload) {
         String selection = FeedTransferEntry.COLUMN_UPLOAD + " = ? ";
 
         String[] selectionArgs = new String[]{
@@ -115,6 +119,7 @@ public class FeedTransferController {
             json += "\"" + FeedTransferEntry.COLUMN_COMPANY_ID + "\": " + cursor.getString(cursor.getColumnIndex(FeedTransferEntry.COLUMN_COMPANY_ID)) + ",";
             json += "\"" + FeedTransferEntry.COLUMN_LOCATION_ID + "\": " + cursor.getString(cursor.getColumnIndex(FeedTransferEntry.COLUMN_LOCATION_ID)) + ",";
             json += "\"" + FeedTransferEntry.COLUMN_RECORD_DATE + "\":\" " + cursor.getString(cursor.getColumnIndex(FeedTransferEntry.COLUMN_RECORD_DATE)) + "\",";
+            json += "\"" + FeedTransferEntry.COLUMN_RUNNING_NO + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedTransferEntry.COLUMN_RUNNING_NO)) + "\",";
             json += "\"" + FeedTransferEntry.COLUMN_DISCHARGE_HOUSE + "\": " + cursor.getString(cursor.getColumnIndex(FeedTransferEntry.COLUMN_DISCHARGE_HOUSE)) + ",";
             json += "\"" + FeedTransferEntry.COLUMN_RECEIVE_HOUSE + "\": " + cursor.getString(cursor.getColumnIndex(FeedTransferEntry.COLUMN_RECEIVE_HOUSE)) + ",";
             json += "\"" + FeedTransferEntry.COLUMN_ITEM_PACKING_ID + "\": " + cursor.getString(cursor.getColumnIndex(FeedTransferEntry.COLUMN_ITEM_PACKING_ID)) + ",";
@@ -151,5 +156,34 @@ public class FeedTransferController {
             long feed_transfer_id = cursor.getLong(cursor.getColumnIndex(FeedTransferEntry._ID));
             remove(db, feed_transfer_id);
         }
+    }
+
+    public static String getLastRunningNo(SQLiteDatabase db) {
+        String running_no = "";
+        String filter = RUNNING_CODE_TRANSFER + "-" + sUsername + "-";
+
+        String[] columns = new String[]{
+                "MAX(" + FeedTransferEntry.COLUMN_RUNNING_NO + ") AS " + FeedTransferEntry.COLUMN_RUNNING_NO,
+        };
+
+        String selection = FeedTransferEntry.COLUMN_RUNNING_NO + " LIKE '" + filter + "%' ";
+
+        Cursor cursor = db.query(
+                FeedTransferEntry.TABLE_NAME,
+                columns,
+                selection,
+                null,
+                null,
+                null,
+                null
+        );
+
+        if (cursor.moveToFirst()) {
+            running_no = cursor.getString(cursor.getColumnIndex(FeedTransferEntry.COLUMN_RUNNING_NO));
+            if (running_no == null) {
+                running_no = "";
+            }
+        }
+        return running_no;
     }
 }

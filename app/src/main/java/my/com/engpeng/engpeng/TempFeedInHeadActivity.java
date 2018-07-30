@@ -111,6 +111,7 @@ public class TempFeedInHeadActivity extends AppCompatActivity {
                             }
                         }, year, month, day);
                 dpd.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                dpd.getDatePicker().setMaxDate((System.currentTimeMillis() - 1000) + (1000 * 60 * 60 * 24 * 1));
                 dpd.show();
             }
         });

@@ -32,6 +32,9 @@ import static my.com.engpeng.engpeng.Global.I_KEY_QR_DATA;
 import static my.com.engpeng.engpeng.Global.I_KEY_RECORD_DATE;
 import static my.com.engpeng.engpeng.Global.I_KEY_RUNNING_NO;
 import static my.com.engpeng.engpeng.Global.I_KEY_TRUCK_CODE;
+import static my.com.engpeng.engpeng.Global.QR_LINE_TYPE_DETAIL;
+import static my.com.engpeng.engpeng.Global.QR_SPLIT_FIELD;
+import static my.com.engpeng.engpeng.Global.QR_SPLIT_LINE;
 import static my.com.engpeng.engpeng.Global.sLocationName;
 import static my.com.engpeng.engpeng.data.EngPengContract.*;
 
@@ -39,7 +42,7 @@ public class TempFeedReceiveSummaryActivity extends AppCompatActivity {
 
     private FloatingActionButton fabAdd;
     private Button btnEnd;
-    private TextView tvLocation, tvDischargeCode, tvTruckCode;
+    private TextView tvLocation, tvDischargeCode, tvTruckCode, tvVariance;
     private RecyclerView rv;
 
     private int company_id, location_id;
@@ -47,6 +50,7 @@ public class TempFeedReceiveSummaryActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private Toast mToast;
     private TempFeedReceiveSummaryAdapter adapter;
+    private double variance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,7 @@ public class TempFeedReceiveSummaryActivity extends AppCompatActivity {
         tvLocation = findViewById(R.id.temp_feed_receive_summary_tv_location_name);
         tvDischargeCode = findViewById(R.id.temp_feed_receive_summary_tv_discharge_code);
         tvTruckCode = findViewById(R.id.temp_feed_receive_summary_tv_truck_code);
+        tvVariance = findViewById(R.id.temp_feed_receive_summary_tv_variance);
 
         setupStartIntent();
         setupListener();
@@ -112,6 +117,35 @@ public class TempFeedReceiveSummaryActivity extends AppCompatActivity {
         tvLocation.setText("Location : " + sLocationName);
         tvDischargeCode.setText("Discharge Code : " + discharge_code);
         tvTruckCode.setText("Truck Code : " + truck_code);
+    }
+
+    private String getCalculateVariance() {
+        double weight_received = 0;
+        double weight_assigned = 0;
+
+        String[] lines = qr_data.split(QR_SPLIT_LINE);
+        for (String line : lines) {
+            String[] fields = line.split(QR_SPLIT_FIELD);
+
+            String type = fields[0];
+            if (type.equals(QR_LINE_TYPE_DETAIL)) {
+                double weight = Double.parseDouble(fields[2]);
+                weight_received += weight;
+            }
+        }
+
+        Cursor c = TempFeedReceiveDetailController.getAll(db);
+        while (c.moveToNext()) {
+            weight_assigned += c.getDouble(c.getColumnIndex(TempFeedReceiveDetailEntry.COLUMN_WEIGHT));
+        }
+        variance = weight_received - weight_assigned;
+        String display_variance = "";
+        if (variance > 0) {
+            display_variance += "+" + variance + " KG";
+        } else {
+            display_variance += variance + " KG";
+        }
+        return display_variance;
     }
 
     private void setupListener() {
@@ -231,6 +265,7 @@ public class TempFeedReceiveSummaryActivity extends AppCompatActivity {
 
     private void refreshRecycleView() {
         adapter.swapCursor(TempFeedReceiveDetailController.getAll(db));
+        tvVariance.setText("Baki Baja : " + getCalculateVariance());
     }
 
     @Override
@@ -262,7 +297,8 @@ public class TempFeedReceiveSummaryActivity extends AppCompatActivity {
                 record_date,
                 discharge_code,
                 truck_code,
-                running_no);
+                running_no,
+                variance);
 
         Cursor tempDetail = TempFeedReceiveDetailController.getAll(db);
 

@@ -40,7 +40,7 @@ public class TempFeedInDetailFeedAdapter extends RecyclerView.Adapter<TempFeedIn
     @Override
     public void onBindViewHolder(final ItemViewHolder holder, int position) {
         final FeedItem fi = mFeedItemList.get(position);
-        holder.tvSkuCode.setText(fi.getSkuCode() + " (" + fi.getQty() + fi.getItemUomCode() + ")");
+        holder.tvSkuCode.setText(fi.getSkuCode() + " (" + String.format("%.2f", fi.getQty()) + fi.getItemUomCode() + ")");
         holder.tvSkuName.setText(fi.getSkuName());
         holder.view.setBackgroundColor(fi.isSelect() ?
                 mContext.getResources().getColor(R.color.colorPrimaryLight) : Color.WHITE);
