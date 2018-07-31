@@ -132,6 +132,17 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
         }
 
         if (oldVer <= 12) {
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS feed_item");
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS feed_in");
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS feed_in_detail");
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS temp_feed_in_detail");
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS feed_transfer");
+
+            sqLiteDatabase.execSQL(SQL_CREATE_FEED_ITEM_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_FEED_IN_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_FEED_IN_DETAIL_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_TEMP_FEED_IN_DETAIL_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_FEED_TRANSFER_TABLE);
             sqLiteDatabase.execSQL(SQL_CREATE_FEED_DISCHARGE_TABLE);
             sqLiteDatabase.execSQL(SQL_CREATE_FEED_DISCHARGE_DETAIL_TABLE);
             sqLiteDatabase.execSQL(SQL_CREATE_TEMP_FEED_DISCHARGE_DETAIL_TABLE);

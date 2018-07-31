@@ -6,7 +6,7 @@ android {
         applicationId "my.com.engpeng.engpeng"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 43
+        versionCode 45
         //30-4.18.2 - 20180417 - Prevent Back Button
         //31-4.18.3 - 20180418
         //34-4.18.6 - 20180418
@@ -18,7 +18,8 @@ android {
         //41-4.21.4 - 20180522 - Add document type to catch bta receipt
         //42-4.21.5 - 20180524 - Change network connection path (port from 5035 to 5030)
         //43-4.21.6 - 20180613 - Add cover count on catch BTA receipt
-        versionName "4.21.6"
+        //45-4.21.7 - 20180730 - Add feed module
+        versionName "4.21.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
