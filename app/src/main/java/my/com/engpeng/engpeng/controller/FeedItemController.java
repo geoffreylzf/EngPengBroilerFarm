@@ -40,7 +40,7 @@ public class FeedItemController {
                 null,
                 null,
                 null,
-                FeedItemEntry._ID
+                FeedItemEntry.COLUMN_ITEM_UOM_ID
         );
     }
 
@@ -54,7 +54,7 @@ public class FeedItemController {
                 null,
                 null,
                 null,
-                FeedItemEntry._ID
+                FeedItemEntry.COLUMN_ITEM_UOM_ID
         );
     }
 
