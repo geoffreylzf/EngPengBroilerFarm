@@ -27,6 +27,8 @@
     <string name="upload2">Upload (Hantar ke Office)</string>
     <string name="back">Back</string>
     <string name="save">Save</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="bluetooth2">Timbangan</string>
     <string name="save2">Save (Simpan)</string>
     <string name="save_and_return">Save &amp; Return</string>
     <string name="settings">Setting</string>
@@ -121,6 +123,9 @@
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="gross_weight_kg">Gross Weight (KG)</string>
+    <string name="tare_weight_kf">Tare Weight (KG)</string>
+    <string name="nett_weight_kf">Nett Weight (KG)</string>
     <string name="logo">Logo</string>
     <string name="prototype">Development</string>
     <string name="login_as">Login as</string>
@@ -149,6 +154,7 @@
     <string name="send_log">Send Log</string>
     <string name="send">Send</string>
     <string name="get">Get</string>
+    <string name="get2">Get (Dapat)</string>
     <string name="bta_customer">Customer (PL)</string>
     <string name="bta_slaughterhouse">Kilang Potong (IFT/OP)</string>
     <string name="bta_op">OP</string>
@@ -165,6 +171,7 @@
     <string name="with_cover">With Cover</string>
     <string name="show_all2">Show All (Tunjuk Semua)</string>
     <string name="search2">Search (Cari)</string>
+    <string name="status">Status</string>
 
     <string name="hint_enter_mortality">Enter amount for mortality</string>
     <string name="hint_enter_reject">Enter amount for reject</string>

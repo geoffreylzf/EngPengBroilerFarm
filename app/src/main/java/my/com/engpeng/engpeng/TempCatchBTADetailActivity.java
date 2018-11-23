@@ -30,14 +30,16 @@ import static my.com.engpeng.engpeng.Global.I_KEY_COMPANY;
 import static my.com.engpeng.engpeng.Global.I_KEY_CONTINUE_NEXT;
 import static my.com.engpeng.engpeng.Global.I_KEY_HOUSE_CODE;
 import static my.com.engpeng.engpeng.Global.I_KEY_LOCATION;
+import static my.com.engpeng.engpeng.Global.I_KEY_NETT_VALUE;
 import static my.com.engpeng.engpeng.Global.I_KEY_QTY;
 import static my.com.engpeng.engpeng.Global.I_KEY_WITH_COVER_QTY;
+import static my.com.engpeng.engpeng.Global.REQUEST_CODE_BLUETOOTH_WEIGHT;
 import static my.com.engpeng.engpeng.Global.sLocationName;
 
 public class TempCatchBTADetailActivity extends AppCompatActivity {
 
     private Spinner snHouseCode, snWithCoverQty;
-    private Button btnSave, btnSaveAndReturn, btnExit;
+    private Button btnSave, btnSaveAndReturn, btnExit, btnBt;
     private EditText etWeight, etQty;
     private RadioGroup rgCageQty;
     private RadioButton rbCage1, rbCage2, rbCage3, rbCage4, rbCage5;
@@ -62,6 +64,7 @@ public class TempCatchBTADetailActivity extends AppCompatActivity {
         btnSaveAndReturn = findViewById(R.id.temp_catch_bta_detail_btn_save_and_return);
         btnExit = findViewById(R.id.temp_catch_bta_detail_btn_exit);
         snHouseCode = findViewById(R.id.temp_catch_bta_detail_sn_house_code);
+        btnBt = findViewById(R.id.temp_catch_bta_detail_btn_bt);
 
         rbCage1 = findViewById(R.id.temp_catch_bta_detail_rd_1_cage);
         rbCage2 = findViewById(R.id.temp_catch_bta_detail_rd_2_cage);
@@ -213,6 +216,13 @@ public class TempCatchBTADetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        btnBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(TempCatchBTADetailActivity.this, TempCatchBtaBluetoothActivity.class), REQUEST_CODE_BLUETOOTH_WEIGHT);
+            }
+        });
     }
 
     private boolean save() {
@@ -302,5 +312,16 @@ public class TempCatchBTADetailActivity extends AppCompatActivity {
 
         adapter = new TempCatchBTADetailAdapter(this, cursor);
         rv.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_BLUETOOTH_WEIGHT) {
+            if(resultCode == RESULT_OK) {
+                double nettValue = data.getDoubleExtra(I_KEY_NETT_VALUE, 0);
+                etWeight.setText(String.valueOf(nettValue));
+            }
+        }
     }
 }

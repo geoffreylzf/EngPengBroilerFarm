@@ -2,7 +2,6 @@ package my.com.engpeng.engpeng.adapter;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,35 +12,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import my.com.engpeng.engpeng.Global;
 import my.com.engpeng.engpeng.R;
 import my.com.engpeng.engpeng.bluetoothPrinter.BluetoothConnection;
-import my.com.engpeng.engpeng.controller.CatchBTAController;
 
-/**
- * Created by Admin on 28/2/2018.
- */
-
-public class BluetoothAdapter extends RecyclerView.Adapter<BluetoothAdapter.BluetoothDeviceViewHolder> implements BluetoothConnection.BluetoothConnectionListener {
+public class BluetoothSelectionAdapter extends RecyclerView.Adapter<BluetoothSelectionAdapter.BluetoothDeviceViewHolder> {
 
     private Context context;
     private Set<BluetoothDevice> btDevices;
-    private String strPrintText, strQRText;
-    private byte[] byteQRCodeTop, byteQRCodeBottom;
-    private SQLiteDatabase db;
-    private String module;
-    private Long id;
+    private BluetoothSelectionListener bsListener;
 
-    public BluetoothAdapter(Context context, Set<BluetoothDevice> btDevices, String strPrintText, String strQRText, byte[] byteQRCodeTop, byte[] byteQRCodeBottom, SQLiteDatabase db, String module, Long id) {
+    public BluetoothSelectionAdapter(Context context, Set<BluetoothDevice> btDevices, BluetoothSelectionListener bsListener) {
         this.context = context;
         this.btDevices = btDevices;
-        this.strPrintText = strPrintText;
-        this.strQRText = strQRText;
-        this.byteQRCodeTop = byteQRCodeTop;
-        this.byteQRCodeBottom = byteQRCodeBottom;
-        this.db = db;
-        this.module = module;
-        this.id = id;
+        this.bsListener = bsListener;
+    }
+
+    public interface BluetoothSelectionListener{
+        void afterBluetoothSelect(String name, String address);
     }
 
     @Override
@@ -80,15 +67,6 @@ public class BluetoothAdapter extends RecyclerView.Adapter<BluetoothAdapter.Blue
         }
     }
 
-    @Override
-    public void afterPrintDone() {
-        if (module != null) {
-            if (module.equals(Global.MODULE_CATCH_BTA)) {
-                CatchBTAController.increasePrintCount(db, id);
-            }
-        }
-    }
-
     class BluetoothDeviceViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvName, tvAddress;
@@ -104,8 +82,7 @@ public class BluetoothAdapter extends RecyclerView.Adapter<BluetoothAdapter.Blue
                     List<String> data = ((List<String>) view.getTag());
                     String name = data.get(0).toString();
                     String address = data.get(1).toString();
-                    BluetoothConnection conn = new BluetoothConnection();
-                    conn.initPrint(context, name, address, strPrintText, strQRText, byteQRCodeTop, byteQRCodeBottom, BluetoothAdapter.this);
+                    bsListener.afterBluetoothSelect(name, address);
                 }
             });
         }

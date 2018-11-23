@@ -64,6 +64,10 @@
             android:name=".BluetoothActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Dialog" />
+        <activity
+            android:name=".BluetoothSelectionActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Dialog" />
         <activity android:name=".PrintPreviewActivity" />
         <activity android:name=".WeightReportActivity" />
         <activity android:name=".TempFeedInHeadActivity" />
@@ -81,7 +85,8 @@
         <activity android:name=".TempFeedReceiveHeadActivity" />
         <activity android:name=".TempFeedReceiveSummaryActivity" />
         <activity android:name=".TempFeedReceiveDetailActivity" />
-        <activity android:name=".FeedReceiveHistoryActivity"></activity>
+        <activity android:name=".FeedReceiveHistoryActivity" />
+        <activity android:name=".TempCatchBtaBluetoothActivity"></activity>
     </application>
 
 </manifest>

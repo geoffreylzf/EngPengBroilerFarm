@@ -1,4 +1,4 @@
-package my.com.engpeng.engpeng.bluetooth;
+package my.com.engpeng.engpeng.bluetoothPrinter;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;

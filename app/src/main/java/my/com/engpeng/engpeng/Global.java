@@ -35,6 +35,9 @@ public class Global {
     public static String sUsername;
     public static String sPassword;
 
+    public static final int REQUEST_CODE_BLUETOOTH_WEIGHT = 7001;
+    public static final int REQUEST_CODE_BLUETOOTH_DEVICE = 7002;
+
     public static final String PREF_KEY = "PREF_KEY";
     public static final String MODULE_MORTALITY = "MORTALITY";
     public static final String MODULE_CATCH_BTA = "CATCH_BTA";
@@ -69,12 +72,17 @@ public class Global {
     public static final String I_KEY_RECEIVE_HOUSE = "I_KEY_RECEIVE_HOUSE";
     public static final String I_KEY_DISCHARGE_CODE = "I_KEY_DISCHARGE_CODE";
     public static final String I_KEY_RUNNING_NO = "I_KEY_RUNNING_NO";
+    public static final String I_KEY_NETT_VALUE = "I_KEY_NETT_VALUE";
+    public static final String I_KEY_BLUETOOTH_NAME = "I_KEY_BLUETOOTH_NAME";
+    public static final String I_KEY_BLUETOOTH_ADDRESS = "I_KEY_BLUETOOTH_ADDRESS";
 
     //Preferences param keys
     public static final String P_KEY_USERNAME = "P_KEY_USERNAME";
     public static final String P_KEY_PASSWORD = "P_KEY_PASSWORD";
     public static final String P_KEY_COMPANY_ID = "P_KEY_COMPANY_ID";
     public static final String P_KEY_LOCATION_ID = "P_KEY_LOCATION_ID";
+    public static final String P_KEY_BLUETOOTH_NAME = "P_KEY_BLUETOOTH_NAME";
+    public static final String P_KEY_BLUETOOTH_ADDRESS = "P_KEY_BLUETOOTH_ADDRESS";
 
     //Assign different id for different loader
     public static final int UPLOAD_LOADER_ID = 1001;

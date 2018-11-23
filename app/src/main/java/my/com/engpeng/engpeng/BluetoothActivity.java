@@ -12,7 +12,7 @@ import android.view.WindowManager;
 import java.util.Set;
 
 import my.com.engpeng.engpeng.adapter.BluetoothAdapter;
-import my.com.engpeng.engpeng.bluetooth.BluetoothConnection;
+import my.com.engpeng.engpeng.bluetoothPrinter.BluetoothConnection;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
 import my.com.engpeng.engpeng.utilities.UIUtils;
 

@@ -1,4 +1,4 @@
-package my.com.engpeng.engpeng.bluetooth;
+package my.com.engpeng.engpeng.bluetoothPrinter;
 
 public class PrinterCommands {
     public static final byte HT = 0x9;

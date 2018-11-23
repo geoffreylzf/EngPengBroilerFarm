@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TempCatchBtaBluetoothActivity">
+
+    <TextView
+        android:id="@+id/temp_catch_bta_bluetooth_tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/status"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/temp_catch_bta_bluetooth_tv_gross"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/gross_weight_kg"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/temp_catch_bta_bluetooth_tv_tare"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/temp_catch_bta_bluetooth_tv_status" />
+
+    <TextView
+        android:id="@+id/temp_catch_bta_bluetooth_tv_tare"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/tare_weight_kf"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/temp_catch_bta_bluetooth_tv_nett"
+        app:layout_constraintStart_toEndOf="@id/temp_catch_bta_bluetooth_tv_gross"
+        app:layout_constraintTop_toBottomOf="@id/temp_catch_bta_bluetooth_tv_status" />
+
+    <TextView
+        android:id="@+id/temp_catch_bta_bluetooth_tv_nett"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/nett_weight_kf"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/temp_catch_bta_bluetooth_tv_tare"
+        app:layout_constraintTop_toBottomOf="@id/temp_catch_bta_bluetooth_tv_status" />
+
+    <TextView
+        android:id="@+id/temp_catch_bta_bluetooth_tv_gross_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/temp_catch_bta_bluetooth_tv_gross"
+        app:layout_constraintStart_toStartOf="@+id/temp_catch_bta_bluetooth_tv_gross"
+        app:layout_constraintTop_toBottomOf="@+id/temp_catch_bta_bluetooth_tv_gross" />
+
+    <TextView
+        android:id="@+id/temp_catch_bta_bluetooth_tv_tare_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/temp_catch_bta_bluetooth_tv_tare"
+        app:layout_constraintStart_toStartOf="@+id/temp_catch_bta_bluetooth_tv_tare"
+        app:layout_constraintTop_toBottomOf="@+id/temp_catch_bta_bluetooth_tv_tare" />
+
+    <TextView
+        android:id="@+id/temp_catch_bta_bluetooth_tv_nett_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/temp_catch_bta_bluetooth_tv_nett"
+        app:layout_constraintStart_toStartOf="@+id/temp_catch_bta_bluetooth_tv_nett"
+        app:layout_constraintTop_toBottomOf="@+id/temp_catch_bta_bluetooth_tv_nett" />
+
+    <Button
+        android:id="@+id/temp_catch_bta_bluetooth_btn_start"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/start2"
+        app:layout_constraintEnd_toStartOf="@id/temp_catch_bta_bluetooth_btn_get"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/temp_catch_bta_bluetooth_tv_nett_value" />
+
+    <Button
+        android:id="@+id/temp_catch_bta_bluetooth_btn_get"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/get2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/temp_catch_bta_bluetooth_btn_start"
+        app:layout_constraintTop_toBottomOf="@id/temp_catch_bta_bluetooth_tv_nett_value" />
+
+    <TextView
+        android:id="@+id/temp_catch_bta_bluetooth_tv_bt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/temp_catch_bta_bluetooth_btn_start"/>
+
+    <TextView
+        android:id="@+id/temp_catch_bta_bluetooth_tv_bt_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/temp_catch_bta_bluetooth_tv_bt_name"/>
+
+</android.support.constraint.ConstraintLayout>

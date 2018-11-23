@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import static my.com.engpeng.engpeng.Global.PREF_KEY;
+import static my.com.engpeng.engpeng.Global.P_KEY_BLUETOOTH_ADDRESS;
+import static my.com.engpeng.engpeng.Global.P_KEY_BLUETOOTH_NAME;
 import static my.com.engpeng.engpeng.Global.P_KEY_COMPANY_ID;
 import static my.com.engpeng.engpeng.Global.P_KEY_LOCATION_ID;
 import static my.com.engpeng.engpeng.Global.P_KEY_PASSWORD;
@@ -27,6 +29,14 @@ public class SharedPreferencesUtils {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(P_KEY_USERNAME, username);
         editor.putString(P_KEY_PASSWORD, password);
+        editor.apply();
+    }
+
+    public static void saveWeighingBluetooth(Context context, String name, String address){
+        SharedPreferences prefs = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(P_KEY_BLUETOOTH_NAME, name);
+        editor.putString(P_KEY_BLUETOOTH_ADDRESS, address);
         editor.apply();
     }
 
