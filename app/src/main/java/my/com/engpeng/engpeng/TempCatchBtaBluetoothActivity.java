@@ -119,6 +119,7 @@ public class TempCatchBtaBluetoothActivity extends AppCompatActivity {
                 bluetoothWeighingAddress = data.getStringExtra(I_KEY_BLUETOOTH_ADDRESS);
                 tvBtName.setText("Name : " + bluetoothWeighingName);
                 tvBtAddress.setText("Address : " + bluetoothWeighingAddress);
+                btnStart.setEnabled(true);
                 SharedPreferencesUtils.saveWeighingBluetooth(this, bluetoothWeighingName, bluetoothWeighingAddress);
             }
         }
@@ -151,6 +152,7 @@ public class TempCatchBtaBluetoothActivity extends AppCompatActivity {
 
             public void onDeviceConnectionFailed() {
                 tvStatus.setText("Status : Connection failed");
+                btnStart.setEnabled(true);
             }
 
             public void onDeviceConnected(String name, String address) {
@@ -163,6 +165,7 @@ public class TempCatchBtaBluetoothActivity extends AppCompatActivity {
         String address = bluetoothWeighingAddress;
         if (address != null && !address.equals("") ) {
             bt.connect(address);
+            btnStart.setEnabled(false);
         }else{
             UIUtils.showToastMessage(this, "No bluetooth weighing system set.");
         }

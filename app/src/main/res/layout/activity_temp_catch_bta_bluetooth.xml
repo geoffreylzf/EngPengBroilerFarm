@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/temp_catch_bta_bluetooth_tv_nett"
         app:layout_constraintStart_toStartOf="@+id/temp_catch_bta_bluetooth_tv_nett"
