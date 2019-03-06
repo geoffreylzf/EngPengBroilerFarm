@@ -12,7 +12,7 @@ import my.com.engpeng.engpeng.data.EngPengContract;
 
 public class TempCatchBTAController {
 
-    public static long add(SQLiteDatabase db,
+    /*public static long add(SQLiteDatabase db,
                            int company_id,
                            int location_id,
                            String record_date,
@@ -46,5 +46,5 @@ public class TempCatchBTAController {
 
     public static void delete(SQLiteDatabase db) {
         db.delete(EngPengContract.TempCatchBTAEntry.TABLE_NAME, null, null);
-    }
+    }*/
 }

@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -56,6 +57,10 @@ public class BluetoothAdapter extends RecyclerView.Adapter<BluetoothAdapter.Blue
         int order = 0;
         for (BluetoothDevice device : btDevices) {
             if (order == position) {
+                if(device.getName().equals("HC-05")){
+                    holder.llBt.setVisibility(View.GONE);
+                    holder.llBt.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
+                }
                 holder.tvName.setText(device.getName());
                 holder.tvAddress.setText(device.getAddress());
 
@@ -92,9 +97,11 @@ public class BluetoothAdapter extends RecyclerView.Adapter<BluetoothAdapter.Blue
     class BluetoothDeviceViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvName, tvAddress;
+        LinearLayout llBt;
 
         private BluetoothDeviceViewHolder(View itemView) {
             super(itemView);
+            llBt = itemView.findViewById(R.id.li_bluetooth_device_ll);
             tvName = itemView.findViewById(R.id.li_bluetooth_device_tv_name);
             tvAddress = itemView.findViewById(R.id.li_bluetooth_device_tv_address);
 

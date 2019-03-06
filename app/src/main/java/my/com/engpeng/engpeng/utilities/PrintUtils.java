@@ -56,6 +56,7 @@ public class PrintUtils {
         }
 
         String truck_code = cursorCatchBTA.getString(cursorCatchBTA.getColumnIndex(CatchBTAEntry.COLUMN_TRUCK_CODE));
+        String code = cursorCatchBTA.getString(cursorCatchBTA.getColumnIndex(CatchBTAEntry.COLUMN_CODE));
         int company_id = cursorCatchBTA.getInt(cursorCatchBTA.getColumnIndex(CatchBTAEntry.COLUMN_COMPANY_ID));
         int location_id = cursorCatchBTA.getInt(cursorCatchBTA.getColumnIndex(CatchBTAEntry.COLUMN_LOCATION_ID));
 
@@ -75,6 +76,7 @@ public class PrintUtils {
         text += formatLine("Date: " + record_date);
         text += formatLine("Document: " + doc_type + " - " + doc_number);
         text += formatLine("Truck Code : " + truck_code);
+        text += formatLine("Code : " + code);
         text += formatLine("");
         text += formatLine(halfLine("Stock Description") + "|" + halfLine("Stock Description"));
         text += formatLine(halfLine("Live Bird - Grade " + type) + "|" + halfLine("Live Bird - Grade " + type));

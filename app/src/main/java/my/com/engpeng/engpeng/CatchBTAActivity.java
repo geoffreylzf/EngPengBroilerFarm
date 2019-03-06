@@ -29,6 +29,7 @@ import my.com.engpeng.engpeng.utilities.UIUtils;
 import static my.com.engpeng.engpeng.Global.I_KEY_CATCH_BTA;
 import static my.com.engpeng.engpeng.Global.I_KEY_ID;
 import static my.com.engpeng.engpeng.Global.I_KEY_MODULE;
+import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_QR_TEXT;
 import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_TEXT;
 import static my.com.engpeng.engpeng.Global.MODULE_CATCH_BTA;
 
@@ -220,9 +221,11 @@ public class CatchBTAActivity extends AppCompatActivity {
 
     private void printReceipt(){
         String printText = PrintUtils.printCatchBTA(this, db, catch_bta_id);
+        String qr = CatchBTAController.toQrData(db, catch_bta_id);
 
         Intent ppIntent = new Intent(CatchBTAActivity.this, PrintPreviewActivity.class);
         ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
+        ppIntent.putExtra(I_KEY_PRINT_QR_TEXT, qr);
         ppIntent.putExtra(I_KEY_MODULE, MODULE_CATCH_BTA);
         ppIntent.putExtra(I_KEY_ID, catch_bta_id);
         startActivity(ppIntent);

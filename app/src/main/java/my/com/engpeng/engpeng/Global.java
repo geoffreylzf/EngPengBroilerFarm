@@ -37,6 +37,7 @@ public class Global {
 
     public static final int REQUEST_CODE_BLUETOOTH_WEIGHT = 7001;
     public static final int REQUEST_CODE_BLUETOOTH_DEVICE = 7002;
+    public static final int REQUEST_CODE_BARCODE_CAPTURE = 9001;
 
     public static final String PREF_KEY = "PREF_KEY";
     public static final String MODULE_MORTALITY = "MORTALITY";
@@ -63,6 +64,7 @@ public class Global {
     public static final String I_KEY_ID = "I_KEY_ID";
     public static final String I_KEY_DOC_ID = "I_KEY_DOC_ID";
     public static final String I_KEY_DOC_NUMBER = "I_KEY_DOC_NUMBER";
+    public static final String I_KEY_DOC_TYPE = "I_KEY_DOC_TYPE";
     public static final String I_KEY_TYPE = "I_KEY_TYPE";
     public static final String I_KEY_TRUCK_CODE = "I_KEY_TRUCK_CODE";
     public static final String I_KEY_RECORD_DATE = "I_KEY_RECORD_DATE";
@@ -106,6 +108,9 @@ public class Global {
     public static final String RUNNING_CODE_DISCHARGE = "D";
     public static final String RUNNING_CODE_RECEIVE = "R";
     public static final String RUNNING_CODE_TRANSFER = "T";
+
+    //bluetooth weighing
+    public static final String BT_WT_PREFIX_KG = "kg";
 
     public static void setupGlobalVariables(Context context, SQLiteDatabase db) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);

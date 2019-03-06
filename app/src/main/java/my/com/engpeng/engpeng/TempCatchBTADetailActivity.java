@@ -3,43 +3,53 @@ package my.com.engpeng.engpeng;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import app.akexorcist.bluetotohspp.library.BluetoothSPP;
+import app.akexorcist.bluetotohspp.library.BluetoothState;
 import my.com.engpeng.engpeng.adapter.TempCatchBTADetailAdapter;
 import my.com.engpeng.engpeng.controller.HouseController;
 import my.com.engpeng.engpeng.controller.TempCatchBTADetailController;
 import my.com.engpeng.engpeng.data.EngPengContract;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
+import my.com.engpeng.engpeng.model.Bluetooth;
+import my.com.engpeng.engpeng.utilities.SharedPreferencesUtils;
+import my.com.engpeng.engpeng.utilities.UIUtils;
 
+import static my.com.engpeng.engpeng.Global.BT_WT_PREFIX_KG;
+import static my.com.engpeng.engpeng.Global.I_KEY_BLUETOOTH_ADDRESS;
+import static my.com.engpeng.engpeng.Global.I_KEY_BLUETOOTH_NAME;
 import static my.com.engpeng.engpeng.Global.I_KEY_CAGE_QTY;
 import static my.com.engpeng.engpeng.Global.I_KEY_COMPANY;
-import static my.com.engpeng.engpeng.Global.I_KEY_CONTINUE_NEXT;
 import static my.com.engpeng.engpeng.Global.I_KEY_HOUSE_CODE;
 import static my.com.engpeng.engpeng.Global.I_KEY_LOCATION;
-import static my.com.engpeng.engpeng.Global.I_KEY_NETT_VALUE;
 import static my.com.engpeng.engpeng.Global.I_KEY_QTY;
 import static my.com.engpeng.engpeng.Global.I_KEY_WITH_COVER_QTY;
-import static my.com.engpeng.engpeng.Global.REQUEST_CODE_BLUETOOTH_WEIGHT;
+import static my.com.engpeng.engpeng.Global.REQUEST_CODE_BLUETOOTH_DEVICE;
 import static my.com.engpeng.engpeng.Global.sLocationName;
 
 public class TempCatchBTADetailActivity extends AppCompatActivity {
 
     private Spinner snHouseCode, snWithCoverQty;
-    private Button btnSave, btnSaveAndReturn, btnExit, btnBt;
+    private Button btnSave, btnExit, btnWeightScale;
+    private ImageButton ibBt, ibBtStart;
+    private TextView tvBtStatus, tvBtName, tvBtAddress;
     private EditText etWeight, etQty;
     private RadioGroup rgCageQty;
     private RadioButton rbCage1, rbCage2, rbCage3, rbCage4, rbCage5;
@@ -51,6 +61,10 @@ public class TempCatchBTADetailActivity extends AppCompatActivity {
 
     private SQLiteDatabase db;
 
+    private BluetoothSPP bt = new BluetoothSPP(this);
+    private String btName = "";
+    private String btAddress = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,10 +75,15 @@ public class TempCatchBTADetailActivity extends AppCompatActivity {
         snWithCoverQty = findViewById(R.id.temp_catch_bta_detail_sn_with_cover_qty);
         rgCageQty = findViewById(R.id.temp_catch_bta_detail_rg_cage_qty);
         btnSave = findViewById(R.id.temp_catch_bta_detail_btn_save);
-        btnSaveAndReturn = findViewById(R.id.temp_catch_bta_detail_btn_save_and_return);
         btnExit = findViewById(R.id.temp_catch_bta_detail_btn_exit);
         snHouseCode = findViewById(R.id.temp_catch_bta_detail_sn_house_code);
-        btnBt = findViewById(R.id.temp_catch_bta_detail_btn_bt);
+
+        ibBt = findViewById(R.id.temp_catch_bta_detail_ib_bt);
+        ibBtStart = findViewById(R.id.temp_catch_bta_detail_ib_bt_start);
+        btnWeightScale = findViewById(R.id.temp_catch_bta_detail_btn_weight_scale);
+        tvBtStatus = findViewById(R.id.temp_catch_bta_detail_tv_bt_status);
+        tvBtName = findViewById(R.id.temp_catch_bta_detail_tv_bt_name);
+        tvBtAddress = findViewById(R.id.temp_catch_bta_detail_tv_bt_address);
 
         rbCage1 = findViewById(R.id.temp_catch_bta_detail_rd_1_cage);
         rbCage2 = findViewById(R.id.temp_catch_bta_detail_rd_2_cage);
@@ -195,18 +214,10 @@ public class TempCatchBTADetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (save()) {
-                    Intent intent = new Intent();
-                    intent.putExtra(I_KEY_CONTINUE_NEXT, true);
-                    setResult(RESULT_OK, intent);
-                    finish();
-                }
-            }
-        });
-        btnSaveAndReturn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (save()) {
-                    finish();
+                    refreshRecycleView();
+                    etWeight.setText(null);
+                    etWeight.requestFocus();
+                    UIUtils.vibrate(TempCatchBTADetailActivity.this);
                 }
             }
         });
@@ -217,10 +228,24 @@ public class TempCatchBTADetailActivity extends AppCompatActivity {
             }
         });
 
-        btnBt.setOnClickListener(new View.OnClickListener() {
+        ibBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(TempCatchBTADetailActivity.this, TempCatchBtaBluetoothActivity.class), REQUEST_CODE_BLUETOOTH_WEIGHT);
+                startActivityForResult(new Intent(TempCatchBTADetailActivity.this, BluetoothSelectionActivity.class), REQUEST_CODE_BLUETOOTH_DEVICE);
+            }
+        });
+
+        btnWeightScale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                etWeight.setText(btnWeightScale.getText());
+            }
+        });
+
+        ibBtStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startWeighingService();
             }
         });
     }
@@ -307,21 +332,120 @@ public class TempCatchBTADetailActivity extends AppCompatActivity {
     private void setupRecycleView() {
         rv = this.findViewById(R.id.temp_catch_bta_detail_rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
-
-        Cursor cursor = TempCatchBTADetailController.getAll(db);
-
-        adapter = new TempCatchBTADetailAdapter(this, cursor);
+        adapter = new TempCatchBTADetailAdapter(this);
         rv.setAdapter(adapter);
+
+        refreshRecycleView();
+    }
+
+    private void refreshRecycleView() {
+        adapter.setCursor(TempCatchBTADetailController.getAll(db));
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_BLUETOOTH_WEIGHT) {
-            if(resultCode == RESULT_OK) {
-                double nettValue = data.getDoubleExtra(I_KEY_NETT_VALUE, 0);
-                etWeight.setText(String.valueOf(nettValue));
+        if (requestCode == REQUEST_CODE_BLUETOOTH_DEVICE) {
+            if (resultCode == RESULT_OK) {
+                Bluetooth bluetooth = new Bluetooth(data.getStringExtra(I_KEY_BLUETOOTH_NAME), data.getStringExtra(I_KEY_BLUETOOTH_ADDRESS));
+                SharedPreferencesUtils.saveWeighingBluetooth(this, bluetooth);
+                startWeighingBluetooth();
             }
         }
+    }
+
+    private void startWeighingBluetooth() {
+        if (!bt.isBluetoothAvailable()) {
+            tvBtStatus.setText(getString(R.string.bt_status, "Not Available"));
+            return;
+        }
+
+        if (!bt.isBluetoothEnabled()) {
+            tvBtStatus.setText(getString(R.string.bt_status, "Not Enable"));
+            return;
+        }
+
+        Bluetooth bluetooth = SharedPreferencesUtils.getWeighingBluetooth(this);
+        btName = bluetooth.getName();
+        btAddress = bluetooth.getAddress();
+
+        tvBtStatus.setText(getString(R.string.bt_status, "Not Connected"));
+        tvBtName.setText(getString(R.string.bt_name, btName));
+        tvBtAddress.setText(getString(R.string.bt_address, btAddress));
+
+        if (!btName.isEmpty() && !btAddress.isEmpty()) {
+            ibBtStart.setVisibility(View.VISIBLE);
+        } else {
+            ibBtStart.setVisibility(View.INVISIBLE);
+        }
+
+        bt.setBluetoothConnectionListener(new BluetoothSPP.BluetoothConnectionListener() {
+            @Override
+            public void onDeviceConnected(String name, String address) {
+                if (tvBtStatus != null) {
+                    tvBtStatus.setText(getString(R.string.bt_status, "Connected"));
+                }
+                if (btnWeightScale != null) {
+                    btnWeightScale.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onDeviceDisconnected() {
+                if (tvBtStatus != null) {
+                    tvBtStatus.setText(getString(R.string.bt_status, "Not Connected"));
+                }
+                if (btnWeightScale != null) {
+                    btnWeightScale.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onDeviceConnectionFailed() {
+                if (tvBtStatus != null) {
+                    tvBtStatus.setText(getString(R.string.bt_status, "Connection Failed"));
+                }
+                if (btnWeightScale != null) {
+                    btnWeightScale.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        bt.setOnDataReceivedListener(new BluetoothSPP.OnDataReceivedListener() {
+            @Override
+            public void onDataReceived(byte[] data, String message) {
+                if (btnWeightScale != null && message.contains(BT_WT_PREFIX_KG)) {
+                    String str = message.replace(BT_WT_PREFIX_KG, "").trim();
+                    try {
+                        Double d = Double.parseDouble(str);
+                        btnWeightScale.setText(String.format("%.2f", d));
+                    } catch (NumberFormatException ex) {
+                        btnWeightScale.setText(null);
+                    }
+                }
+            }
+        });
+
+        if (!bt.isServiceAvailable()) {
+            bt.setupService();
+            bt.setDeviceTarget(BluetoothState.DEVICE_OTHER);
+        }
+    }
+
+    private void startWeighingService() {
+        bt.connect(btAddress);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startWeighingBluetooth();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        bt.stopService();
     }
 }

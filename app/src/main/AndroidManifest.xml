@@ -86,7 +86,6 @@
         <activity android:name=".TempFeedReceiveSummaryActivity" />
         <activity android:name=".TempFeedReceiveDetailActivity" />
         <activity android:name=".FeedReceiveHistoryActivity" />
-        <activity android:name=".TempCatchBtaBluetoothActivity"></activity>
     </application>
 
 </manifest>

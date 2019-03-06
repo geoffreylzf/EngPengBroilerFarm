@@ -47,6 +47,7 @@ public class EngPengContract {
         public static final String COLUMN_DOC_NUMBER = "doc_number";
         public static final String COLUMN_DOC_TYPE = "doc_type";
         public static final String COLUMN_TRUCK_CODE = "truck_code";
+        public static final String COLUMN_CODE = "code";
         public static final String COLUMN_PRINT_COUNT = "print_count";
         public static final String COLUMN_UPLOAD = "upload";
         public static final String COLUMN_TIMESTAMP = "timestamp";

@@ -21,7 +21,8 @@ public class CatchBTAController {
                            String type,
                            int doc_number,
                            String doc_type,
-                           String truck_code) {
+                           String truck_code,
+                           String code) {
 
         ContentValues cv = new ContentValues();
         cv.put(CatchBTAEntry.COLUMN_COMPANY_ID, company_id);
@@ -31,6 +32,7 @@ public class CatchBTAController {
         cv.put(CatchBTAEntry.COLUMN_DOC_NUMBER, doc_number);
         cv.put(CatchBTAEntry.COLUMN_DOC_TYPE, doc_type);
         cv.put(CatchBTAEntry.COLUMN_TRUCK_CODE, truck_code);
+        cv.put(CatchBTAEntry.COLUMN_CODE, code);
 
         return db.insert(CatchBTAEntry.TABLE_NAME, null, cv);
     }
@@ -180,6 +182,7 @@ public class CatchBTAController {
             json += "\"" + CatchBTAEntry.COLUMN_DOC_NUMBER + "\": " + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_DOC_NUMBER)) + ",";
             json += "\"" + CatchBTAEntry.COLUMN_DOC_TYPE + "\": \"" + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_DOC_TYPE)) + "\",";
             json += "\"" + CatchBTAEntry.COLUMN_TRUCK_CODE + "\": \"" + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_TRUCK_CODE)) + "\",";
+            json += "\"" + CatchBTAEntry.COLUMN_CODE + "\": \"" + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_CODE)) + "\",";
             json += "\"" + CatchBTAEntry.COLUMN_PRINT_COUNT + "\": " + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_PRINT_COUNT)) + ",";
             json += "\"" + CatchBTAEntry.COLUMN_TIMESTAMP + "\": \"" + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_TIMESTAMP)) + "\",";
             json += CatchBTADetailController.getUploadJsonByCatchBTAId(db, cursor.getLong(cursor.getColumnIndex(CatchBTAEntry._ID)));
@@ -191,5 +194,51 @@ public class CatchBTAController {
         }
         json += "]}";
         return json;
+    }
+
+    public static String toQrData(SQLiteDatabase db, long id) {
+
+        String selection = CatchBTAEntry._ID + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(id),
+        };
+
+        Cursor cursor = db.query(
+                CatchBTAEntry.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                CatchBTAEntry._ID + " DESC"
+        );
+
+        String data = "";
+
+        if (cursor.moveToFirst()) {
+            String companyId = cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_COMPANY_ID));
+            String locationId = cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_LOCATION_ID));
+            String recordDate = cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_RECORD_DATE));
+            String docNumber = cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_DOC_NUMBER));
+            String docType = cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_DOC_TYPE));
+            String type = cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_TYPE));
+            String truckCode = cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_TRUCK_CODE));
+            String code = cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_CODE));
+
+            data += companyId;
+            data += "|" + locationId;
+            data += "|" + recordDate;
+            data += "|" + docNumber;
+            data += "|" + docType;
+            data += "|" + type;
+            data += "|" + truckCode;
+            data += "|" + code;
+            data += "\n";
+
+            data += FeedDischargeDetailController.toQrData(db, id);
+        }
+
+        return data;
     }
 }

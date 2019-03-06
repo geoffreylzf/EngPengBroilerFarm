@@ -23,9 +23,8 @@ public class TempCatchBTADetailAdapter extends RecyclerView.Adapter<TempCatchBTA
     private Context context;
     private Cursor cursor;
 
-    public TempCatchBTADetailAdapter(Context context, Cursor cursor) {
+    public TempCatchBTADetailAdapter(Context context) {
         this.context = context;
-        this.cursor = cursor;
     }
 
     @Override
@@ -60,7 +59,16 @@ public class TempCatchBTADetailAdapter extends RecyclerView.Adapter<TempCatchBTA
 
     @Override
     public int getItemCount() {
+        if (cursor == null) {
+            return 0;
+        }
         return cursor.getCount();
+    }
+
+
+    public void setCursor(Cursor cursor) {
+        this.cursor = cursor;
+        this.notifyDataSetChanged();
     }
 
     class TempCatchBTADetailViewHolder extends RecyclerView.ViewHolder {

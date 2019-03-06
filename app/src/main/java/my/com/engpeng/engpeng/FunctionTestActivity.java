@@ -3,7 +3,6 @@ package my.com.engpeng.engpeng;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -15,12 +14,13 @@ import my.com.engpeng.engpeng.utilities.UIUtils;
 
 import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_QR_TEXT;
 import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_TEXT;
+import static my.com.engpeng.engpeng.Global.REQUEST_CODE_BARCODE_CAPTURE;
 
 public class FunctionTestActivity extends AppCompatActivity {
 
     private Button btnScan, btnPrint;
 
-    private static final int RC_BARCODE_CAPTURE = 9001;
+
 
 
     @Override
@@ -43,7 +43,7 @@ public class FunctionTestActivity extends AppCompatActivity {
                 Intent intent = new Intent(FunctionTestActivity.this, BarcodeCaptureActivity.class);
                 intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
                 intent.putExtra(BarcodeCaptureActivity.UseFlash, true);
-                startActivityForResult(intent, RC_BARCODE_CAPTURE);
+                startActivityForResult(intent, REQUEST_CODE_BARCODE_CAPTURE);
             }
         });
 
@@ -60,7 +60,7 @@ public class FunctionTestActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RC_BARCODE_CAPTURE) {
+        if (requestCode == REQUEST_CODE_BARCODE_CAPTURE) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
                     Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);

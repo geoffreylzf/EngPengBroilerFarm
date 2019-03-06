@@ -3,6 +3,8 @@ package my.com.engpeng.engpeng.utilities;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import my.com.engpeng.engpeng.model.Bluetooth;
+
 import static my.com.engpeng.engpeng.Global.PREF_KEY;
 import static my.com.engpeng.engpeng.Global.P_KEY_BLUETOOTH_ADDRESS;
 import static my.com.engpeng.engpeng.Global.P_KEY_BLUETOOTH_NAME;
@@ -16,7 +18,7 @@ import static my.com.engpeng.engpeng.Global.P_KEY_USERNAME;
  */
 
 public class SharedPreferencesUtils {
-    public static void saveCompanyIdLocationId(Context context, int company_id, int location_id){
+    public static void saveCompanyIdLocationId(Context context, int company_id, int location_id) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(P_KEY_COMPANY_ID, company_id);
@@ -24,7 +26,7 @@ public class SharedPreferencesUtils {
         editor.apply();
     }
 
-    public static void saveUsernamePassword(Context context, String username, String password){
+    public static void saveUsernamePassword(Context context, String username, String password) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(P_KEY_USERNAME, username);
@@ -32,22 +34,27 @@ public class SharedPreferencesUtils {
         editor.apply();
     }
 
-    public static void saveWeighingBluetooth(Context context, String name, String address){
+    public static void saveWeighingBluetooth(Context context, Bluetooth bt) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(P_KEY_BLUETOOTH_NAME, name);
-        editor.putString(P_KEY_BLUETOOTH_ADDRESS, address);
+        editor.putString(P_KEY_BLUETOOTH_NAME, bt.getName());
+        editor.putString(P_KEY_BLUETOOTH_ADDRESS, bt.getAddress());
         editor.apply();
     }
 
-    public static void clearAll(Context context){
+    public static Bluetooth getWeighingBluetooth(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
+        return new Bluetooth(prefs.getString(P_KEY_BLUETOOTH_NAME, ""), prefs.getString(P_KEY_BLUETOOTH_ADDRESS, ""));
+    }
+
+    public static void clearAll(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
         editor.apply();
     }
 
-    public static void clearCompanyIdLocationId(Context context){
+    public static void clearCompanyIdLocationId(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.remove(P_KEY_COMPANY_ID);
@@ -55,7 +62,7 @@ public class SharedPreferencesUtils {
         editor.apply();
     }
 
-    public static void clearUsernamePassword(Context context){
+    public static void clearUsernamePassword(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.remove(P_KEY_USERNAME);

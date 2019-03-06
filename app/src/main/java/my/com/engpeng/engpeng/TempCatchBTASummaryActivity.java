@@ -19,9 +19,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 import my.com.engpeng.engpeng.adapter.TempCatchBTASummaryAdapter;
 import my.com.engpeng.engpeng.controller.CatchBTAController;
 import my.com.engpeng.engpeng.controller.CatchBTADetailController;
+import my.com.engpeng.engpeng.controller.FeedDischargeController;
 import my.com.engpeng.engpeng.controller.MortalityController;
 import my.com.engpeng.engpeng.controller.TempCatchBTAController;
 import my.com.engpeng.engpeng.controller.TempCatchBTADetailController;
@@ -34,12 +39,18 @@ import my.com.engpeng.engpeng.utilities.UIUtils;
 import static my.com.engpeng.engpeng.Global.I_KEY_CAGE_QTY;
 import static my.com.engpeng.engpeng.Global.I_KEY_COMPANY;
 import static my.com.engpeng.engpeng.Global.I_KEY_CONTINUE_NEXT;
+import static my.com.engpeng.engpeng.Global.I_KEY_DOC_NUMBER;
+import static my.com.engpeng.engpeng.Global.I_KEY_DOC_TYPE;
 import static my.com.engpeng.engpeng.Global.I_KEY_HOUSE_CODE;
 import static my.com.engpeng.engpeng.Global.I_KEY_ID;
 import static my.com.engpeng.engpeng.Global.I_KEY_LOCATION;
 import static my.com.engpeng.engpeng.Global.I_KEY_MODULE;
+import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_QR_TEXT;
 import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_TEXT;
 import static my.com.engpeng.engpeng.Global.I_KEY_QTY;
+import static my.com.engpeng.engpeng.Global.I_KEY_RECORD_DATE;
+import static my.com.engpeng.engpeng.Global.I_KEY_TRUCK_CODE;
+import static my.com.engpeng.engpeng.Global.I_KEY_TYPE;
 import static my.com.engpeng.engpeng.Global.I_KEY_WITH_COVER_QTY;
 import static my.com.engpeng.engpeng.Global.MODULE_CATCH_BTA;
 import static my.com.engpeng.engpeng.Global.MODULE_WEIGHT;
@@ -51,12 +62,15 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
     private FloatingActionButton fabAdd;
     private Button btnEnd;
     private TextView tvLocation, tvDocNumber, tvDestination, tvType, tvTruckCode, tvTtlWeight, tvTtlQty, tvTtlRecord;
-    private int company_id, location_id;
+
     private SQLiteDatabase db;
     private TempCatchBTASummaryAdapter adapter;
     private RecyclerView rv;
-    private String doc_number, destination, type;
+
     private static int REQUEST_CODE_CONTINUE_NEXT = 1;
+
+    private int company_id, location_id, doc_number ;
+    private String record_date, type, doc_type, truck_code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +120,21 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
         if (intentStart.hasExtra(I_KEY_LOCATION)) {
             location_id = intentStart.getIntExtra(I_KEY_LOCATION, 0);
         }
+        if (intentStart.hasExtra(I_KEY_RECORD_DATE)) {
+            record_date = intentStart.getStringExtra(I_KEY_RECORD_DATE);
+        }
+        if (intentStart.hasExtra(I_KEY_TYPE)) {
+            type = intentStart.getStringExtra(I_KEY_TYPE);
+        }
+        if (intentStart.hasExtra(I_KEY_DOC_NUMBER)) {
+            doc_number = intentStart.getIntExtra(I_KEY_DOC_NUMBER, 0);
+        }
+        if (intentStart.hasExtra(I_KEY_DOC_TYPE)) {
+            doc_type = intentStart.getStringExtra(I_KEY_DOC_TYPE);
+        }
+        if (intentStart.hasExtra(I_KEY_TRUCK_CODE)) {
+            truck_code = intentStart.getStringExtra(I_KEY_TRUCK_CODE);
+        }
     }
 
     private void setupListener() {
@@ -137,9 +166,11 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
                                     startActivity(mainIntent);
 
                                     String printText = PrintUtils.printCatchBTA(TempCatchBTASummaryActivity.this, db, catch_bta_id);
+                                    String qr = CatchBTAController.toQrData(db, catch_bta_id);
 
                                     Intent ppIntent = new Intent(TempCatchBTASummaryActivity.this, PrintPreviewActivity.class);
                                     ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
+                                    ppIntent.putExtra(I_KEY_PRINT_QR_TEXT, qr);
                                     ppIntent.putExtra(I_KEY_MODULE, MODULE_CATCH_BTA);
                                     ppIntent.putExtra(I_KEY_ID, catch_bta_id);
                                     startActivity(ppIntent);
@@ -263,17 +294,11 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
     }
 
     public void setupSummary() {
-        Cursor cursor = TempCatchBTAController.getAll(db);
-        cursor.moveToFirst();
-        String doc_number = cursor.getString(cursor.getColumnIndex(TempCatchBTAEntry.COLUMN_DOC_NUMBER));
-        String doc_type = cursor.getString(cursor.getColumnIndex(TempCatchBTAEntry.COLUMN_DOC_TYPE));
-        String type = cursor.getString(cursor.getColumnIndex(TempCatchBTAEntry.COLUMN_TYPE));
+        String type = this.type;
 
         if(type.equals("B")){
             type = "C";
         }
-
-        String truck_code = cursor.getString(cursor.getColumnIndex(TempCatchBTAEntry.COLUMN_TRUCK_CODE));
 
         String destination = getString(R.string.bta_customer);
         if (doc_type.equals("IFT")) {
@@ -301,21 +326,13 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
     }
 
     public Long saveCatchBTA(){
-        Cursor tempHead = TempCatchBTAController.getAll(db);
         Cursor tempDetail = TempCatchBTADetailController.getAll(db);
 
-        tempHead.moveToFirst();
+        SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyMMddHHmmss", Locale.US);
+        Calendar c = Calendar.getInstance();
+        String code = sdfDateTime.format(c.getTime()) + String.format(Locale.US, "%04d%04d", company_id, location_id);
 
-        int company_id = tempHead.getInt(tempHead.getColumnIndex(TempCatchBTAEntry.COLUMN_COMPANY_ID));
-        int location_id = tempHead.getInt(tempHead.getColumnIndex(TempCatchBTAEntry.COLUMN_LOCATION_ID));
-        int doc_number = tempHead.getInt(tempHead.getColumnIndex(TempCatchBTAEntry.COLUMN_DOC_NUMBER));
-
-        String dateStr = tempHead.getString(tempHead.getColumnIndex(TempCatchBTAEntry.COLUMN_RECORD_DATE));
-        String type = tempHead.getString(tempHead.getColumnIndex(TempCatchBTAEntry.COLUMN_TYPE));
-        String doc_type = tempHead.getString(tempHead.getColumnIndex(TempCatchBTAEntry.COLUMN_DOC_TYPE));
-        String truck_code = tempHead.getString(tempHead.getColumnIndex(TempCatchBTAEntry.COLUMN_TRUCK_CODE));
-
-        long catch_bta_id = CatchBTAController.add(db, company_id, location_id, dateStr, type, doc_number, doc_type, truck_code);
+        long catch_bta_id = CatchBTAController.add(db, company_id, location_id, record_date, type, doc_number, doc_type, truck_code, code);
 
         while (tempDetail.moveToNext()){
             double wgt = tempDetail.getDouble(tempDetail.getColumnIndex(TempCatchBTADetailEntry.COLUMN_WEIGHT));

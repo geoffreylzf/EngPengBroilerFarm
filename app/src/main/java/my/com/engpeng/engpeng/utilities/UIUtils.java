@@ -4,12 +4,17 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
 import my.com.engpeng.engpeng.R;
+
+import static android.content.Context.VIBRATOR_SERVICE;
 
 /**
  * Created by Admin on 20/1/2018.
@@ -47,5 +52,13 @@ public class UIUtils {
         }
         toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    public static void vibrate(Context activity) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            ((Vibrator) activity.getSystemService(VIBRATOR_SERVICE)).vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            ((Vibrator) activity.getSystemService(VIBRATOR_SERVICE)).vibrate(500);
+        }
     }
 }

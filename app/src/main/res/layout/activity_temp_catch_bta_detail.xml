@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -60,7 +61,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.3"
                     android:orientation="vertical">
 
                     <TextView
@@ -81,10 +82,67 @@
 
                 </LinearLayout>
 
-                <View
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="0.7">
+
+                    <ImageButton
+                        android:id="@+id/temp_catch_bta_detail_ib_bt"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:layout_marginTop="8dp"
+                        android:padding="12dp"
+                        android:src="@drawable/ic_baseline_bluetooth_24px"
+                        android:tint="@color/colorLayoutBackground"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/temp_catch_bta_detail_ib_bt_start"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:visibility="invisible"
+                        android:padding="12dp"
+                        android:src="@drawable/ic_baseline_play_arrow_24px"
+                        android:tint="@color/colorLayoutBackground"
+                        app:layout_constraintBottom_toBottomOf="@id/temp_catch_bta_detail_ib_bt"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/temp_catch_bta_detail_ib_bt" />
+
+                    <TextView
+                        android:id="@+id/temp_catch_bta_detail_tv_bt_status"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="16dp"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toStartOf="@id/temp_catch_bta_detail_ib_bt_start"
+                        app:layout_constraintStart_toEndOf="@id/temp_catch_bta_detail_ib_bt"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/temp_catch_bta_detail_tv_bt_name"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="@id/temp_catch_bta_detail_tv_bt_status"
+                        app:layout_constraintStart_toStartOf="@id/temp_catch_bta_detail_tv_bt_status"
+                        app:layout_constraintTop_toBottomOf="@id/temp_catch_bta_detail_tv_bt_status" />
+
+                    <TextView
+                        android:id="@+id/temp_catch_bta_detail_tv_bt_address"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="@id/temp_catch_bta_detail_tv_bt_status"
+                        app:layout_constraintStart_toStartOf="@id/temp_catch_bta_detail_tv_bt_status"
+                        app:layout_constraintTop_toBottomOf="@id/temp_catch_bta_detail_tv_bt_name" />
+
+                </android.support.constraint.ConstraintLayout>
 
             </LinearLayout>
 
@@ -92,7 +150,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <android.support.design.widget.TextInputLayout style="@style/TextInputLayoutStyle"
+                <android.support.design.widget.TextInputLayout
+                    style="@style/TextInputLayoutStyle"
                     android:layout_width="0dp"
                     android:layout_weight="0.6">
 
@@ -105,13 +164,15 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <Button
-                    android:id="@+id/temp_catch_bta_detail_btn_bt"
+                    android:id="@+id/temp_catch_bta_detail_btn_weight_scale"
                     style="@style/Widget.AppCompat.Button.Colored"
                     android:layout_width="0dp"
-                    android:layout_margin="16dp"
                     android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
                     android:layout_weight=".4"
-                    android:text="@string/bluetooth2" />
+                    android:drawableStart="@drawable/ic_weight_tool"
+                    android:drawableTint="@color/colorLayoutBackground"
+                    android:visibility="invisible" />
 
             </LinearLayout>
 
@@ -228,24 +289,13 @@
                     android:text="@string/save2" />
 
                 <Button
-                    android:id="@+id/temp_catch_bta_detail_btn_save_and_return"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginEnd="32dp"
-                    android:layout_toStartOf="@+id/temp_catch_bta_detail_btn_save"
-                    android:text="@string/save_and_return"
-                    android:visibility="gone" />
-
-                <Button
                     android:id="@+id/temp_catch_bta_detail_btn_exit"
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="32dp"
-                    android:layout_toStartOf="@+id/temp_catch_bta_detail_btn_save_and_return"
+                    android:layout_toStartOf="@+id/temp_catch_bta_detail_btn_save"
                     android:text="@string/cancel2" />
             </RelativeLayout>
 

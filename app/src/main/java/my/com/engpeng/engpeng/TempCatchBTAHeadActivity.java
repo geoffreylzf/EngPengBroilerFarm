@@ -3,8 +3,8 @@ package my.com.engpeng.engpeng;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,25 +16,35 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.vision.barcode.Barcode;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import my.com.engpeng.engpeng.barcode.BarcodeCaptureActivity;
 import my.com.engpeng.engpeng.controller.CatchBTAController;
 import my.com.engpeng.engpeng.controller.TempCatchBTAController;
-import my.com.engpeng.engpeng.controller.TempCatchBTADetailController;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
+import my.com.engpeng.engpeng.utilities.UIUtils;
 
 import static my.com.engpeng.engpeng.Global.I_KEY_COMPANY;
-import static my.com.engpeng.engpeng.Global.I_KEY_HOUSE_CODE;
+import static my.com.engpeng.engpeng.Global.I_KEY_DOC_NUMBER;
+import static my.com.engpeng.engpeng.Global.I_KEY_DOC_TYPE;
 import static my.com.engpeng.engpeng.Global.I_KEY_LOCATION;
+import static my.com.engpeng.engpeng.Global.I_KEY_RECORD_DATE;
+import static my.com.engpeng.engpeng.Global.I_KEY_TRUCK_CODE;
+import static my.com.engpeng.engpeng.Global.I_KEY_TYPE;
+import static my.com.engpeng.engpeng.Global.QR_SPLIT_FIELD;
+import static my.com.engpeng.engpeng.Global.REQUEST_CODE_BARCODE_CAPTURE;
 import static my.com.engpeng.engpeng.Global.sLocationName;
 
 public class TempCatchBTAHeadActivity extends AppCompatActivity {
 
     private String dateStr;
 
-    private Button btnDate, btnStart;
+    private Button btnDate, btnStart, btnScan;
     private TextView tvYear, tvMonthDay;
     private EditText etDocNumber, etTruckCode;
     private RadioGroup rgDestination, rgType;
@@ -54,6 +64,7 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
 
         btnDate = findViewById(R.id.temp_catch_bta_head_btn_change_date);
         btnStart = findViewById(R.id.temp_catch_bta_head_btn_start);
+        btnScan = findViewById(R.id.temp_catch_bta_head_btn_scan);
         tvYear = findViewById(R.id.temp_catch_bta_head_tv_year);
         tvMonthDay = findViewById(R.id.temp_catch_bta_head_tv_month_day);
         etDocNumber = findViewById(R.id.temp_catch_bta_head_et_doc_number);
@@ -86,7 +97,6 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
 
     protected void onStart() {
         super.onStart();
-        TempCatchBTAController.delete(db);
     }
 
     private void setupListener() {
@@ -168,21 +178,78 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
                 String truck_code = etTruckCode.getText().toString();
 
 
-                if(!CatchBTAController.checkDocNumber(db, doc_number, doc_type)){
+                if (!CatchBTAController.checkDocNumber(db, doc_number, doc_type)) {
                     toast = Toast.makeText(TempCatchBTAHeadActivity.this, "Document number and destination duplicate", Toast.LENGTH_SHORT);
                     toast.show();
                     return;
                 }
 
-
-                TempCatchBTAController.add(db, company_id, location_id, dateStr, type, doc_number, doc_type, truck_code);
-
                 Intent sumIntent = new Intent(TempCatchBTAHeadActivity.this, TempCatchBTASummaryActivity.class);
                 sumIntent.putExtra(I_KEY_COMPANY, company_id);
                 sumIntent.putExtra(I_KEY_LOCATION, location_id);
+                sumIntent.putExtra(I_KEY_RECORD_DATE, dateStr);
+                sumIntent.putExtra(I_KEY_TYPE, type);
+                sumIntent.putExtra(I_KEY_DOC_NUMBER, doc_number);
+                sumIntent.putExtra(I_KEY_DOC_TYPE, doc_type);
+                sumIntent.putExtra(I_KEY_TRUCK_CODE, truck_code);
                 startActivity(sumIntent);
             }
         });
+
+        btnScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TempCatchBTAHeadActivity.this, BarcodeCaptureActivity.class);
+                intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
+                intent.putExtra(BarcodeCaptureActivity.UseFlash, true);
+                startActivityForResult(intent, REQUEST_CODE_BARCODE_CAPTURE);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE_BARCODE_CAPTURE) {
+            if (resultCode == CommonStatusCodes.SUCCESS) {
+                if (data != null) {
+                    Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
+                    String qr_data = barcode.displayValue;
+
+                    try {
+
+                        String[] fields = qr_data.split(QR_SPLIT_FIELD);
+
+                        String companyId = fields[0];
+                        String locationId = fields[1];
+                        String docDate = fields[2];
+                        int docNo = Integer.parseInt(fields[3]);
+                        String docType = fields[4];
+                        String harvestType = fields[5];
+                        String truckCode = fields[6];
+
+                        Intent sumIntent = new Intent(TempCatchBTAHeadActivity.this, TempCatchBTASummaryActivity.class);
+                        sumIntent.putExtra(I_KEY_COMPANY, company_id);
+                        sumIntent.putExtra(I_KEY_LOCATION, location_id);
+                        sumIntent.putExtra(I_KEY_RECORD_DATE, docDate);
+                        sumIntent.putExtra(I_KEY_TYPE, harvestType);
+                        sumIntent.putExtra(I_KEY_DOC_NUMBER, docNo);
+                        sumIntent.putExtra(I_KEY_DOC_TYPE, docType);
+                        sumIntent.putExtra(I_KEY_TRUCK_CODE, truckCode);
+                        startActivity(sumIntent);
+
+
+                    } catch (Exception e) {
+                        UIUtils.showToastMessage(this, "Invalid QR");
+                    }
+                } else {
+                    UIUtils.showToastMessage(this, "No barcode captured");
+                }
+            } else {
+                UIUtils.showToastMessage(this, "Fail to read barcode");
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override

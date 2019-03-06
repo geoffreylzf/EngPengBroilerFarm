@@ -36,6 +36,7 @@ import static my.com.engpeng.engpeng.Global.I_KEY_TRUCK_CODE;
 import static my.com.engpeng.engpeng.Global.QR_LINE_TYPE_HEAD;
 import static my.com.engpeng.engpeng.Global.QR_SPLIT_FIELD;
 import static my.com.engpeng.engpeng.Global.QR_SPLIT_LINE;
+import static my.com.engpeng.engpeng.Global.REQUEST_CODE_BARCODE_CAPTURE;
 import static my.com.engpeng.engpeng.Global.RUNNING_CODE_RECEIVE;
 import static my.com.engpeng.engpeng.Global.sLocationName;
 import static my.com.engpeng.engpeng.Global.sUsername;
@@ -53,8 +54,6 @@ public class TempFeedReceiveHeadActivity extends AppCompatActivity {
     private SimpleDateFormat sdf, sdfYear, sdfMonthDay;
 
     private SQLiteDatabase mDb;
-
-    private static final int RC_BARCODE_CAPTURE = 9001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,14 +123,14 @@ public class TempFeedReceiveHeadActivity extends AppCompatActivity {
                 Intent intent = new Intent(TempFeedReceiveHeadActivity.this, BarcodeCaptureActivity.class);
                 intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
                 intent.putExtra(BarcodeCaptureActivity.UseFlash, true);
-                startActivityForResult(intent, RC_BARCODE_CAPTURE);
+                startActivityForResult(intent, REQUEST_CODE_BARCODE_CAPTURE);
             }
         });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RC_BARCODE_CAPTURE) {
+        if (requestCode == REQUEST_CODE_BARCODE_CAPTURE) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
                     Barcode barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
