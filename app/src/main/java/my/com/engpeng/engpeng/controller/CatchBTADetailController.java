@@ -126,7 +126,7 @@ public class CatchBTADetailController {
                 selectionArgs,
                 null,
                 null,
-                CatchBTADetailEntry.COLUMN_HOUSE_CODE
+                CatchBTADetailEntry._ID +" ASC"
         );
 
         int[] houseArr = new int[cursor.getCount()];

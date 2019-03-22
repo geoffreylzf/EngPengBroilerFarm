@@ -3,10 +3,9 @@ package my.com.engpeng.engpeng.controller;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
-import my.com.engpeng.engpeng.data.EngPengContract;
-
-import static my.com.engpeng.engpeng.data.EngPengContract.*;
+import static my.com.engpeng.engpeng.data.EngPengContract.CatchBTAEntry;
 
 /**
  * Created by Admin on 27/2/2018.
@@ -80,7 +79,7 @@ public class CatchBTAController {
 
     public static boolean checkDocNumber(SQLiteDatabase db, int doc_number, String doc_type) {
         String selection = CatchBTAEntry.COLUMN_DOC_NUMBER + " = ? AND " +
-                CatchBTAEntry.COLUMN_DOC_TYPE +" = ? ";
+                CatchBTAEntry.COLUMN_DOC_TYPE + " = ? ";
 
         String[] selectionArgs = new String[]{
                 String.valueOf(doc_number),
@@ -119,7 +118,7 @@ public class CatchBTAController {
                 null
         );
 
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             long catch_bta_id = cursor.getLong(cursor.getColumnIndex(CatchBTAEntry._ID));
             remove(db, catch_bta_id);
             CatchBTADetailController.removeByCatchBTAId(db, catch_bta_id);
@@ -226,7 +225,8 @@ public class CatchBTAController {
             String truckCode = cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_TRUCK_CODE));
             String code = cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_CODE));
 
-            data += companyId;
+            data = "v1";
+            data += "|" + companyId;
             data += "|" + locationId;
             data += "|" + recordDate;
             data += "|" + docNumber;
@@ -234,11 +234,20 @@ public class CatchBTAController {
             data += "|" + type;
             data += "|" + truckCode;
             data += "|" + code;
-            data += "\n";
 
-            data += FeedDischargeDetailController.toQrData(db, id);
+            int[] houseArr = CatchBTADetailController.getHouseCodeByCatchBTAId(db, id);
+            String houseStr = "";
+            for (int i = 0; i < houseArr.length; i++) {
+                houseStr += String.valueOf(houseArr[i]);
+                if (i != (houseArr.length - 1)) {
+                    houseStr += ",";
+                }
+            }
+            data += "|" + houseStr;
+
+            int ttlQty = CatchBTADetailController.getTotalQtyByCatchBTAId(db, id);
+            data += "|" + String.valueOf(ttlQty);
         }
-
         return data;
     }
 }

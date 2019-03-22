@@ -246,6 +246,7 @@ public class LocationInfoActivity extends AppCompatActivity
                     cv.put(CatchBTAEntry.COLUMN_TRUCK_CODE, catch_bta.getString("truck_code"));
                     cv.put(CatchBTAEntry.COLUMN_PRINT_COUNT, catch_bta.getInt("print_count"));
                     cv.put(CatchBTAEntry.COLUMN_TIMESTAMP, catch_bta.getString("timestamp"));
+                    cv.put(CatchBTAEntry.COLUMN_CODE, catch_bta.getString("code"));
                     cv.put(CatchBTAEntry.COLUMN_UPLOAD, 1);
 
                     long catch_bta_id = db.insert(CatchBTAEntry.TABLE_NAME, null, cv);
