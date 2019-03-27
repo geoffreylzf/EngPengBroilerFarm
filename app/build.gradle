@@ -6,7 +6,7 @@ android {
         applicationId "my.com.engpeng.engpeng"
         minSdkVersion 24
         targetSdkVersion 28
-        versionCode 48
+        versionCode 49
         //30-4.18.2 - 20180417 - Prevent Back Button
         //31-4.18.3 - 20180418
         //34-4.18.6 - 20180418
@@ -22,7 +22,8 @@ android {
         //46-4.22.1 - 20180730 - Sort listing of feed
         //47-4.23.0 - 20190315 - Add bluetooth weighing and scan for catch bta
         //48-4.23.1 - 20190322 - Add info to catch bta QR
-        versionName "4.23.1"
+        //49-4.23.1 - 20190327 - Add is weighing by bluetooth indicator
+        versionName "4.23.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
