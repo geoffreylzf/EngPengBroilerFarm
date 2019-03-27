@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -47,12 +48,13 @@ import static my.com.engpeng.engpeng.Global.sLocationName;
 public class TempCatchBTADetailActivity extends AppCompatActivity {
 
     private Spinner snHouseCode, snWithCoverQty;
-    private Button btnSave, btnExit, btnWeightScale;
+    private Button btnSave, btnExit, btnWeightScale, btnClearWeight;
     private ImageButton ibBt, ibBtStart;
     private TextView tvBtStatus, tvBtName, tvBtAddress;
     private EditText etWeight, etQty;
     private RadioGroup rgCageQty;
     private RadioButton rbCage1, rbCage2, rbCage3, rbCage4, rbCage5;
+    private CheckBox cbIsBt;
     private TempCatchBTADetailAdapter adapter;
     private RecyclerView rv;
 
@@ -77,6 +79,8 @@ public class TempCatchBTADetailActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.temp_catch_bta_detail_btn_save);
         btnExit = findViewById(R.id.temp_catch_bta_detail_btn_exit);
         snHouseCode = findViewById(R.id.temp_catch_bta_detail_sn_house_code);
+        btnClearWeight = findViewById(R.id.temp_catch_bta_detail_btn_clear_weight);
+        cbIsBt = findViewById(R.id.temp_catch_bta_detail_cb_is_bt);
 
         ibBt = findViewById(R.id.temp_catch_bta_detail_ib_bt);
         ibBtStart = findViewById(R.id.temp_catch_bta_detail_ib_bt_start);
@@ -215,6 +219,8 @@ public class TempCatchBTADetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (save()) {
                     refreshRecycleView();
+                    etWeight.setEnabled(true);
+                    cbIsBt.setChecked(false);
                     etWeight.setText(null);
                     etWeight.requestFocus();
                     UIUtils.vibrate(TempCatchBTADetailActivity.this);
@@ -239,6 +245,8 @@ public class TempCatchBTADetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 etWeight.setText(btnWeightScale.getText());
+                etWeight.setEnabled(false);
+                cbIsBt.setChecked(true);
             }
         });
 
@@ -246,6 +254,15 @@ public class TempCatchBTADetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startWeighingService();
+            }
+        });
+
+        btnClearWeight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                etWeight.setText("");
+                etWeight.setEnabled(true);
+                cbIsBt.setChecked(false);
             }
         });
     }
@@ -325,7 +342,11 @@ public class TempCatchBTADetailActivity extends AppCompatActivity {
             with_cover_qty = Integer.parseInt(snWithCoverQty.getSelectedItem().toString());
         }
 
-        TempCatchBTADetailController.add(db, weight, qty, house_code, cage_qty, with_cover_qty);
+        int is_bt = 0;
+        if(cbIsBt.isChecked()){
+            is_bt = 1;
+        }
+        TempCatchBTADetailController.add(db, weight, qty, house_code, cage_qty, with_cover_qty, is_bt);
         return true;
     }
 

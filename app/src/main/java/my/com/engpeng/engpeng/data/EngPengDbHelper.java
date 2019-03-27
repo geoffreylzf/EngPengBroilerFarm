@@ -13,7 +13,7 @@ import my.com.engpeng.engpeng.data.EngPengContract.*;
 
 public class EngPengDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "engpeng.db";
-    private static final int DATABASE_VERSION = 14;
+    private static final int DATABASE_VERSION = 15;
     //DB VER 7 20180317
     //DB VER 8 20180320
     //DB VER 9 20180418
@@ -22,6 +22,7 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
     //DB VER 12 20180620
     //DB VER 13 20180622
     //DB VER 14 20190305
+    //DB VER 15 20190327
 
     public EngPengDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -155,6 +156,11 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
         if (oldVer <= 13) {
             sqLiteDatabase.execSQL("ALTER TABLE catch_bta ADD COLUMN code TEXT DEFAULT ''");
         }
+
+        if (oldVer <= 14) {
+            sqLiteDatabase.execSQL("ALTER TABLE catch_bta_detail ADD COLUMN is_bt INTEGER DEFAULT 0");
+            sqLiteDatabase.execSQL("ALTER TABLE temp_catch_bta_detail ADD COLUMN is_bt INTEGER DEFAULT 0");
+        }
     }
 
     private final String SQL_CREATE_BRANCH_TABLE = "CREATE TABLE " + BranchEntry.TABLE_NAME + " (" +
@@ -205,7 +211,8 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
             CatchBTADetailEntry.COLUMN_QTY + " INTEGER, " +
             CatchBTADetailEntry.COLUMN_HOUSE_CODE + " INTEGER, " +
             CatchBTADetailEntry.COLUMN_CAGE_QTY + " INTEGER, " +
-            CatchBTADetailEntry.COLUMN_WITH_COVER_QTY + " INTEGER DEFAULT 0 " +
+            CatchBTADetailEntry.COLUMN_WITH_COVER_QTY + " INTEGER DEFAULT 0, " +
+            CatchBTADetailEntry.COLUMN_IS_BT + " INTEGER DEFAULT 0 " +
             "); ";
 
     private final String SQL_CREATE_TEMP_CATCH_BTA_TABLE = "CREATE TABLE " + TempCatchBTAEntry.TABLE_NAME + " (" +
@@ -225,7 +232,8 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
             TempCatchBTADetailEntry.COLUMN_QTY + " INTEGER, " +
             TempCatchBTADetailEntry.COLUMN_HOUSE_CODE + " INTEGER, " +
             TempCatchBTADetailEntry.COLUMN_CAGE_QTY + " INTEGER, " +
-            TempCatchBTADetailEntry.COLUMN_WITH_COVER_QTY + " INTEGER DEFAULT 0 " +
+            TempCatchBTADetailEntry.COLUMN_WITH_COVER_QTY + " INTEGER DEFAULT 0, " +
+            TempCatchBTADetailEntry.COLUMN_IS_BT + " INTEGER DEFAULT 0 " +
             "); ";
 
     private final String SQL_CREATE_TEMP_WEIGHT_TABLE = "CREATE TABLE " + TempWeightEntry.TABLE_NAME + " (" +

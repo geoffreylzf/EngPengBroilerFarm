@@ -18,7 +18,8 @@ public class CatchBTADetailController {
                            int qty,
                            int house_code,
                            int cage_qty,
-                           int with_cover_qty) {
+                           int with_cover_qty,
+                           int is_bt) {
         ContentValues cv = new ContentValues();
 
         cv.put(CatchBTADetailEntry.COLUMN_CATCH_BTA_ID, catch_bta_id);
@@ -27,6 +28,7 @@ public class CatchBTADetailController {
         cv.put(CatchBTADetailEntry.COLUMN_HOUSE_CODE,house_code);
         cv.put(CatchBTADetailEntry.COLUMN_CAGE_QTY, cage_qty);
         cv.put(CatchBTADetailEntry.COLUMN_WITH_COVER_QTY, with_cover_qty);
+        cv.put(CatchBTADetailEntry.COLUMN_IS_BT, is_bt);
         return db.insert(CatchBTADetailEntry.TABLE_NAME, null, cv);
     }
 
@@ -182,7 +184,8 @@ public class CatchBTADetailController {
             json += "\"" + CatchBTADetailEntry.COLUMN_QTY + "\": " + cursor.getString(cursor.getColumnIndex(CatchBTADetailEntry.COLUMN_QTY)) + ",";
             json += "\"" + CatchBTADetailEntry.COLUMN_HOUSE_CODE + "\": " + cursor.getString(cursor.getColumnIndex(CatchBTADetailEntry.COLUMN_HOUSE_CODE)) + ",";
             json += "\"" + CatchBTADetailEntry.COLUMN_CAGE_QTY + "\": " + cursor.getString(cursor.getColumnIndex(CatchBTADetailEntry.COLUMN_CAGE_QTY)) + ",";
-            json += "\"" + CatchBTADetailEntry.COLUMN_WITH_COVER_QTY + "\": " + cursor.getString(cursor.getColumnIndex(CatchBTADetailEntry.COLUMN_WITH_COVER_QTY)) + "";
+            json += "\"" + CatchBTADetailEntry.COLUMN_WITH_COVER_QTY + "\": " + cursor.getString(cursor.getColumnIndex(CatchBTADetailEntry.COLUMN_WITH_COVER_QTY)) + ",";
+            json += "\"" + CatchBTADetailEntry.COLUMN_IS_BT + "\": " + cursor.getString(cursor.getColumnIndex(CatchBTADetailEntry.COLUMN_IS_BT)) + "";
             json += "";
             if (cursor.getPosition() == (cursor.getCount() - 1)) {
                 json += "}";

@@ -104,10 +104,10 @@
                         style="@style/Widget.AppCompat.Button.Colored"
                         android:layout_width="72dp"
                         android:layout_height="72dp"
-                        android:visibility="invisible"
                         android:padding="12dp"
                         android:src="@drawable/ic_baseline_play_arrow_24px"
                         android:tint="@color/colorLayoutBackground"
+                        android:visibility="invisible"
                         app:layout_constraintBottom_toBottomOf="@id/temp_catch_bta_detail_ib_bt"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/temp_catch_bta_detail_ib_bt" />
@@ -117,8 +117,8 @@
                         android:layout_width="0dp"
                         android:layout_height="20dp"
                         android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
                         android:textSize="12sp"
                         app:layout_constraintEnd_toStartOf="@id/temp_catch_bta_detail_ib_bt_start"
                         app:layout_constraintStart_toEndOf="@id/temp_catch_bta_detail_ib_bt"
@@ -173,6 +173,30 @@
                     android:drawableStart="@drawable/ic_weight_tool"
                     android:drawableTint="@color/colorLayoutBackground"
                     android:visibility="invisible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/temp_catch_bta_detail_btn_clear_weight"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_baseline_refresh_24px"
+                    android:drawableTint="@color/colorLayoutBackground"
+                    android:text="@string/clear_weight2" />
+
+                <CheckBox
+                    android:id="@+id/temp_catch_bta_detail_cb_is_bt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:enabled="false"
+                    android:visibility="gone"
+                    android:text="@string/weight_by_bluetooth" />
 
             </LinearLayout>
 

@@ -240,6 +240,7 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
                 int house_code = cursorDetail.getInt(cursorDetail.getColumnIndex(TempCatchBTADetailEntry.COLUMN_HOUSE_CODE));
                 int cage_qty = cursorDetail.getInt(cursorDetail.getColumnIndex(TempCatchBTADetailEntry.COLUMN_CAGE_QTY));
                 int with_cover_qty = cursorDetail.getInt(cursorDetail.getColumnIndex(TempCatchBTADetailEntry.COLUMN_WITH_COVER_QTY));
+                int is_bt = cursorDetail.getInt(cursorDetail.getColumnIndex(TempCatchBTADetailEntry.COLUMN_IS_BT));
 
                 AlertDialog alertDialog = new AlertDialog.Builder(TempCatchBTASummaryActivity.this).create();
                 alertDialog.setTitle("Delete Swiped Catch BTA Data ?");
@@ -247,7 +248,8 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
                 message += "Quantity : " + qty + "\n";
                 message += "House : " + house_code + "\n";
                 message += "Cage Qty : " + cage_qty + "\n";
-                message += "With Cover Qty : " + with_cover_qty + "\n\n";
+                message += "With Cover Qty : " + with_cover_qty + "\n";
+                message += "Is Bluetooth : " + is_bt + "\n\n";
 
                 alertDialog.setMessage(message + "This action can't be undo. Do you still want to delete swiped catch BTA data ?");
                 alertDialog.setCancelable(false);
@@ -340,8 +342,9 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
             int house_code = tempDetail.getInt(tempDetail.getColumnIndex(TempCatchBTADetailEntry.COLUMN_HOUSE_CODE));
             int cage_qty = tempDetail.getInt(tempDetail.getColumnIndex(TempCatchBTADetailEntry.COLUMN_CAGE_QTY));
             int with_cover_qty = tempDetail.getInt(tempDetail.getColumnIndex(TempCatchBTADetailEntry.COLUMN_WITH_COVER_QTY));
+            int is_bt = tempDetail.getInt(tempDetail.getColumnIndex(TempCatchBTADetailEntry.COLUMN_IS_BT));
 
-            CatchBTADetailController.add(db, catch_bta_id, wgt, qty, house_code, cage_qty, with_cover_qty);
+            CatchBTADetailController.add(db, catch_bta_id, wgt, qty, house_code, cage_qty, with_cover_qty, is_bt);
         }
 
         return catch_bta_id;

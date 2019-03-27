@@ -17,7 +17,8 @@ public class TempCatchBTADetailController {
                            int qty,
                            int house,
                            int cage_qty,
-                           int with_cover_qty) {
+                           int with_cover_qty,
+                           int is_bt) {
 
         ContentValues cv = new ContentValues();
         cv.put(EngPengContract.TempCatchBTADetailEntry.COLUMN_WEIGHT, weight);
@@ -25,6 +26,7 @@ public class TempCatchBTADetailController {
         cv.put(EngPengContract.TempCatchBTADetailEntry.COLUMN_HOUSE_CODE, house);
         cv.put(EngPengContract.TempCatchBTADetailEntry.COLUMN_CAGE_QTY, cage_qty);
         cv.put(EngPengContract.TempCatchBTADetailEntry.COLUMN_WITH_COVER_QTY, with_cover_qty);
+        cv.put(EngPengContract.TempCatchBTADetailEntry.COLUMN_IS_BT, is_bt);
         return db.insert(EngPengContract.TempCatchBTADetailEntry.TABLE_NAME, null, cv);
     }
 

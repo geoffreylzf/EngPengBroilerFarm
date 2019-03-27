@@ -260,7 +260,8 @@ public class LocationInfoActivity extends AppCompatActivity
                                 catch_bta_detail.getInt("qty"),
                                 catch_bta_detail.getInt("house_code"),
                                 catch_bta_detail.getInt("cage_qty"),
-                                catch_bta_detail.getInt("with_cover_qty"));
+                                catch_bta_detail.getInt("with_cover_qty"),
+                                catch_bta_detail.getInt("is_bt"));
                     }
 
                     publishProgress(start + (int) (((double) (i + 1) / (double) jsonArray.length()) * (double) allocate));

@@ -61,6 +61,7 @@ public class EngPengContract {
         public static final String COLUMN_HOUSE_CODE = "house_code";
         public static final String COLUMN_CAGE_QTY = "cage_qty";
         public static final String COLUMN_WITH_COVER_QTY = "with_cover_qty";
+        public static final String COLUMN_IS_BT = "is_bt";
     }
 
     public static final class TempCatchBTAEntry implements BaseColumns {
@@ -81,6 +82,7 @@ public class EngPengContract {
         public static final String COLUMN_HOUSE_CODE = "house_code";
         public static final String COLUMN_CAGE_QTY = "cage_qty";
         public static final String COLUMN_WITH_COVER_QTY = "with_cover_qty";
+        public static final String COLUMN_IS_BT = "is_bt";
     }
 
     public static final class TempWeightEntry implements BaseColumns {
