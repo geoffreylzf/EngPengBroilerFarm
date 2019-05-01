@@ -7,8 +7,8 @@
         android:title="@string/print"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_catch_bta_delete"
+        android:id="@+id/action_catch_bta_reupload"
         android:orderInCategory="100"
-        android:title="@string/delete"
+        android:title="@string/reupload"
         app:showAsAction="never" />
 </menu>

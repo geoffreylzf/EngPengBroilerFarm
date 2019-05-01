@@ -125,6 +125,26 @@ public class CatchBTAController {
         }
     }
 
+    public static int reupload(SQLiteDatabase db, Long id) {
+
+        ContentValues cv = new ContentValues();
+        cv.put(CatchBTAEntry.COLUMN_UPLOAD, 0);
+
+        String selection = CatchBTAEntry._ID + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(id),
+        };
+
+        return db.update(
+                CatchBTAEntry.TABLE_NAME,
+                cv,
+                selection,
+                selectionArgs
+        );
+
+    }
+
     public static int getCount(SQLiteDatabase db, int upload) {
         String selection = CatchBTAEntry.COLUMN_UPLOAD + " = ? ";
 

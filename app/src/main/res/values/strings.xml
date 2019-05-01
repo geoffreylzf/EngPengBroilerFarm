@@ -37,6 +37,7 @@
     <string name="cancel">Cancel</string>
     <string name="cancel2">Cancel (Balik)</string>
     <string name="delete">Delete</string>
+    <string name="reupload">Reupload</string>
     <string name="discard">Discard</string>
     <string name="print">Print</string>
     <string name="scan_and_start">Scan and Start</string>

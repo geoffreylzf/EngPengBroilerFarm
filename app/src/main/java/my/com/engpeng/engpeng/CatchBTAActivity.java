@@ -148,21 +148,20 @@ public class CatchBTAActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_catch_bta_delete) {
-            if (is_upload) {
+        if (id == R.id.action_catch_bta_reupload) {
+            if (!is_upload) {
 
-                UIUtils.getMessageDialog(CatchBTAActivity.this, "Delete Failed", "Uploaded data is unable to delete").show();
+                UIUtils.getMessageDialog(CatchBTAActivity.this, "Reupload Failed", "Not yet upload data is unable to mark reupload").show();
 
             } else {
 
                 AlertDialog alertDialog = new AlertDialog.Builder(CatchBTAActivity.this).create();
-                alertDialog.setTitle("Delete This Catch BTA?");
-                alertDialog.setMessage("This action can't be undo. Do you still want to delete this feed_in?");
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "DELETE",
+                alertDialog.setTitle("Reupload this Catch BTA?");
+                alertDialog.setMessage("Reupload will require to upload again");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "REUPLOAD",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                CatchBTAController.remove(db, catch_bta_id);
-                                CatchBTADetailController.removeByCatchBTAId(db, catch_bta_id);
+                                CatchBTAController.reupload(db, catch_bta_id);
                                 dialog.dismiss();
                                 finish();
                             }

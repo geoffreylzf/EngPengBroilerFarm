@@ -78,6 +78,9 @@ public class PrintUtils {
         text += formatLine("Truck Code : " + truck_code);
         text += formatLine("Code : " + code);
         text += formatLine("");
+        text += formatLine("Umur :");
+        text += formatLine("Ayam :______________________");
+        text += formatLine("");
         text += formatLine(halfLine("Stock Description") + "|" + halfLine("Stock Description"));
         text += formatLine(halfLine("Live Bird - Grade " + type) + "|" + halfLine("Live Bird - Grade " + type));
         text += formatLine(halfLine(PRINT_HALF_SEPERATOR) + "|" + halfLine(PRINT_HALF_SEPERATOR));
