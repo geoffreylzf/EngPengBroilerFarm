@@ -37,6 +37,7 @@ public class Global {
 
     public static final int REQUEST_CODE_BLUETOOTH_WEIGHT = 7001;
     public static final int REQUEST_CODE_BLUETOOTH_DEVICE = 7002;
+    public static final int REQUEST_CODE_WRITE_EXTERNAL = 7003;
     public static final int REQUEST_CODE_BARCODE_CAPTURE = 9001;
 
     public static final String PREF_KEY = "PREF_KEY";

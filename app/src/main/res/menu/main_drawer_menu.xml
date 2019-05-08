@@ -47,6 +47,10 @@
                     android:id="@+id/nav_test"
                     android:icon="@drawable/ic_playlist_add_check_black_24px"
                     android:title="@string/function" />
+                <item
+                    android:id="@+id/nav_setting"
+                    android:icon="@drawable/ic_baseline_settings_20px"
+                    android:title="@string/settings" />
             </group>
         </menu>
     </item>

@@ -249,4 +249,5 @@
     <string name="bt_address">Address : %1$s</string>
     <string name="clear_weight2">Clear Weight (Hapus BT Timbangan)</string>
     <string name="weight_by_bluetooth">Weight By Bluetooth</string>
+    <string name="backup_database">Backup Database</string>
 </resources>

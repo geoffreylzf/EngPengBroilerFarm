@@ -178,7 +178,11 @@ public class MainActivity extends AppCompatActivity {
 
                     startActivity(new Intent(MainActivity.this, FunctionTestActivity.class));
 
-                } else if (id == R.id.nav_logout) {
+                }  else if (id == R.id.nav_setting) {
+
+                    startActivity(new Intent(MainActivity.this, SettingActivity.class));
+
+                }else if (id == R.id.nav_logout) {
 
                     startActivity(new Intent(MainActivity.this, LogoutActivity.class));
 
