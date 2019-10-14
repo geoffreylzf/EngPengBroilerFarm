@@ -84,6 +84,7 @@ public class BluetoothConnection {
                     if (topQRCodeByte != null && bottomQRCodeByte != null) {
                         printPhoto(topQRCodeByte);
                         printPhoto(bottomQRCodeByte);
+                        Thread.sleep(2000);
                     }
 
                     printText(strPrintText);
