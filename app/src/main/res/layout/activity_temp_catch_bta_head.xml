@@ -172,6 +172,58 @@
 
         </android.support.design.widget.TextInputLayout>
 
+        <TextView
+            style="@style/LabelTextViewStyle"
+            android:text="@string/fasting_time2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginEnd="100dp">
+
+            <EditText
+                android:id="@+id/temp_catch_bta_head_et_fasting_time_hour"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:maxLength="2"
+                android:hint="@string/hour2"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/temp_catch_bta_head_et_fasting_time_minute"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:maxLength="2"
+                android:hint="@string/minute2"
+                android:inputType="number" />
+
+            <RadioGroup
+                android:id="@+id/temp_catch_bta_head_rg_fasting_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/temp_catch_bta_head_rd_fasting_time_am"
+                    style="@style/RadioButtonStyle"
+                    android:layout_weight="1"
+                    android:text="@string/am" />
+
+                <RadioButton
+                    android:id="@+id/temp_catch_bta_head_rd_fasting_time_pm"
+                    style="@style/RadioButtonStyle"
+                    android:layout_weight="1"
+                    android:text="@string/pm" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

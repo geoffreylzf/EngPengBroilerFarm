@@ -68,6 +68,7 @@ public class Global {
     public static final String I_KEY_DOC_TYPE = "I_KEY_DOC_TYPE";
     public static final String I_KEY_TYPE = "I_KEY_TYPE";
     public static final String I_KEY_TRUCK_CODE = "I_KEY_TRUCK_CODE";
+    public static final String I_KEY_FASTING_TIME = "I_KEY_FASTING_TIME";
     public static final String I_KEY_RECORD_DATE = "I_KEY_RECORD_DATE";
     public static final String I_KEY_ID_LIST = "I_KEY_ID_LIST";
     public static final String I_KEY_QR_DATA = "I_KEY_QR_DATA";

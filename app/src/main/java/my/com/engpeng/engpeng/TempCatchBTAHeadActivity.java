@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,13 +26,13 @@ import java.util.Locale;
 
 import my.com.engpeng.engpeng.barcode.BarcodeCaptureActivity;
 import my.com.engpeng.engpeng.controller.CatchBTAController;
-import my.com.engpeng.engpeng.controller.TempCatchBTAController;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
 import my.com.engpeng.engpeng.utilities.UIUtils;
 
 import static my.com.engpeng.engpeng.Global.I_KEY_COMPANY;
 import static my.com.engpeng.engpeng.Global.I_KEY_DOC_NUMBER;
 import static my.com.engpeng.engpeng.Global.I_KEY_DOC_TYPE;
+import static my.com.engpeng.engpeng.Global.I_KEY_FASTING_TIME;
 import static my.com.engpeng.engpeng.Global.I_KEY_LOCATION;
 import static my.com.engpeng.engpeng.Global.I_KEY_RECORD_DATE;
 import static my.com.engpeng.engpeng.Global.I_KEY_TRUCK_CODE;
@@ -46,8 +47,8 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
 
     private Button btnDate, btnStart, btnScan;
     private TextView tvYear, tvMonthDay;
-    private EditText etDocNumber, etTruckCode;
-    private RadioGroup rgDestination, rgType;
+    private EditText etDocNumber, etTruckCode, etFastingTimeHour, etFastingTimeMinute;
+    private RadioGroup rgDestination, rgType, rgFastingTime;
 
     private int company_id, location_id;
 
@@ -71,6 +72,10 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
         rgDestination = findViewById(R.id.temp_catch_bta_head_rg_destination);
         rgType = findViewById(R.id.temp_catch_bta_head_rg_type);
         etTruckCode = findViewById(R.id.temp_catch_bta_head_et_truck_code);
+
+        etFastingTimeHour = findViewById(R.id.temp_catch_bta_head_et_fasting_time_hour);
+        etFastingTimeMinute = findViewById(R.id.temp_catch_bta_head_et_fasting_time_minute);
+        rgFastingTime = findViewById(R.id.temp_catch_bta_head_rg_fasting_time);
 
         calender = Calendar.getInstance();
         year = calender.get(Calendar.YEAR);
@@ -184,6 +189,22 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
                     return;
                 }
 
+                String fasting_time = "";
+
+                if (etFastingTimeHour.getText().length() != 0 && etFastingTimeMinute.getText().length() != 0) {
+                    int rgSelectedFastingTime = rgFastingTime.getCheckedRadioButtonId();
+                    if (rgSelectedFastingTime != -1) {
+                        String fasting_time_convention = "";
+                        if (rgSelectedFastingTime == R.id.temp_catch_bta_head_rd_fasting_time_am) {
+                            fasting_time_convention = "AM";
+                        } else if (rgSelectedFastingTime == R.id.temp_catch_bta_head_rd_fasting_time_pm) {
+                            fasting_time_convention = "PM";
+                        }
+
+                        fasting_time = etFastingTimeHour.getText().toString() + ":" + etFastingTimeMinute.getText().toString() + " " + fasting_time_convention;
+                    }
+                }
+
                 Intent sumIntent = new Intent(TempCatchBTAHeadActivity.this, TempCatchBTASummaryActivity.class);
                 sumIntent.putExtra(I_KEY_COMPANY, company_id);
                 sumIntent.putExtra(I_KEY_LOCATION, location_id);
@@ -192,6 +213,7 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
                 sumIntent.putExtra(I_KEY_DOC_NUMBER, doc_number);
                 sumIntent.putExtra(I_KEY_DOC_TYPE, doc_type);
                 sumIntent.putExtra(I_KEY_TRUCK_CODE, truck_code);
+                sumIntent.putExtra(I_KEY_FASTING_TIME, fasting_time);
                 startActivity(sumIntent);
             }
         });
@@ -222,21 +244,46 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
                         String companyId = fields[0];
                         String locationId = fields[1];
                         String docDate = fields[2];
-                        int docNo = Integer.parseInt(fields[3]);
+                        String docNo = fields[3];
                         String docType = fields[4];
                         String harvestType = fields[5];
                         String truckCode = fields[6];
 
-                        Intent sumIntent = new Intent(TempCatchBTAHeadActivity.this, TempCatchBTASummaryActivity.class);
-                        sumIntent.putExtra(I_KEY_COMPANY, company_id);
-                        sumIntent.putExtra(I_KEY_LOCATION, location_id);
-                        sumIntent.putExtra(I_KEY_RECORD_DATE, docDate);
-                        sumIntent.putExtra(I_KEY_TYPE, harvestType);
-                        sumIntent.putExtra(I_KEY_DOC_NUMBER, docNo);
-                        sumIntent.putExtra(I_KEY_DOC_TYPE, docType);
-                        sumIntent.putExtra(I_KEY_TRUCK_CODE, truckCode);
-                        startActivity(sumIntent);
+//                        Intent sumIntent = new Intent(TempCatchBTAHeadActivity.this, TempCatchBTASummaryActivity.class);
+//                        sumIntent.putExtra(I_KEY_COMPANY, company_id);
+//                        sumIntent.putExtra(I_KEY_LOCATION, location_id);
+//                        sumIntent.putExtra(I_KEY_RECORD_DATE, docDate);
+//                        sumIntent.putExtra(I_KEY_TYPE, harvestType);
+//                        sumIntent.putExtra(I_KEY_DOC_NUMBER, docNo);
+//                        sumIntent.putExtra(I_KEY_DOC_TYPE, docType);
+//                        sumIntent.putExtra(I_KEY_TRUCK_CODE, truckCode);
+//                        startActivity(sumIntent);
 
+                        etDocNumber.setText(docNo);
+
+                        switch (docType) {
+                            case "PL":
+                                rgDestination.check(R.id.temp_catch_bta_head_rd_customer);
+                                break;
+                            case "IFT":
+                            case "OP":
+                                rgDestination.check(R.id.temp_catch_bta_head_rd_slaughterhouse);
+                                break;
+                        }
+
+                        switch (harvestType) {
+                            case "KFC":
+                                rgType.check(R.id.temp_catch_bta_head_rd_kfc);
+                                break;
+                            case "A":
+                                rgType.check(R.id.temp_catch_bta_head_rd_grade_a);
+                                break;
+                            case "B":
+                                rgType.check(R.id.temp_catch_bta_head_rd_grade_b);
+                                break;
+                        }
+
+                        etTruckCode.setText(truckCode);
 
                     } catch (Exception e) {
                         UIUtils.showToastMessage(this, "Invalid QR");

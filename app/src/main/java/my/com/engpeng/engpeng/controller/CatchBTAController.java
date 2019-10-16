@@ -21,7 +21,8 @@ public class CatchBTAController {
                            int doc_number,
                            String doc_type,
                            String truck_code,
-                           String code) {
+                           String code,
+                           String fasting_time) {
 
         ContentValues cv = new ContentValues();
         cv.put(CatchBTAEntry.COLUMN_COMPANY_ID, company_id);
@@ -32,6 +33,7 @@ public class CatchBTAController {
         cv.put(CatchBTAEntry.COLUMN_DOC_TYPE, doc_type);
         cv.put(CatchBTAEntry.COLUMN_TRUCK_CODE, truck_code);
         cv.put(CatchBTAEntry.COLUMN_CODE, code);
+        cv.put(CatchBTAEntry.COLUMN_FASTING_TIME, fasting_time);
 
         return db.insert(CatchBTAEntry.TABLE_NAME, null, cv);
     }
@@ -202,6 +204,7 @@ public class CatchBTAController {
             json += "\"" + CatchBTAEntry.COLUMN_DOC_TYPE + "\": \"" + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_DOC_TYPE)) + "\",";
             json += "\"" + CatchBTAEntry.COLUMN_TRUCK_CODE + "\": \"" + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_TRUCK_CODE)) + "\",";
             json += "\"" + CatchBTAEntry.COLUMN_CODE + "\": \"" + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_CODE)) + "\",";
+            json += "\"" + CatchBTAEntry.COLUMN_FASTING_TIME + "\": \"" + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_FASTING_TIME)) + "\",";
             json += "\"" + CatchBTAEntry.COLUMN_PRINT_COUNT + "\": " + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_PRINT_COUNT)) + ",";
             json += "\"" + CatchBTAEntry.COLUMN_TIMESTAMP + "\": \"" + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_TIMESTAMP)) + "\",";
             json += CatchBTADetailController.getUploadJsonByCatchBTAId(db, cursor.getLong(cursor.getColumnIndex(CatchBTAEntry._ID)));

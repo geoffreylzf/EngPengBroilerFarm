@@ -5,9 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -26,21 +26,16 @@ import java.util.Locale;
 import my.com.engpeng.engpeng.adapter.TempCatchBTASummaryAdapter;
 import my.com.engpeng.engpeng.controller.CatchBTAController;
 import my.com.engpeng.engpeng.controller.CatchBTADetailController;
-import my.com.engpeng.engpeng.controller.FeedDischargeController;
-import my.com.engpeng.engpeng.controller.MortalityController;
-import my.com.engpeng.engpeng.controller.TempCatchBTAController;
 import my.com.engpeng.engpeng.controller.TempCatchBTADetailController;
-import my.com.engpeng.engpeng.controller.WeightController;
-import my.com.engpeng.engpeng.controller.WeightDetailController;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
 import my.com.engpeng.engpeng.utilities.PrintUtils;
-import my.com.engpeng.engpeng.utilities.UIUtils;
 
 import static my.com.engpeng.engpeng.Global.I_KEY_CAGE_QTY;
 import static my.com.engpeng.engpeng.Global.I_KEY_COMPANY;
 import static my.com.engpeng.engpeng.Global.I_KEY_CONTINUE_NEXT;
 import static my.com.engpeng.engpeng.Global.I_KEY_DOC_NUMBER;
 import static my.com.engpeng.engpeng.Global.I_KEY_DOC_TYPE;
+import static my.com.engpeng.engpeng.Global.I_KEY_FASTING_TIME;
 import static my.com.engpeng.engpeng.Global.I_KEY_HOUSE_CODE;
 import static my.com.engpeng.engpeng.Global.I_KEY_ID;
 import static my.com.engpeng.engpeng.Global.I_KEY_LOCATION;
@@ -53,15 +48,14 @@ import static my.com.engpeng.engpeng.Global.I_KEY_TRUCK_CODE;
 import static my.com.engpeng.engpeng.Global.I_KEY_TYPE;
 import static my.com.engpeng.engpeng.Global.I_KEY_WITH_COVER_QTY;
 import static my.com.engpeng.engpeng.Global.MODULE_CATCH_BTA;
-import static my.com.engpeng.engpeng.Global.MODULE_WEIGHT;
 import static my.com.engpeng.engpeng.Global.sLocationName;
-import static my.com.engpeng.engpeng.data.EngPengContract.*;
+import static my.com.engpeng.engpeng.data.EngPengContract.TempCatchBTADetailEntry;
 
 public class TempCatchBTASummaryActivity extends AppCompatActivity {
 
     private FloatingActionButton fabAdd;
     private Button btnEnd;
-    private TextView tvLocation, tvDocNumber, tvDestination, tvType, tvTruckCode, tvTtlWeight, tvTtlQty, tvTtlRecord;
+    private TextView tvLocation, tvDocNumber, tvDestination, tvType, tvTruckCode, tvFastingTime, tvTtlWeight, tvTtlQty, tvTtlRecord;
 
     private SQLiteDatabase db;
     private TempCatchBTASummaryAdapter adapter;
@@ -70,7 +64,7 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
     private static int REQUEST_CODE_CONTINUE_NEXT = 1;
 
     private int company_id, location_id, doc_number ;
-    private String record_date, type, doc_type, truck_code;
+    private String record_date, type, doc_type, truck_code, fasting_time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +81,7 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
         tvDestination = findViewById(R.id.temp_catch_bta_summary_tv_destination);
         tvType = findViewById(R.id.temp_catch_bta_summary_tv_type);
         tvTruckCode = findViewById(R.id.temp_catch_bta_summary_tv_truck_code);
+        tvFastingTime = findViewById(R.id.temp_catch_bta_summary_tv_fasting_time);
 
         tvTtlWeight = findViewById(R.id.temp_catch_bta_summary_tv_ttl_weight);
         tvTtlQty = findViewById(R.id.temp_catch_bta_summary_tv_ttl_qty);
@@ -134,6 +129,9 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
         }
         if (intentStart.hasExtra(I_KEY_TRUCK_CODE)) {
             truck_code = intentStart.getStringExtra(I_KEY_TRUCK_CODE);
+        }
+        if (intentStart.hasExtra(I_KEY_FASTING_TIME)) {
+            fasting_time = intentStart.getStringExtra(I_KEY_FASTING_TIME);
         }
     }
 
@@ -314,6 +312,7 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
         tvDestination.setText("Destination : " + destination);
         tvType.setText("Type : " + type);
         tvTruckCode.setText("Truck Code : " + truck_code);
+        tvFastingTime.setText("Fasting Time : " + fasting_time);
     }
 
     public void setupTtlSummary(){
@@ -334,7 +333,7 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         String code = sdfDateTime.format(c.getTime()) + String.format(Locale.US, "%04d%04d", company_id, location_id);
 
-        long catch_bta_id = CatchBTAController.add(db, company_id, location_id, record_date, type, doc_number, doc_type, truck_code, code);
+        long catch_bta_id = CatchBTAController.add(db, company_id, location_id, record_date, type, doc_number, doc_type, truck_code, code, fasting_time);
 
         while (tempDetail.moveToNext()){
             double wgt = tempDetail.getDouble(tempDetail.getColumnIndex(TempCatchBTADetailEntry.COLUMN_WEIGHT));

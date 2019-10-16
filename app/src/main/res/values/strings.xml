@@ -110,6 +110,7 @@
     <string name="overall">Overall</string>
     <string name="type">Type</string>
     <string name="type2">Type (Jenis)</string>
+    <string name="fasting_time2">Fasting Time (Masa Puasa)</string>
     <string name="continue_">Continue</string>
     <string name="finish">Finish</string>
     <string name="finish_catch_2">Finish (Selesai Penangkapan)</string>
@@ -162,6 +163,10 @@
     <string name="destination">Destination</string>
     <string name="destination2">Destination (Kepada)</string>
     <string name="doc_number">Document Number</string>
+    <string name="hour2">Hour (Jam)</string>
+    <string name="minute2">Minute (Minit)</string>
+    <string name="am">AM</string>
+    <string name="pm">PM</string>
     <string name="doc_number2">Document Number (No. Dokumen)</string>
     <string name="catching_bta">Catching (BTA)</string>
     <string name="weight_kg">Weight (KG)</string>

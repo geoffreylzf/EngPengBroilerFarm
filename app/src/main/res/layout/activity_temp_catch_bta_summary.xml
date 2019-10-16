@@ -84,6 +84,12 @@
                     android:layout_height="wrap_content"
                     android:text="Total Cage :" />
 
+                <TextView
+                    android:id="@+id/temp_catch_bta_summary_tv_fasting_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Fasting Time :" />
+
             </LinearLayout>
 
         </LinearLayout>
