@@ -6,7 +6,11 @@ android {
         applicationId "my.com.engpeng.engpeng"
         minSdkVersion 24
         targetSdkVersion 28
-        versionCode 54
+        versionCode 55
+        versionName "4.25.1"
+
+        //55-4.25.1 - 20190709 - Add masa puasa to catch bta print
+
         //30-4.18.2 - 20180417 - Prevent Back Button
         //31-4.18.3 - 20180418
         //34-4.18.6 - 20180418
@@ -28,7 +32,6 @@ android {
         //52-4.24.1 - 20190709 - Add clear text traffic for android 9 login
         //53-4.24.2 - 20190709 - Add 2 second delay after print QR
         //54-4.25.0 - 20190709 - Add fasting time entry for catch bta head
-        versionName "4.25.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
