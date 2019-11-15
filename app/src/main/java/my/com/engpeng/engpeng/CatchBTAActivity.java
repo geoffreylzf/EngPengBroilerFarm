@@ -222,7 +222,7 @@ public class CatchBTAActivity extends AppCompatActivity {
         String printText = PrintUtils.printCatchBTA(this, db, catch_bta_id);
         String qr = CatchBTAController.toQrData(db, catch_bta_id);
 
-        Intent ppIntent = new Intent(CatchBTAActivity.this, PrintPreviewActivity.class);
+        Intent ppIntent = new Intent(CatchBTAActivity.this, PrintPreview2Activity.class);
         ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
         ppIntent.putExtra(I_KEY_PRINT_QR_TEXT, qr);
         ppIntent.putExtra(I_KEY_MODULE, MODULE_CATCH_BTA);

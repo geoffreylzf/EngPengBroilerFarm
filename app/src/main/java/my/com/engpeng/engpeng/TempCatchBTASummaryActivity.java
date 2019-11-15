@@ -166,7 +166,7 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
                                     String printText = PrintUtils.printCatchBTA(TempCatchBTASummaryActivity.this, db, catch_bta_id);
                                     String qr = CatchBTAController.toQrData(db, catch_bta_id);
 
-                                    Intent ppIntent = new Intent(TempCatchBTASummaryActivity.this, PrintPreviewActivity.class);
+                                    Intent ppIntent = new Intent(TempCatchBTASummaryActivity.this, PrintPreview2Activity.class);
                                     ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
                                     ppIntent.putExtra(I_KEY_PRINT_QR_TEXT, qr);
                                     ppIntent.putExtra(I_KEY_MODULE, MODULE_CATCH_BTA);

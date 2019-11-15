@@ -138,7 +138,7 @@ public class TempFeedDischargeSummaryActivity extends AppCompatActivity {
                                     String printText = PrintUtils.printFeedDischarge(db, feed_discharge_id);
                                     String qr = FeedDischargeController.toQrData(db, feed_discharge_id);
 
-                                    Intent ppIntent = new Intent(TempFeedDischargeSummaryActivity.this, PrintPreviewActivity.class);
+                                    Intent ppIntent = new Intent(TempFeedDischargeSummaryActivity.this, PrintPreview2Activity.class);
                                     ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
                                     ppIntent.putExtra(I_KEY_PRINT_QR_TEXT, qr);
                                     TempFeedDischargeSummaryActivity.this.startActivity(ppIntent);

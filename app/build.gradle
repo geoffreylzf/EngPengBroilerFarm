@@ -6,9 +6,10 @@ android {
         applicationId "my.com.engpeng.engpeng"
         minSdkVersion 24
         targetSdkVersion 28
-        versionCode 55
-        versionName "4.25.1"
+        versionCode 56
+        versionName "4.26.0"
 
+        //56-4.26.0 - 20191115 - Rework print method to solve new printer issue
         //55-4.25.1 - 20190709 - Add masa puasa to catch bta print
 
         //30-4.18.2 - 20180417 - Prevent Back Button

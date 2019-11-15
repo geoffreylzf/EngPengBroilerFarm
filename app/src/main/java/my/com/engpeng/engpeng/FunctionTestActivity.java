@@ -18,10 +18,7 @@ import static my.com.engpeng.engpeng.Global.REQUEST_CODE_BARCODE_CAPTURE;
 
 public class FunctionTestActivity extends AppCompatActivity {
 
-    private Button btnScan, btnPrint;
-
-
-
+    private Button btnScan, btnPrint, btnOldPrint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +27,7 @@ public class FunctionTestActivity extends AppCompatActivity {
 
         btnScan = findViewById(R.id.function_test_btn_scan);
         btnPrint = findViewById(R.id.function_test_btn_print);
+        btnOldPrint = findViewById(R.id.function_test_btn_old_print);
 
         setupListener();
 
@@ -48,6 +46,16 @@ public class FunctionTestActivity extends AppCompatActivity {
         });
 
         btnPrint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent ppIntent = new Intent(FunctionTestActivity.this, PrintPreview2Activity.class);
+                ppIntent.putExtra(I_KEY_PRINT_TEXT, "TEST-TEST-TEST-TEST-TEST-TEST\nTEST-TEST-TEST-TEST-TEST-TEST\nTEST-TEST-TEST-TEST-TEST-TEST\n");
+                ppIntent.putExtra(I_KEY_PRINT_QR_TEXT, "TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST-TEST");
+                startActivity(ppIntent);
+            }
+        });
+
+        btnOldPrint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent ppIntent = new Intent(FunctionTestActivity.this, PrintPreviewActivity.class);

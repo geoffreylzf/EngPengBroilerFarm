@@ -11,6 +11,8 @@ import static my.com.engpeng.engpeng.Global.P_KEY_BLUETOOTH_NAME;
 import static my.com.engpeng.engpeng.Global.P_KEY_COMPANY_ID;
 import static my.com.engpeng.engpeng.Global.P_KEY_LOCATION_ID;
 import static my.com.engpeng.engpeng.Global.P_KEY_PASSWORD;
+import static my.com.engpeng.engpeng.Global.P_KEY_PRINTER_BLUETOOTH_ADDRESS;
+import static my.com.engpeng.engpeng.Global.P_KEY_PRINTER_BLUETOOTH_NAME;
 import static my.com.engpeng.engpeng.Global.P_KEY_USERNAME;
 
 /**
@@ -42,9 +44,22 @@ public class SharedPreferencesUtils {
         editor.apply();
     }
 
+    public static void savePrinterBluetooth(Context context, Bluetooth bt) {
+        SharedPreferences prefs = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(P_KEY_PRINTER_BLUETOOTH_NAME, bt.getName());
+        editor.putString(P_KEY_PRINTER_BLUETOOTH_ADDRESS, bt.getAddress());
+        editor.apply();
+    }
+
     public static Bluetooth getWeighingBluetooth(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
         return new Bluetooth(prefs.getString(P_KEY_BLUETOOTH_NAME, ""), prefs.getString(P_KEY_BLUETOOTH_ADDRESS, ""));
+    }
+
+    public static Bluetooth getPrinterBluetooth(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
+        return new Bluetooth(prefs.getString(P_KEY_PRINTER_BLUETOOTH_NAME, ""), prefs.getString(P_KEY_PRINTER_BLUETOOTH_ADDRESS, ""));
     }
 
     public static void clearAll(Context context) {

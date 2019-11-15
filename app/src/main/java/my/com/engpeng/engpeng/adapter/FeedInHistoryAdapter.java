@@ -8,9 +8,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.AutoTransition;
-import android.transition.Explode;
-import android.transition.Fade;
 import android.transition.Slide;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
@@ -21,19 +18,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import my.com.engpeng.engpeng.PrintPreviewActivity;
+import my.com.engpeng.engpeng.PrintPreview2Activity;
 import my.com.engpeng.engpeng.R;
-import my.com.engpeng.engpeng.WeightActivity;
 import my.com.engpeng.engpeng.controller.FeedInController;
 import my.com.engpeng.engpeng.controller.FeedInDetailController;
 import my.com.engpeng.engpeng.utilities.PrintUtils;
 import my.com.engpeng.engpeng.utilities.UIUtils;
 
-import static my.com.engpeng.engpeng.Global.I_KEY_ID;
-import static my.com.engpeng.engpeng.Global.I_KEY_MODULE;
 import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_TEXT;
-import static my.com.engpeng.engpeng.Global.MODULE_WEIGHT;
-import static my.com.engpeng.engpeng.data.EngPengContract.*;
+import static my.com.engpeng.engpeng.data.EngPengContract.FeedInEntry;
 
 public class FeedInHistoryAdapter extends RecyclerView.Adapter<FeedInHistoryAdapter.FeedInViewHolder> {
 
@@ -153,7 +146,7 @@ public class FeedInHistoryAdapter extends RecyclerView.Adapter<FeedInHistoryAdap
             public void onClick(View view) {
                 String printText = PrintUtils.printFeedIn(db, feed_in_id);
 
-                Intent ppIntent = new Intent(context, PrintPreviewActivity.class);
+                Intent ppIntent = new Intent(context, PrintPreview2Activity.class);
                 ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
                 context.startActivity(ppIntent);
             }

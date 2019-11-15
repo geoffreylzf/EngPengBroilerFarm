@@ -186,7 +186,7 @@ public class TempFeedInSummaryActivity extends AppCompatActivity {
 
                                     String printText = PrintUtils.printFeedIn(db, feed_in_id);
 
-                                    Intent ppIntent = new Intent(TempFeedInSummaryActivity.this, PrintPreviewActivity.class);
+                                    Intent ppIntent = new Intent(TempFeedInSummaryActivity.this, PrintPreview2Activity.class);
                                     ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
                                     startActivity(ppIntent);
                                 }

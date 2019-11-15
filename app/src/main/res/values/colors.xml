@@ -13,9 +13,11 @@
 
     <color name="colorTableHeader">#212121</color>
     <color name="colorTableRow">#E0E0E0</color>
+    <color name="colorDivider">#1e000000</color>
 
     <color name="colorTranslucent">#80FFFFFF</color>
     <color name="colorTransparent">@android:color/transparent</color>
 
     <color name="colorRed">#ff0000</color>
+    <color name="colorWhite">#ffffff</color>
 </resources>

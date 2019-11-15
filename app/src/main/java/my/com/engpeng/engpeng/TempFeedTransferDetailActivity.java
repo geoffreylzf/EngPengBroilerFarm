@@ -158,7 +158,7 @@ public class TempFeedTransferDetailActivity extends AppCompatActivity {
 
                     String printText = PrintUtils.printFeedTransfer(mDb, feed_transfer_id);
 
-                    Intent ppIntent = new Intent(TempFeedTransferDetailActivity.this, PrintPreviewActivity.class);
+                    Intent ppIntent = new Intent(TempFeedTransferDetailActivity.this, PrintPreview2Activity.class);
                     ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
                     startActivity(ppIntent);
                 }

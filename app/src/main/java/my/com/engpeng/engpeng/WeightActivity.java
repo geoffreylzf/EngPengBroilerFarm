@@ -260,7 +260,7 @@ public class WeightActivity extends AppCompatActivity {
         if (id == R.id.action_weight_print) {
             String printText = PrintUtils.printWeight(db, weight_id);
 
-            Intent ppIntent = new Intent(WeightActivity.this, PrintPreviewActivity.class);
+            Intent ppIntent = new Intent(WeightActivity.this, PrintPreview2Activity.class);
             ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
             ppIntent.putExtra(I_KEY_MODULE, MODULE_WEIGHT);
             ppIntent.putExtra(I_KEY_ID, weight_id);

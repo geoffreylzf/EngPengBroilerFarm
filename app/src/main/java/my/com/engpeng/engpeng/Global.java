@@ -87,6 +87,8 @@ public class Global {
     public static final String P_KEY_LOCATION_ID = "P_KEY_LOCATION_ID";
     public static final String P_KEY_BLUETOOTH_NAME = "P_KEY_BLUETOOTH_NAME";
     public static final String P_KEY_BLUETOOTH_ADDRESS = "P_KEY_BLUETOOTH_ADDRESS";
+    public static final String P_KEY_PRINTER_BLUETOOTH_NAME = "P_KEY_PRINTER_BLUETOOTH_NAME";
+    public static final String P_KEY_PRINTER_BLUETOOTH_ADDRESS = "P_KEY_PRINTER_BLUETOOTH_ADDRESS";
 
     //Assign different id for different loader
     public static final int UPLOAD_LOADER_ID = 1001;

@@ -174,7 +174,7 @@ public class TempFeedReceiveSummaryActivity extends AppCompatActivity {
 
                                     String printText = PrintUtils.printFeedReceive(db, feed_receive_id);
 
-                                    Intent ppIntent = new Intent(TempFeedReceiveSummaryActivity.this, PrintPreviewActivity.class);
+                                    Intent ppIntent = new Intent(TempFeedReceiveSummaryActivity.this, PrintPreview2Activity.class);
                                     ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
                                     startActivity(ppIntent);
                                 }

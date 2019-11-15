@@ -137,7 +137,7 @@ public class TempWeightSummaryActivity extends AppCompatActivity {
 
                                     String printText = PrintUtils.printWeight(db, weight_id);
 
-                                    Intent ppIntent = new Intent(TempWeightSummaryActivity.this, PrintPreviewActivity.class);
+                                    Intent ppIntent = new Intent(TempWeightSummaryActivity.this, PrintPreview2Activity.class);
                                     ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
                                     ppIntent.putExtra(I_KEY_MODULE, MODULE_WEIGHT);
                                     ppIntent.putExtra(I_KEY_ID, weight_id);

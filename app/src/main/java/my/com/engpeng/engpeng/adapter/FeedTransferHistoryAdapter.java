@@ -11,14 +11,14 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import my.com.engpeng.engpeng.PrintPreviewActivity;
+import my.com.engpeng.engpeng.PrintPreview2Activity;
 import my.com.engpeng.engpeng.R;
 import my.com.engpeng.engpeng.controller.FeedItemController;
 import my.com.engpeng.engpeng.data.EngPengContract;
 import my.com.engpeng.engpeng.utilities.PrintUtils;
 
 import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_TEXT;
-import static my.com.engpeng.engpeng.data.EngPengContract.*;
+import static my.com.engpeng.engpeng.data.EngPengContract.FeedTransferEntry;
 
 public class FeedTransferHistoryAdapter extends RecyclerView.Adapter<FeedTransferHistoryAdapter.ItemViewHolder> {
 
@@ -83,7 +83,7 @@ public class FeedTransferHistoryAdapter extends RecyclerView.Adapter<FeedTransfe
             @Override
             public void onClick(View view) {
                 String printText = PrintUtils.printFeedTransfer(db, feed_transfer_id);
-                Intent ppIntent = new Intent(context, PrintPreviewActivity.class);
+                Intent ppIntent = new Intent(context, PrintPreview2Activity.class);
                 ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
                 context.startActivity(ppIntent);
             }

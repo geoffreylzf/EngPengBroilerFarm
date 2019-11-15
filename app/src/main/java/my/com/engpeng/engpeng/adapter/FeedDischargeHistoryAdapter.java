@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import my.com.engpeng.engpeng.PrintPreviewActivity;
+import my.com.engpeng.engpeng.PrintPreview2Activity;
 import my.com.engpeng.engpeng.R;
 import my.com.engpeng.engpeng.controller.FeedDischargeController;
 import my.com.engpeng.engpeng.controller.FeedDischargeDetailController;
@@ -129,7 +129,7 @@ public class FeedDischargeHistoryAdapter extends RecyclerView.Adapter<FeedDischa
                 String printText = PrintUtils.printFeedDischarge(db, feed_discharge_id);
                 String qr = FeedDischargeController.toQrData(db, feed_discharge_id);
 
-                Intent ppIntent = new Intent(context, PrintPreviewActivity.class);
+                Intent ppIntent = new Intent(context, PrintPreview2Activity.class);
                 ppIntent.putExtra(I_KEY_PRINT_TEXT, printText);
                 ppIntent.putExtra(I_KEY_PRINT_QR_TEXT, qr);
                 context.startActivity(ppIntent);
