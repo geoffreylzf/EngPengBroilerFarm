@@ -5,6 +5,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 import static my.com.engpeng.engpeng.data.EngPengContract.CatchBTAEntry;
 
 /**
@@ -34,6 +38,7 @@ public class CatchBTAController {
         cv.put(CatchBTAEntry.COLUMN_TRUCK_CODE, truck_code);
         cv.put(CatchBTAEntry.COLUMN_CODE, code);
         cv.put(CatchBTAEntry.COLUMN_FASTING_TIME, fasting_time);
+        cv.put(CatchBTAEntry.COLUMN_TIMESTAMP, (new SimpleDateFormat("yyyy-MM-dd HH-mm-ss", Locale.US)).format(Calendar.getInstance().getTime()));
 
         return db.insert(CatchBTAEntry.TABLE_NAME, null, cv);
     }

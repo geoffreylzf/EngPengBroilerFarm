@@ -106,26 +106,26 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
 
     private void setupListener() {
 
-        btnDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog dpd = new DatePickerDialog(TempCatchBTAHeadActivity.this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                calender.set(Calendar.YEAR, year);
-                                calender.set(Calendar.MONTH, monthOfYear);
-                                calender.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                                tvYear.setText(sdfYear.format(calender.getTime()));
-                                tvMonthDay.setText(sdfMonthDay.format(calender.getTime()));
-                                dateStr = sdf.format(calender.getTime());
-                            }
-                        }, year, month, day);
-                dpd.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-                dpd.show();
-            }
-        });
+//        btnDate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                DatePickerDialog dpd = new DatePickerDialog(TempCatchBTAHeadActivity.this,
+//                        new DatePickerDialog.OnDateSetListener() {
+//                            @Override
+//                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//                                calender.set(Calendar.YEAR, year);
+//                                calender.set(Calendar.MONTH, monthOfYear);
+//                                calender.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+//
+//                                tvYear.setText(sdfYear.format(calender.getTime()));
+//                                tvMonthDay.setText(sdfMonthDay.format(calender.getTime()));
+//                                dateStr = sdf.format(calender.getTime());
+//                            }
+//                        }, year, month, day);
+//                dpd.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+//                dpd.show();
+//            }
+//        });
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,6 +258,10 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
 //                        sumIntent.putExtra(I_KEY_DOC_TYPE, docType);
 //                        sumIntent.putExtra(I_KEY_TRUCK_CODE, truckCode);
 //                        startActivity(sumIntent);
+
+                        tvYear.setText(sdfYear.format(sdf.parse(docDate)));
+                        tvMonthDay.setText(sdfMonthDay.format(sdf.parse(docDate)));
+                        dateStr = docDate;
 
                         etDocNumber.setText(docNo);
 
