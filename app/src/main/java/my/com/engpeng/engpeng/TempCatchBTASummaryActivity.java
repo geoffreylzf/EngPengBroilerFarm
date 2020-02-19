@@ -31,6 +31,7 @@ import my.com.engpeng.engpeng.data.EngPengDbHelper;
 import my.com.engpeng.engpeng.utilities.PrintUtils;
 
 import static my.com.engpeng.engpeng.Global.I_KEY_CAGE_QTY;
+import static my.com.engpeng.engpeng.Global.I_KEY_CATCH_TEAM;
 import static my.com.engpeng.engpeng.Global.I_KEY_COMPANY;
 import static my.com.engpeng.engpeng.Global.I_KEY_CONTINUE_NEXT;
 import static my.com.engpeng.engpeng.Global.I_KEY_DOC_NUMBER;
@@ -64,7 +65,7 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
     private static int REQUEST_CODE_CONTINUE_NEXT = 1;
 
     private int company_id, location_id, doc_number ;
-    private String record_date, type, doc_type, truck_code, fasting_time;
+    private String record_date, type, doc_type, truck_code, fasting_time, catch_team;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +133,9 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
         }
         if (intentStart.hasExtra(I_KEY_FASTING_TIME)) {
             fasting_time = intentStart.getStringExtra(I_KEY_FASTING_TIME);
+        }
+        if (intentStart.hasExtra(I_KEY_CATCH_TEAM)) {
+            catch_team = intentStart.getStringExtra(I_KEY_CATCH_TEAM);
         }
     }
 
@@ -333,7 +337,7 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         String code = sdfDateTime.format(c.getTime()) + String.format(Locale.US, "%04d%04d", company_id, location_id);
 
-        long catch_bta_id = CatchBTAController.add(db, company_id, location_id, record_date, type, doc_number, doc_type, truck_code, code, fasting_time);
+        long catch_bta_id = CatchBTAController.add(db, company_id, location_id, record_date, type, doc_number, doc_type, truck_code, code, fasting_time, catch_team);
 
         while (tempDetail.moveToNext()){
             double wgt = tempDetail.getDouble(tempDetail.getColumnIndex(TempCatchBTADetailEntry.COLUMN_WEIGHT));

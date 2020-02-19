@@ -49,6 +49,7 @@ public class EngPengContract {
         public static final String COLUMN_TRUCK_CODE = "truck_code";
         public static final String COLUMN_CODE = "code";
         public static final String COLUMN_FASTING_TIME = "fasting_time";
+        public static final String COLUMN_CATCH_TEAM = "catch_team";
         public static final String COLUMN_PRINT_COUNT = "print_count";
         public static final String COLUMN_UPLOAD = "upload";
         public static final String COLUMN_TIMESTAMP = "timestamp";

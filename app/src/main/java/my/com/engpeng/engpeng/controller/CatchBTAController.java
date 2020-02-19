@@ -26,7 +26,8 @@ public class CatchBTAController {
                            String doc_type,
                            String truck_code,
                            String code,
-                           String fasting_time) {
+                           String fasting_time,
+                           String catch_team) {
 
         ContentValues cv = new ContentValues();
         cv.put(CatchBTAEntry.COLUMN_COMPANY_ID, company_id);
@@ -38,6 +39,7 @@ public class CatchBTAController {
         cv.put(CatchBTAEntry.COLUMN_TRUCK_CODE, truck_code);
         cv.put(CatchBTAEntry.COLUMN_CODE, code);
         cv.put(CatchBTAEntry.COLUMN_FASTING_TIME, fasting_time);
+        cv.put(CatchBTAEntry.COLUMN_CATCH_TEAM, catch_team);
         cv.put(CatchBTAEntry.COLUMN_TIMESTAMP, (new SimpleDateFormat("yyyy-MM-dd HH-mm-ss", Locale.US)).format(Calendar.getInstance().getTime()));
 
         return db.insert(CatchBTAEntry.TABLE_NAME, null, cv);
@@ -210,6 +212,7 @@ public class CatchBTAController {
             json += "\"" + CatchBTAEntry.COLUMN_TRUCK_CODE + "\": \"" + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_TRUCK_CODE)) + "\",";
             json += "\"" + CatchBTAEntry.COLUMN_CODE + "\": \"" + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_CODE)) + "\",";
             json += "\"" + CatchBTAEntry.COLUMN_FASTING_TIME + "\": \"" + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_FASTING_TIME)) + "\",";
+            json += "\"" + CatchBTAEntry.COLUMN_CATCH_TEAM + "\": \"" + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_CATCH_TEAM)) + "\",";
             json += "\"" + CatchBTAEntry.COLUMN_PRINT_COUNT + "\": " + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_PRINT_COUNT)) + ",";
             json += "\"" + CatchBTAEntry.COLUMN_TIMESTAMP + "\": \"" + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_TIMESTAMP)) + "\",";
             json += CatchBTADetailController.getUploadJsonByCatchBTAId(db, cursor.getLong(cursor.getColumnIndex(CatchBTAEntry._ID)));

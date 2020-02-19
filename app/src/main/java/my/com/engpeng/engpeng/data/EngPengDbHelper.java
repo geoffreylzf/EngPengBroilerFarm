@@ -13,7 +13,7 @@ import my.com.engpeng.engpeng.data.EngPengContract.*;
 
 public class EngPengDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "engpeng.db";
-    private static final int DATABASE_VERSION = 16;
+    private static final int DATABASE_VERSION = 17;
     //DB VER 7 20180317
     //DB VER 8 20180320
     //DB VER 9 20180418
@@ -24,6 +24,7 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
     //DB VER 14 20190305
     //DB VER 15 20190327
     //DB VER 16 20191016
+    //DB VER 76 20200219
 
     public EngPengDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -166,6 +167,10 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
         if (oldVer <= 15) {
             sqLiteDatabase.execSQL("ALTER TABLE catch_bta ADD COLUMN fasting_time TEXT DEFAULT ''");
         }
+
+        if (oldVer <= 16) {
+            sqLiteDatabase.execSQL("ALTER TABLE catch_bta ADD COLUMN catch_team TEXT DEFAULT ''");
+        }
     }
 
     private final String SQL_CREATE_BRANCH_TABLE = "CREATE TABLE " + BranchEntry.TABLE_NAME + " (" +
@@ -205,6 +210,7 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
             CatchBTAEntry.COLUMN_TRUCK_CODE + " TEXT, " +
             CatchBTAEntry.COLUMN_CODE + " TEXT, " +
             CatchBTAEntry.COLUMN_FASTING_TIME + " TEXT, " +
+            CatchBTAEntry.COLUMN_CATCH_TEAM + " TEXT, " +
             CatchBTAEntry.COLUMN_PRINT_COUNT + " INTEGER DEFAULT 0, " +
             CatchBTAEntry.COLUMN_UPLOAD + " INTEGER DEFAULT 0, " +
             CatchBTAEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP " +

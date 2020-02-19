@@ -257,6 +257,61 @@
                 android:layout_marginEnd="64dp"/>
         </RelativeLayout>
 
+        <TextView
+            style="@style/LabelTextViewStyle"
+            android:text="@string/catch_team" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp">
+
+            <CheckBox
+                android:id="@+id/temp_catch_bta_head_cb_f"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:layout_marginEnd="25dp"
+                android:text="@string/farm"/>
+
+            <CheckBox
+                android:id="@+id/temp_catch_bta_head_cb_t1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:text="@string/team1"/>
+
+            <CheckBox
+                android:id="@+id/temp_catch_bta_head_cb_t2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:text="@string/team2"/>
+
+            <CheckBox
+                android:id="@+id/temp_catch_bta_head_cb_t3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:text="@string/team3"/>
+
+            <CheckBox
+                android:id="@+id/temp_catch_bta_head_cb_t4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:text="@string/team4"/>
+
+            <CheckBox
+                android:id="@+id/temp_catch_bta_head_cb_t5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/team5"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>

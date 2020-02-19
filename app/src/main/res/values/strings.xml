@@ -22,6 +22,12 @@
     <string name="catching">Catching</string>
     <string name="body_weight">Body Weight</string>
     <string name="upload">Upload</string>
+    <string name="farm">Farm</string>
+    <string name="team1">T1</string>
+    <string name="team2">T2</string>
+    <string name="team3">T3</string>
+    <string name="team4">T4</string>
+    <string name="team5">T5</string>
     <string name="local2">Local (Connect Office Wi-Fi)</string>
     <string name="uploaded">Uploaded</string>
     <string name="upload2">Upload (Hantar ke Office)</string>
@@ -111,6 +117,7 @@
     <string name="overall">Overall</string>
     <string name="type">Type</string>
     <string name="type2">Type (Jenis)</string>
+    <string name="catch_team">Catch Team (Kumpulan Tangkap)</string>
     <string name="fasting_time2">Fasting Time (Masa Puasa)</string>
     <string name="continue_">Continue</string>
     <string name="finish">Finish</string>

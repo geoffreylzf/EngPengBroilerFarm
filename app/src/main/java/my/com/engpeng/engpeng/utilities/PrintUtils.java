@@ -58,6 +58,7 @@ public class PrintUtils {
         String truck_code = cursorCatchBTA.getString(cursorCatchBTA.getColumnIndex(CatchBTAEntry.COLUMN_TRUCK_CODE));
         String code = cursorCatchBTA.getString(cursorCatchBTA.getColumnIndex(CatchBTAEntry.COLUMN_CODE));
         String fasting_time = cursorCatchBTA.getString(cursorCatchBTA.getColumnIndex(CatchBTAEntry.COLUMN_FASTING_TIME));
+        String catch_team = cursorCatchBTA.getString(cursorCatchBTA.getColumnIndex(CatchBTAEntry.COLUMN_CATCH_TEAM));
         int company_id = cursorCatchBTA.getInt(cursorCatchBTA.getColumnIndex(CatchBTAEntry.COLUMN_COMPANY_ID));
         int location_id = cursorCatchBTA.getInt(cursorCatchBTA.getColumnIndex(CatchBTAEntry.COLUMN_LOCATION_ID));
 
@@ -79,6 +80,7 @@ public class PrintUtils {
         text += formatLine("Truck Code : " + truck_code);
         text += formatLine("Code : " + code);
         text += formatLine("Masa Puasa : " + fasting_time);
+        text += formatLine("Kumpulan : " + catch_team);
         text += formatLine("");
         text += formatLine("Umur :");
         text += formatLine("Ayam :______________________");

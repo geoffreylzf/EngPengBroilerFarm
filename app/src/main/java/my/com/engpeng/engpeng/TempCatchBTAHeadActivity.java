@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -29,6 +30,7 @@ import my.com.engpeng.engpeng.controller.CatchBTAController;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
 import my.com.engpeng.engpeng.utilities.UIUtils;
 
+import static my.com.engpeng.engpeng.Global.I_KEY_CATCH_TEAM;
 import static my.com.engpeng.engpeng.Global.I_KEY_COMPANY;
 import static my.com.engpeng.engpeng.Global.I_KEY_DOC_NUMBER;
 import static my.com.engpeng.engpeng.Global.I_KEY_DOC_TYPE;
@@ -49,6 +51,7 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
     private TextView tvYear, tvMonthDay;
     private EditText etDocNumber, etTruckCode, etFastingTimeHour, etFastingTimeMinute;
     private RadioGroup rgDestination, rgType, rgFastingTime;
+    private CheckBox cbF, cbT1, cbT2, cbT3, cbT4, cbT5;
 
     private int company_id, location_id;
 
@@ -76,6 +79,13 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
         etFastingTimeHour = findViewById(R.id.temp_catch_bta_head_et_fasting_time_hour);
         etFastingTimeMinute = findViewById(R.id.temp_catch_bta_head_et_fasting_time_minute);
         rgFastingTime = findViewById(R.id.temp_catch_bta_head_rg_fasting_time);
+
+        cbF = findViewById(R.id.temp_catch_bta_head_cb_f);
+        cbT1 = findViewById(R.id.temp_catch_bta_head_cb_t1);
+        cbT2 = findViewById(R.id.temp_catch_bta_head_cb_t2);
+        cbT3 = findViewById(R.id.temp_catch_bta_head_cb_t3);
+        cbT4 = findViewById(R.id.temp_catch_bta_head_cb_t4);
+        cbT5 = findViewById(R.id.temp_catch_bta_head_cb_t5);
 
         calender = Calendar.getInstance();
         year = calender.get(Calendar.YEAR);
@@ -205,6 +215,48 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
                     }
                 }
 
+                String catch_team = "";
+                if (cbF.isChecked()) {
+                    catch_team = "F";
+                }
+                if (cbT1.isChecked()) {
+                    if (catch_team.equals("")) {
+                        catch_team = "1";
+                    } else {
+                        catch_team += ",1";
+                    }
+                }
+                if (cbT2.isChecked()) {
+                    if (catch_team.equals("")) {
+                        catch_team = "2";
+                    } else {
+                        catch_team += ",2";
+                    }
+                }
+                if (cbT3.isChecked()) {
+                    if (catch_team.equals("")) {
+                        catch_team = "3";
+                    } else {
+                        catch_team += ",3";
+                    }
+                }
+
+                if (cbT4.isChecked()) {
+                    if (catch_team.equals("")) {
+                        catch_team = "4";
+                    } else {
+                        catch_team += ",4";
+                    }
+                }
+
+                if (cbT5.isChecked()) {
+                    if (catch_team.equals("")) {
+                        catch_team = "5";
+                    } else {
+                        catch_team += ",5";
+                    }
+                }
+
                 Intent sumIntent = new Intent(TempCatchBTAHeadActivity.this, TempCatchBTASummaryActivity.class);
                 sumIntent.putExtra(I_KEY_COMPANY, company_id);
                 sumIntent.putExtra(I_KEY_LOCATION, location_id);
@@ -214,6 +266,7 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
                 sumIntent.putExtra(I_KEY_DOC_TYPE, doc_type);
                 sumIntent.putExtra(I_KEY_TRUCK_CODE, truck_code);
                 sumIntent.putExtra(I_KEY_FASTING_TIME, fasting_time);
+                sumIntent.putExtra(I_KEY_CATCH_TEAM, catch_team);
                 startActivity(sumIntent);
             }
         });
