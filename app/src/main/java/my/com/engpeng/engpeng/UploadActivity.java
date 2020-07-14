@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.vdurmont.emoji.EmojiParser;
+
 import java.net.URLEncoder;
 
 import my.com.engpeng.engpeng.controller.CatchBTAController;
@@ -136,31 +138,31 @@ public class UploadActivity extends AppCompatActivity
     private void upload() {
         String data = "";
         try {
-            String mortality_json = MortalityController.getUploadJson(db, 0);
+            String mortality_json = EmojiParser.removeAllEmojis(MortalityController.getUploadJson(db, 0));
             data += "&" + URLEncoder.encode(EngPengContract.MortalityEntry.TABLE_NAME, NetworkUtils.ENCODE) + "="
                     + URLEncoder.encode(mortality_json, NetworkUtils.ENCODE);
 
-            String catch_bta_json = CatchBTAController.getUploadJson(db, 0);
+            String catch_bta_json = EmojiParser.removeAllEmojis(CatchBTAController.getUploadJson(db, 0));
             data += "&" + URLEncoder.encode(EngPengContract.CatchBTAEntry.TABLE_NAME, NetworkUtils.ENCODE) + "="
                     + URLEncoder.encode(catch_bta_json, NetworkUtils.ENCODE);
 
-            String weight_json = WeightController.getUploadJson(db, 0);
+            String weight_json = EmojiParser.removeAllEmojis(WeightController.getUploadJson(db, 0));
             data += "&" + URLEncoder.encode(EngPengContract.WeightEntry.TABLE_NAME, NetworkUtils.ENCODE) + "="
                     + URLEncoder.encode(weight_json, NetworkUtils.ENCODE);
 
-            String feed_in_json = FeedInController.getUploadJson(db, 0);
+            String feed_in_json = EmojiParser.removeAllEmojis(FeedInController.getUploadJson(db, 0));
             data += "&" + URLEncoder.encode(EngPengContract.FeedInEntry.TABLE_NAME, NetworkUtils.ENCODE) + "="
                     + URLEncoder.encode(feed_in_json, NetworkUtils.ENCODE);
 
-            String feed_transfer_json = FeedTransferController.getUploadJson(db, 0);
+            String feed_transfer_json = EmojiParser.removeAllEmojis(FeedTransferController.getUploadJson(db, 0));
             data += "&" + URLEncoder.encode(EngPengContract.FeedTransferEntry.TABLE_NAME, NetworkUtils.ENCODE) + "="
                     + URLEncoder.encode(feed_transfer_json, NetworkUtils.ENCODE);
 
-            String feed_discharge_json = FeedDischargeController.getUploadJson(db, 0);
+            String feed_discharge_json = EmojiParser.removeAllEmojis(FeedDischargeController.getUploadJson(db, 0));
             data += "&" + URLEncoder.encode(EngPengContract.FeedDischargeEntry.TABLE_NAME, NetworkUtils.ENCODE) + "="
                     + URLEncoder.encode(feed_discharge_json, NetworkUtils.ENCODE);
 
-            String feed_receive_json = FeedReceiveController.getUploadJson(db, 0);
+            String feed_receive_json = EmojiParser.removeAllEmojis(FeedReceiveController.getUploadJson(db, 0));
             data += "&" + URLEncoder.encode(EngPengContract.FeedReceiveEntry.TABLE_NAME, NetworkUtils.ENCODE) + "="
                     + URLEncoder.encode(feed_receive_json, NetworkUtils.ENCODE);
 
