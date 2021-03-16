@@ -72,6 +72,8 @@
     <string name="test">Test</string>
     <string name="function">Function</string>
     <string name="session">Session</string>
+    <string name="update">Update</string>
+    <string name="update_app_ver">Update App Version</string>
     <string name="location">Location</string>
     <string name="loc">Loc</string>
     <string name="history">History</string>

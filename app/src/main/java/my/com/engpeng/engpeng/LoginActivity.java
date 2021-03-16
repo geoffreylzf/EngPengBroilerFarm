@@ -45,11 +45,6 @@ public class LoginActivity extends AppCompatActivity
     private SQLiteDatabase db;
     private AppLoader loader;
     private String username, password;
-    private GoogleSignInClient mGoogleSignInClient;
-    private String mSignInEmail;
-    private SignInButton mSignInButton;
-
-    public static final int RC_SIGN_IN = 9001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,63 +70,12 @@ public class LoginActivity extends AppCompatActivity
 
         loader = new AppLoader(this);
         getSupportLoaderManager().initLoader(Global.LOGIN_LOADER_ID, null, loader);
-
-        //Google Authentication
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        mSignInButton = findViewById(R.id.login_sign_in_button);
-        mSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(LoginActivity.this);
-                if (account != null) {
-                    mGoogleSignInClient.signOut();
-                    updateUI(GoogleSignIn.getLastSignedInAccount(LoginActivity.this));
-                    UIUtils.showToastMessage(LoginActivity.this, "Sign out from google account");
-                } else {
-                    Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                    startActivityForResult(signInIntent, RC_SIGN_IN);
-                }
-            }
-        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        updateUI(account);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                updateUI(account);
-            } catch (ApiException e) {
-                if (e.getStatusCode() != 12501) {
-                    UIUtils.showToastMessage(this, "Error : " + e.toString());
-                }
-                updateUI(null);
-            }
-        }
-    }
-
-    private void updateUI(GoogleSignInAccount account) {
-        if (account != null) {
-            mSignInEmail = account.getEmail();
-            setGoogleSignInButtonText(mSignInButton, account.getEmail() + " (Sign out)");
-        } else {
-            mSignInEmail = null;
-            setGoogleSignInButtonText(mSignInButton, "Sign in");
-        }
     }
 
     private void setGoogleSignInButtonText(SignInButton signInButton, String buttonText) {
@@ -172,10 +116,6 @@ public class LoginActivity extends AppCompatActivity
     }
 
     private void attemptLogin() {
-        if (mSignInEmail == null || mSignInEmail.isEmpty()) {
-            UIUtils.showToastMessage(this, "Please sign in google account before login");
-            return;
-        }
 
         if (etUsername.getText().length() == 0) {
             etUsername.setError(getString(R.string.error_field_required));
@@ -193,7 +133,7 @@ public class LoginActivity extends AppCompatActivity
         Bundle queryBundle = new Bundle();
         queryBundle.putString(AppLoader.LOADER_EXTRA_USERNAME, username);
         queryBundle.putString(AppLoader.LOADER_EXTRA_PASSWORD, password);
-        queryBundle.putString(AppLoader.LOADER_EXTRA_DATA, "&email="+mSignInEmail);
+        queryBundle.putString(AppLoader.LOADER_EXTRA_DATA, "");
 
         if (cbLocal.isChecked()) {
             queryBundle.putBoolean(AppLoader.LOADER_IS_LOCAL, true);
@@ -231,7 +171,7 @@ public class LoginActivity extends AppCompatActivity
         progressDialog.hide();
         if (json != null && !json.equals("")) {
             if (JsonUtils.getAuthentication(this, json)) {
-                if(JsonUtils.getLoginAuthentication(this, json)){
+                if (JsonUtils.getLoginAuthentication(this, json)) {
                     SharedPreferencesUtils.saveUsernamePassword(this, username, password);
                     Global.setupGlobalVariables(this, db);
                     finish();

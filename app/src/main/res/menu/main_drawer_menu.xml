@@ -40,17 +40,13 @@
         </menu>
     </item>
 
-    <item android:title="@string/test">
+    <item android:title="@string/update">
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/nav_test"
-                    android:icon="@drawable/ic_playlist_add_check_black_24px"
-                    android:title="@string/function" />
-                <item
-                    android:id="@+id/nav_setting"
-                    android:icon="@drawable/ic_baseline_settings_20px"
-                    android:title="@string/settings" />
+                    android:id="@+id/nav_update_app_ver"
+                    android:icon="@drawable/ic_update_black_18dp"
+                    android:title="@string/update_app_ver" />
             </group>
         </menu>
     </item>
@@ -62,6 +58,21 @@
                     android:id="@+id/nav_logout"
                     android:icon="@drawable/ic_exit_to_app_black_24px"
                     android:title="@string/logout" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/test">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_test"
+                    android:icon="@drawable/ic_playlist_add_check_black_24px"
+                    android:title="@string/function" />
+                <item
+                    android:id="@+id/nav_setting"
+                    android:icon="@drawable/ic_baseline_settings_20px"
+                    android:title="@string/settings" />
             </group>
         </menu>
     </item>

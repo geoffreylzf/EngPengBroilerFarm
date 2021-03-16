@@ -29,7 +29,7 @@ public class NetworkUtils {
     final static String LOCAL_URL = "http://192.168.8.1:8833/eperp/";
     final static String PARAM_MODULE = "r";
 
-    final public static String MODULE_AUTH_LOGIN = "MobileAuth/Login";
+    final public static String MODULE_AUTH_LOGIN = "MobileAuth/NonGoogleAccLogin";
     final public static String MODULE_LOCATION_INFO = "MobileLocationInfo/List";
     final public static String MODULE_SYNC_UPLOAD = "MobileSync/Upload";
     final public static String MODULE_SYNC_LOG = "MobileSync/Log";

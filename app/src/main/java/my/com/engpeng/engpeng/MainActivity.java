@@ -178,13 +178,17 @@ public class MainActivity extends AppCompatActivity {
 
                     startActivity(new Intent(MainActivity.this, FunctionTestActivity.class));
 
-                }  else if (id == R.id.nav_setting) {
+                } else if (id == R.id.nav_setting) {
 
                     startActivity(new Intent(MainActivity.this, SettingActivity.class));
 
-                }else if (id == R.id.nav_logout) {
+                } else if (id == R.id.nav_logout) {
 
                     startActivity(new Intent(MainActivity.this, LogoutActivity.class));
+
+                } else if (id == R.id.nav_update_app_ver) {
+
+                    startActivity(new Intent(MainActivity.this, UpdateAppVerActivity.class));
 
                 }
 

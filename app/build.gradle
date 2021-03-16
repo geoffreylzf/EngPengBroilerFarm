@@ -6,9 +6,10 @@ android {
         applicationId "my.com.engpeng.engpeng"
         minSdkVersion 24
         targetSdkVersion 28
-        versionCode 60
-        versionName "4.26.4"
+        versionCode 61
+        versionName "5.0.0"
 
+        //61-5.0.0 - 20210316 - Remove from google play
         //60-4.26.4 - 20200714 - Remove emoji
         //59-4.26.3 - 20200504 - Change global url
         //58-4.26.2 - 20200219 - Add catch_team to catch bta
@@ -64,6 +65,7 @@ dependencies {
 
     implementation 'com.google.zxing:core:3.3.2'
     implementation 'com.akexorcist:bluetoothspp:1.0.0'
+    implementation 'com.android.volley:volley:1.2.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

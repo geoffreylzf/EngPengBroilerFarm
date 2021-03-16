@@ -24,8 +24,8 @@
             android:layout_width="128dp"
             android:layout_height="128dp"
             android:layout_gravity="center_horizontal"
-            app:srcCompat="@drawable/ep_large"
-            android:contentDescription="@string/logo"/>
+            android:contentDescription="@string/logo"
+            app:srcCompat="@drawable/ep_large" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -58,7 +58,7 @@
             android:id="@+id/login_cb_local"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/local2"/>
+            android:text="@string/local2" />
 
         <Button
             android:id="@+id/login_btn_login"
@@ -67,19 +67,14 @@
             android:layout_height="wrap_content"
             android:text="@string/login" />
 
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/login_sign_in_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
     </LinearLayout>
 
     <TextView
         android:id="@+id/login_tv_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
         android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
