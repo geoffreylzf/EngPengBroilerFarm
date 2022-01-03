@@ -55,6 +55,7 @@ public class JsonUtils {
     private static final String SKU_NAME = "sku_name";
     private static final String ITEM_UOM_ID = "item_uom_id";
 
+
     public static boolean getAuthentication(Context context, String jsonStr) {
         try {
             JSONObject json = new JSONObject(jsonStr);
@@ -275,6 +276,35 @@ public class JsonUtils {
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
+        }
+    }
+
+    public static ContentValues[] getPersonStaffContentValues(String jsonStr) {
+        try {
+            JSONObject json = new JSONObject(jsonStr);
+            JSONArray jsonArray = json.getJSONArray("person_staff");
+            ContentValues[] cvs = new ContentValues[jsonArray.length()];
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                int id;
+                String personCode, personName;
+                JSONObject ps = jsonArray.getJSONObject(i);
+
+                id = ps.getInt(ID);
+                personCode = ps.getString("person_code");
+                personName = ps.getString("person_name");
+
+                ContentValues cv = new ContentValues();
+                cv.put(PersonStaffEntry._ID, id);
+                cv.put(PersonStaffEntry.COLUMN_PERSON_CODE, personCode);
+                cv.put(PersonStaffEntry.COLUMN_PERSON_NAME, personName);
+                cvs[i] = cv;
+            }
+            return cvs;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

@@ -13,7 +13,7 @@ import my.com.engpeng.engpeng.data.EngPengContract.*;
 
 public class EngPengDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "engpeng.db";
-    private static final int DATABASE_VERSION = 17;
+    private static final int DATABASE_VERSION = 18;
     //DB VER 7 20180317
     //DB VER 8 20180320
     //DB VER 9 20180418
@@ -24,7 +24,8 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
     //DB VER 14 20190305
     //DB VER 15 20190327
     //DB VER 16 20191016
-    //DB VER 76 20200219
+    //DB VER 17 20200219
+    //DB VER 18 20211229
 
     public EngPengDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -62,6 +63,10 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_CREATE_FEED_RECEIVE_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_FEED_RECEIVE_DETAIL_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_TEMP_FEED_RECEIVE_DETAIL_TABLE);
+
+        sqLiteDatabase.execSQL(SQL_CREATE_PERSON_STAFF_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_TEMP_CATCH_BTA_WORKER_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_CATCH_BTA_WORKER_TABLE);
     }
 
     @Override
@@ -170,6 +175,12 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
 
         if (oldVer <= 16) {
             sqLiteDatabase.execSQL("ALTER TABLE catch_bta ADD COLUMN catch_team TEXT DEFAULT ''");
+        }
+
+        if (oldVer <= 17) {
+            sqLiteDatabase.execSQL(SQL_CREATE_PERSON_STAFF_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_TEMP_CATCH_BTA_WORKER_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_CATCH_BTA_WORKER_TABLE);
         }
     }
 
@@ -405,6 +416,25 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
             TempFeedReceiveDetailEntry.COLUMN_HOUSE_CODE + " INTEGER, " +
             TempFeedReceiveDetailEntry.COLUMN_ITEM_PACKING_ID + " INTEGER, " +
             TempFeedReceiveDetailEntry.COLUMN_WEIGHT + " REAL " +
+            "); ";
+
+    private final String SQL_CREATE_PERSON_STAFF_TABLE = "CREATE TABLE " + PersonStaffEntry.TABLE_NAME + " (" +
+            PersonStaffEntry._ID + " INTEGER PRIMARY KEY," +
+            PersonStaffEntry.COLUMN_PERSON_CODE + " TEXT, " +
+            PersonStaffEntry.COLUMN_PERSON_NAME + " TEXT " +
+            "); ";
+
+    private final String SQL_CREATE_TEMP_CATCH_BTA_WORKER_TABLE = "CREATE TABLE " + TempCatchBTAWorkerEntry.TABLE_NAME + " (" +
+            TempCatchBTAWorkerEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            TempCatchBTAWorkerEntry.COLUMN_PERSON_STAFF_ID + " INTEGER, " +
+            TempCatchBTAWorkerEntry.COLUMN_WORKER_NAME + " TEXT " +
+            "); ";
+
+    private final String SQL_CREATE_CATCH_BTA_WORKER_TABLE = "CREATE TABLE " + CatchBTAWorkerEntry.TABLE_NAME + " (" +
+            PersonStaffEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            CatchBTAWorkerEntry.COLUMN_CATCH_BTA_ID + " INTEGER, " +
+            CatchBTAWorkerEntry.COLUMN_PERSON_STAFF_ID + " INTEGER, " +
+            CatchBTAWorkerEntry.COLUMN_WORKER_NAME + " TEXT " +
             "); ";
 }
 

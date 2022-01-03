@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".UpdateAppVerActivity"></activity>
+        <activity android:name=".TempCatchBTAWorkerActivity" />
+        <activity android:name=".UpdateAppVerActivity" />
         <activity android:name=".PrintPreview2Activity" />
         <activity android:name=".SettingActivity" />
         <activity

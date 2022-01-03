@@ -97,6 +97,7 @@ public class Global {
     public static final int LOGIN_LOADER_ID = 1003;
     public static final int LOG_LOADER_ID = 1004;
     public static final int PRINT_PREVIEW_LOADER_ID = 1005;
+    public static final int PERSON_STAFF_LOADER_ID = 1006;
 
     //item_uom_code
     public static final String UOM_CODE_BG = "Bg";

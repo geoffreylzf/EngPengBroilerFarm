@@ -31,6 +31,7 @@ public class NetworkUtils {
 
     final public static String MODULE_AUTH_LOGIN = "MobileAuth/NonGoogleAccLogin";
     final public static String MODULE_LOCATION_INFO = "MobileLocationInfo/List";
+    final public static String MODULE_LOCATION_INFO_PERSON_STAFF = "MobileLocationInfo/PersonStaffList";
     final public static String MODULE_SYNC_UPLOAD = "MobileSync/Upload";
     final public static String MODULE_SYNC_LOG = "MobileSync/Log";
 
@@ -40,7 +41,7 @@ public class NetworkUtils {
     public static URL buildUrl(String module, boolean is_local) {
         String connection_url = ENGPENG_BASE_URL;
 
-        if(is_local){
+        if (is_local) {
             connection_url = LOCAL_URL;
         }
 
@@ -63,7 +64,7 @@ public class NetworkUtils {
 
         String user_pass = username + ":" + password;
         String basic_auth = "Basic " + new String(Base64.encode(user_pass.getBytes(), android.util.Base64.DEFAULT));
-        urlConnection.setRequestProperty ("Authorization", basic_auth);
+        urlConnection.setRequestProperty("Authorization", basic_auth);
 
         try {
             InputStream in = urlConnection.getInputStream();
@@ -87,7 +88,7 @@ public class NetworkUtils {
 
         String user_pass = username + ":" + password;
         String basic_auth = "Basic " + new String(Base64.encode(user_pass.getBytes(), android.util.Base64.DEFAULT));
-        urlConnection.setRequestProperty ("Authorization", basic_auth);
+        urlConnection.setRequestProperty("Authorization", basic_auth);
         urlConnection.setRequestMethod("POST");
         urlConnection.setDoOutput(true);
 

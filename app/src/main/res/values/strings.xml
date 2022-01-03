@@ -19,6 +19,8 @@
     <string name="num">#</string>
     <string name="cage_with_cover">Cage with Cover</string>
     <string name="cage_with_cover2">Cage with Cover (Jumlah Tutupan)</string>
+    <string name="manual_enter_worker">Manual Enter Worker</string>
+    <string name="worker_list">Worker List</string>
     <string name="catching">Catching</string>
     <string name="body_weight">Body Weight</string>
     <string name="upload">Upload</string>
@@ -102,6 +104,7 @@
     <string name="new_body_weight">New Body Weight</string>
     <string name="start">Start</string>
     <string name="start2">Start (Mula)</string>
+    <string name="worker2">Worker (Pekerja)</string>
     <string name="continue2">Continue (Terus)</string>
     <string name="section">Section</string>
     <string name="weight_g">Weight (g)</string>
@@ -121,6 +124,7 @@
     <string name="type2">Type (Jenis)</string>
     <string name="catch_team">Catch Team (Kumpulan Tangkap)</string>
     <string name="fasting_time2">Fasting Time (Masa Puasa)</string>
+    <string name="no_worker2">No Worker (Tiada pekerja)</string>
     <string name="continue_">Continue</string>
     <string name="finish">Finish</string>
     <string name="finish_catch_2">Finish (Selesai Penangkapan)</string>
@@ -130,6 +134,7 @@
     <string name="time">Time</string>
     <string name="name">Name</string>
     <string name="address">Address</string>
+    <string name="worker_name">Worker Name</string>
     <string name="delete_weight">Delete Body Weight</string>
     <string name="reset">Reset</string>
     <string name="login">Login</string>
@@ -263,8 +268,19 @@
     <string name="bt_name">Name : %1$s</string>
     <string name="bt_address">Address : %1$s</string>
     <string name="clear_weight2">Clear Weight (Hapus BT Timbangan)</string>
+    <string name="refreshWorker">Refresh Worker</string>
+    <string name="addWorker">Add Worker</string>
     <string name="weight_by_bluetooth">Weight By Bluetooth</string>
     <string name="backup_database">Backup Database</string>
 
     <string name="dialog_title_bluetooth_device">Please Select Bluetooth Device</string>
+    <string name="title_activity_temp_catch_btaworker">TempCatchBTAWorkerActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

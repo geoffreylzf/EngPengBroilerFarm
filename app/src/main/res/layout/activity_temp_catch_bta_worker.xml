@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TempCatchBTAWorkerActivity">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/temp_catch_bta_worker_cl_left"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/temp_catch_bta_worker_cl_right"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/temp_catch_bta_worker_et_filter"
+            style="@style/EditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/search2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/temp_catch_bta_worker_rv_selection"
+            style="@style/RecycleViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/temp_catch_bta_worker_et_filter"
+            app:layout_constraintBottom_toTopOf="@id/temp_catch_bta_worker_cb_local"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <CheckBox
+            android:id="@+id/temp_catch_bta_worker_cb_local"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:checked="false"
+            app:layout_constraintBottom_toTopOf="@id/temp_catch_bta_worker_btn_refresh"
+            android:text="@string/local2"/>
+
+        <Button
+            android:id="@+id/temp_catch_bta_worker_btn_refresh"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_baseline_refresh_24px"
+            android:drawableTint="@color/colorLayoutBackground"
+            android:text="@string/refreshWorker"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <View
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/temp_catch_bta_worker_cl_left"
+        android:layout_height="match_parent"
+        android:layout_width="1dp"
+        android:background="@android:color/darker_gray" />
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/temp_catch_bta_worker_cl_right"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/temp_catch_bta_worker_cl_left"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <TextView
+            android:id="@+id/temp_catch_bta_worker_tv_manual"
+            style="@style/LabelTextViewStyle"
+            android:text="@string/manual_enter_worker"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <EditText
+            android:id="@+id/temp_catch_bta_worker_et_manual"
+            style="@style/EditTextStyle"
+            android:hint="@string/worker_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/temp_catch_bta_worker_tv_manual"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Button
+            android:id="@+id/temp_catch_bta_worker_btn_manual"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_add_white_24px"
+            android:drawableTint="@color/colorLayoutBackground"
+            android:text="@string/addWorker"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/temp_catch_bta_worker_et_manual"
+            />
+
+        <View
+            android:id="@+id/temp_catch_bta_worker_divider"
+            app:layout_constraintTop_toBottomOf="@id/temp_catch_bta_worker_btn_manual"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/temp_catch_bta_worker_tv_worker_list"
+            style="@style/LabelTextViewStyle"
+            android:text="@string/worker_list"
+            app:layout_constraintTop_toBottomOf="@id/temp_catch_bta_worker_divider"
+            app:layout_constraintStart_toStartOf="parent"
+            android:paddingBottom="4dp"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/temp_catch_bta_worker_rv_temp"
+            style="@style/RecycleViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/temp_catch_bta_worker_tv_worker_list"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</android.support.constraint.ConstraintLayout>

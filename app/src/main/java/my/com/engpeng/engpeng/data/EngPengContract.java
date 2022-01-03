@@ -245,4 +245,25 @@ public class EngPengContract {
         public static final String COLUMN_ITEM_PACKING_ID = "item_packing_id";
         public static final String COLUMN_WEIGHT = "weight";
     }
+
+    public static final class PersonStaffEntry implements BaseColumns {
+        public static final String TABLE_NAME = "person_staff";
+        public static final String COLUMN_PERSON_CODE = "person_code";
+        public static final String COLUMN_PERSON_NAME = "person_name";
+    }
+
+    public static final class TempCatchBTAWorkerEntry implements BaseColumns {
+        public static final String TABLE_NAME = "temp_catch_bta_worker";
+        public static final String COLUMN_PERSON_STAFF_ID = "person_staff_id";
+        public static final String COLUMN_WORKER_NAME = "worker_name";
+    }
+
+    public static final class CatchBTAWorkerEntry implements BaseColumns {
+        public static final String TABLE_NAME = "catch_bta_worker";
+        public static final String COLUMN_CATCH_BTA_ID = "catch_bta_id";
+        public static final String COLUMN_PERSON_STAFF_ID = "person_staff_id";
+        public static final String COLUMN_WORKER_NAME = "worker_name";
+    }
+
+
 }

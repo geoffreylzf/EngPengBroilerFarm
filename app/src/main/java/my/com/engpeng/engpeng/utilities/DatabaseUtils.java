@@ -1,5 +1,6 @@
 package my.com.engpeng.engpeng.utilities;
 
+import android.app.Person;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -66,6 +67,14 @@ public class DatabaseUtils {
         if (cvs != null) {
             for (ContentValues cv : cvs) {
                 db.insert(FeedItemEntry.TABLE_NAME, null, cv);
+            }
+        }
+    }
+
+    public static void insertPersonStaff(SQLiteDatabase db, ContentValues[] cvs) {
+        if (cvs != null) {
+            for (ContentValues cv : cvs) {
+                db.insert(PersonStaffEntry.TABLE_NAME, null, cv);
             }
         }
     }

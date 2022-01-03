@@ -17,9 +17,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import my.com.engpeng.engpeng.adapter.CatchBTAAdapter;
 import my.com.engpeng.engpeng.controller.CatchBTAController;
 import my.com.engpeng.engpeng.controller.CatchBTADetailController;
+import my.com.engpeng.engpeng.controller.CatchBTAWorkerController;
 import my.com.engpeng.engpeng.data.EngPengContract;
 import my.com.engpeng.engpeng.data.EngPengContract.CatchBTAEntry;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
@@ -35,7 +39,8 @@ import static my.com.engpeng.engpeng.Global.MODULE_CATCH_BTA;
 
 public class CatchBTAActivity extends AppCompatActivity {
 
-    private TextView tvDocNumber, tvDestination, tvType, tvTruckCode, tvTtlWeight, tvTtlQty, tvTtlRecord;
+    private TextView tvDocNumber, tvDestination, tvType,
+            tvTruckCode, tvTtlWeight, tvTtlQty, tvTtlRecord, tvWorkerListStr;
     private SQLiteDatabase db;
     private RecyclerView rv;
     private long catch_bta_id;
@@ -54,6 +59,7 @@ public class CatchBTAActivity extends AppCompatActivity {
         tvDestination = findViewById(R.id.catch_bta_tv_destination);
         tvType = findViewById(R.id.catch_bta_tv_type);
         tvTruckCode = findViewById(R.id.catch_bta_tv_truck_code);
+        tvWorkerListStr = findViewById(R.id.catch_bta_tv_worker_list_str);
 
         tvTtlWeight = findViewById(R.id.catch_bta_tv_ttl_weight);
         tvTtlQty = findViewById(R.id.catch_bta_tv_ttl_qty);
@@ -111,6 +117,25 @@ public class CatchBTAActivity extends AppCompatActivity {
         }
 
         setTitle(title);
+
+        Cursor cursorWorker = CatchBTAWorkerController.getAllByCatchBTAId(db, catch_bta_id);
+        List<String> workerNameList = new ArrayList<String>();
+        while (cursorWorker.moveToNext()) {
+            String workerName = cursorWorker.getString(cursorWorker.getColumnIndex(EngPengContract.TempCatchBTAWorkerEntry.COLUMN_WORKER_NAME));
+            workerNameList.add(workerName);
+        }
+
+        if (workerNameList.size() == 0) {
+            tvWorkerListStr.setText("Workers : " + getString(R.string.no_worker2));
+        } else {
+            StringBuilder str = new StringBuilder("");
+            for (String wn : workerNameList) {
+                str.append(wn).append(", ");
+            }
+            String wnStr = str.toString();
+            wnStr = wnStr.substring(0, wnStr.length() - 2);
+            tvWorkerListStr.setText("Workers : " + wnStr);
+        }
     }
 
     public void setupTtlSummary() {

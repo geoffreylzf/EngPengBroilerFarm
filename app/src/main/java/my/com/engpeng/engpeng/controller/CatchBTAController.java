@@ -215,7 +215,8 @@ public class CatchBTAController {
             json += "\"" + CatchBTAEntry.COLUMN_CATCH_TEAM + "\": \"" + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_CATCH_TEAM)) + "\",";
             json += "\"" + CatchBTAEntry.COLUMN_PRINT_COUNT + "\": " + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_PRINT_COUNT)) + ",";
             json += "\"" + CatchBTAEntry.COLUMN_TIMESTAMP + "\": \"" + cursor.getString(cursor.getColumnIndex(CatchBTAEntry.COLUMN_TIMESTAMP)) + "\",";
-            json += CatchBTADetailController.getUploadJsonByCatchBTAId(db, cursor.getLong(cursor.getColumnIndex(CatchBTAEntry._ID)));
+            json += CatchBTADetailController.getUploadJsonByCatchBTAId(db, cursor.getLong(cursor.getColumnIndex(CatchBTAEntry._ID))) + ",";
+            json += CatchBTAWorkerController.getUploadJsonByCatchBTAId(db, cursor.getLong(cursor.getColumnIndex(CatchBTAEntry._ID)));
             if (cursor.getPosition() == (cursor.getCount() - 1)) {
                 json += "}";
             } else {

@@ -66,6 +66,8 @@ dependencies {
     implementation 'com.google.zxing:core:3.3.2'
     implementation 'com.akexorcist:bluetoothspp:1.0.0'
     implementation 'com.android.volley:volley:1.2.0'
+    implementation 'android.arch.navigation:navigation-fragment:1.0.0'
+    implementation 'android.arch.navigation:navigation-ui:1.0.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

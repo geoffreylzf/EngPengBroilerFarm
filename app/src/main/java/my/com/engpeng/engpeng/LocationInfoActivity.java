@@ -213,7 +213,12 @@ public class LocationInfoActivity extends AppCompatActivity
                 publishProgress(100);
 
             } else {
-                UIUtils.getMessageDialog(LocationInfoActivity.this, "Error", "Failed to get location info!").show();
+                LocationInfoActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        UIUtils.getMessageDialog(LocationInfoActivity.this, "Error", "Failed to get location info!").show();
+                    }
+                });
                 return false;
             }
             return true;

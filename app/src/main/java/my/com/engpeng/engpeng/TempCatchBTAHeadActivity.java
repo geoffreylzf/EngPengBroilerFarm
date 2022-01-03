@@ -1,18 +1,16 @@
 package my.com.engpeng.engpeng;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -22,11 +20,15 @@ import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import my.com.engpeng.engpeng.barcode.BarcodeCaptureActivity;
 import my.com.engpeng.engpeng.controller.CatchBTAController;
+import my.com.engpeng.engpeng.controller.TempCatchBTAWorkerController;
+import my.com.engpeng.engpeng.data.EngPengContract;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
 import my.com.engpeng.engpeng.utilities.UIUtils;
 
@@ -47,8 +49,8 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
 
     private String dateStr;
 
-    private Button btnDate, btnStart, btnScan;
-    private TextView tvYear, tvMonthDay;
+    private Button btnDate, btnStart, btnScan, btnWorker;
+    private TextView tvYear, tvMonthDay, tvWorkerListStr;
     private EditText etDocNumber, etTruckCode, etFastingTimeHour, etFastingTimeMinute;
     private RadioGroup rgDestination, rgType, rgFastingTime;
     private CheckBox cbF, cbT1, cbT2, cbT3, cbT4, cbT5;
@@ -69,12 +71,14 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
         btnDate = findViewById(R.id.temp_catch_bta_head_btn_change_date);
         btnStart = findViewById(R.id.temp_catch_bta_head_btn_start);
         btnScan = findViewById(R.id.temp_catch_bta_head_btn_scan);
+        btnWorker = findViewById(R.id.temp_catch_bta_head_btn_worker);
         tvYear = findViewById(R.id.temp_catch_bta_head_tv_year);
         tvMonthDay = findViewById(R.id.temp_catch_bta_head_tv_month_day);
         etDocNumber = findViewById(R.id.temp_catch_bta_head_et_doc_number);
         rgDestination = findViewById(R.id.temp_catch_bta_head_rg_destination);
         rgType = findViewById(R.id.temp_catch_bta_head_rg_type);
         etTruckCode = findViewById(R.id.temp_catch_bta_head_et_truck_code);
+        tvWorkerListStr = findViewById(R.id.temp_catch_bta_head_tv_worker_list_str);
 
         etFastingTimeHour = findViewById(R.id.temp_catch_bta_head_et_fasting_time_hour);
         etFastingTimeMinute = findViewById(R.id.temp_catch_bta_head_et_fasting_time_minute);
@@ -112,7 +116,30 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
 
     protected void onStart() {
         super.onStart();
+        this.refreshWorkerListDisplay();
     }
+
+    private void refreshWorkerListDisplay() {
+        Cursor cursorTemp = TempCatchBTAWorkerController.getAll(db);
+        List<String> workerNameList = new ArrayList<String>();
+        while (cursorTemp.moveToNext()) {
+            String workerName = cursorTemp.getString(cursorTemp.getColumnIndex(EngPengContract.TempCatchBTAWorkerEntry.COLUMN_WORKER_NAME));
+            workerNameList.add(workerName);
+        }
+
+        if (workerNameList.size() == 0) {
+            tvWorkerListStr.setText(R.string.no_worker2);
+        } else {
+            StringBuilder str = new StringBuilder("");
+            for (String wn : workerNameList) {
+                str.append(wn).append(", ");
+            }
+            String wnStr = str.toString();
+            wnStr = wnStr.substring(0, wnStr.length() - 2);
+            tvWorkerListStr.setText(wnStr);
+        }
+    }
+
 
     private void setupListener() {
 
@@ -278,6 +305,14 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
                 intent.putExtra(BarcodeCaptureActivity.AutoFocus, true);
                 intent.putExtra(BarcodeCaptureActivity.UseFlash, true);
                 startActivityForResult(intent, REQUEST_CODE_BARCODE_CAPTURE);
+            }
+        });
+
+        btnWorker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TempCatchBTAHeadActivity.this, TempCatchBTAWorkerActivity.class);
+                startActivity(intent);
             }
         });
     }

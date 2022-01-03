@@ -75,6 +75,17 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/catch_bta_tv_worker_list_str"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/catch_bta_ll"
+        android:text="Workers : "/>
+
     <LinearLayout
         android:id="@+id/catch_bta_ll_history"
         style="@style/TableHeaderLinearLayoutStyle"
@@ -84,7 +95,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/catch_bta_ll">
+        app:layout_constraintTop_toBottomOf="@+id/catch_bta_tv_worker_list_str">
 
         <TextView
             style="@style/TableHeaderTextViewStyle"

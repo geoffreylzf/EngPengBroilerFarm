@@ -39,8 +39,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:paddingEnd="30dp"
-                            android:paddingStart="30dp">
+                            android:paddingStart="30dp"
+                            android:paddingEnd="30dp">
 
                             <TextView
                                 android:id="@+id/temp_catch_bta_head_tv_year"
@@ -80,8 +80,7 @@
             </android.support.v7.widget.CardView>
         </LinearLayout>
 
-        <android.support.design.widget.TextInputLayout
-            style="@style/TextInputLayoutStyle">
+        <android.support.design.widget.TextInputLayout style="@style/TextInputLayoutStyle">
 
             <EditText
                 android:id="@+id/temp_catch_bta_head_et_doc_number"
@@ -136,8 +135,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/temp_catch_bta_head_rd_kfc"
@@ -184,28 +183,28 @@
 
             <EditText
                 android:id="@+id/temp_catch_bta_head_et_fasting_time_hour"
-                android:layout_height="wrap_content"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:maxLength="2"
                 android:hint="@string/hour2"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxLength="2" />
 
             <EditText
                 android:id="@+id/temp_catch_bta_head_et_fasting_time_minute"
-                android:layout_height="wrap_content"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:maxLength="2"
                 android:hint="@string/minute2"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxLength="2" />
 
             <RadioGroup
                 android:id="@+id/temp_catch_bta_head_rg_fasting_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -227,7 +226,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+            android:background="@android:color/darker_gray" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -239,12 +238,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:text="@string/scan"
-                android:drawableStart="@drawable/ic_baseline_settings_overscan_24px"
-                android:drawableTint="@color/colorLayoutBackground"
-                android:drawablePadding="8dp"
+                android:layout_marginStart="64dp"
                 android:layout_marginTop="32dp"
-                android:layout_marginStart="64dp"/>
+                android:drawableStart="@drawable/ic_baseline_settings_overscan_24px"
+                android:drawablePadding="8dp"
+                android:drawableTint="@color/colorLayoutBackground"
+                android:text="@string/scan" />
 
             <Button
                 android:id="@+id/temp_catch_bta_head_btn_start"
@@ -252,9 +251,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:text="@string/start2"
                 android:layout_marginTop="32dp"
-                android:layout_marginEnd="64dp"/>
+                android:layout_marginEnd="64dp"
+                android:text="@string/start2" />
         </RelativeLayout>
 
         <TextView
@@ -262,53 +261,79 @@
             android:text="@string/catch_team" />
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp">
+            android:layout_marginEnd="40dp"
+            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/temp_catch_bta_head_cb_f"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
                 android:layout_marginEnd="25dp"
-                android:text="@string/farm"/>
+                android:checked="true"
+                android:text="@string/farm" />
 
             <CheckBox
                 android:id="@+id/temp_catch_bta_head_cb_t1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="25dp"
-                android:text="@string/team1"/>
+                android:text="@string/team1" />
 
             <CheckBox
                 android:id="@+id/temp_catch_bta_head_cb_t2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="25dp"
-                android:text="@string/team2"/>
+                android:text="@string/team2" />
 
             <CheckBox
                 android:id="@+id/temp_catch_bta_head_cb_t3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="25dp"
-                android:text="@string/team3"/>
+                android:text="@string/team3" />
 
             <CheckBox
                 android:id="@+id/temp_catch_bta_head_cb_t4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="25dp"
-                android:text="@string/team4"/>
+                android:text="@string/team4" />
 
             <CheckBox
                 android:id="@+id/temp_catch_bta_head_cb_t5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/team5"/>
+                android:text="@string/team5" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="16dp">
+
+            <Button
+                android:id="@+id/temp_catch_bta_head_btn_worker"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/worker2" />
+
+            <TextView
+                android:id="@+id/temp_catch_bta_head_tv_worker_list_str"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:text="@string/no_worker2" />
 
         </LinearLayout>
 

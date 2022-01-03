@@ -26,7 +26,10 @@ import java.util.Locale;
 import my.com.engpeng.engpeng.adapter.TempCatchBTASummaryAdapter;
 import my.com.engpeng.engpeng.controller.CatchBTAController;
 import my.com.engpeng.engpeng.controller.CatchBTADetailController;
+import my.com.engpeng.engpeng.controller.CatchBTAWorkerController;
 import my.com.engpeng.engpeng.controller.TempCatchBTADetailController;
+import my.com.engpeng.engpeng.controller.TempCatchBTAWorkerController;
+import my.com.engpeng.engpeng.data.EngPengContract;
 import my.com.engpeng.engpeng.data.EngPengDbHelper;
 import my.com.engpeng.engpeng.utilities.PrintUtils;
 
@@ -64,7 +67,7 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
 
     private static int REQUEST_CODE_CONTINUE_NEXT = 1;
 
-    private int company_id, location_id, doc_number ;
+    private int company_id, location_id, doc_number;
     private String record_date, type, doc_type, truck_code, fasting_time, catch_team;
 
     @Override
@@ -160,8 +163,6 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     long catch_bta_id = saveCatchBTA();
-
-                                    TempCatchBTADetailController.delete(db);
 
                                     Intent mainIntent = new Intent(TempCatchBTASummaryActivity.this, MainActivity.class);
                                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -300,14 +301,14 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
     public void setupSummary() {
         String type = this.type;
 
-        if(type.equals("B")){
+        if (type.equals("B")) {
             type = "C";
         }
 
         String destination = getString(R.string.bta_customer);
         if (doc_type.equals("IFT")) {
             destination = getString(R.string.bta_slaughterhouse);
-        }else if (doc_type.equals("OP")) {
+        } else if (doc_type.equals("OP")) {
             destination = getString(R.string.bta_op);
         }
 
@@ -319,7 +320,7 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
         tvFastingTime.setText("Fasting Time : " + fasting_time);
     }
 
-    public void setupTtlSummary(){
+    public void setupTtlSummary() {
         int ttlQty = TempCatchBTADetailController.getTotalQty(db);
         double ttlWeight = TempCatchBTADetailController.getTotalWeight(db);
         int ttlCage = TempCatchBTADetailController.getTotalCage(db);
@@ -330,16 +331,15 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
 
     }
 
-    public Long saveCatchBTA(){
-        Cursor tempDetail = TempCatchBTADetailController.getAll(db);
-
+    public Long saveCatchBTA() {
         SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyMMddHHmmss", Locale.US);
         Calendar c = Calendar.getInstance();
         String code = sdfDateTime.format(c.getTime()) + String.format(Locale.US, "%04d%04d", company_id, location_id);
 
         long catch_bta_id = CatchBTAController.add(db, company_id, location_id, record_date, type, doc_number, doc_type, truck_code, code, fasting_time, catch_team);
 
-        while (tempDetail.moveToNext()){
+        Cursor tempDetail = TempCatchBTADetailController.getAll(db);
+        while (tempDetail.moveToNext()) {
             double wgt = tempDetail.getDouble(tempDetail.getColumnIndex(TempCatchBTADetailEntry.COLUMN_WEIGHT));
             int qty = tempDetail.getInt(tempDetail.getColumnIndex(TempCatchBTADetailEntry.COLUMN_QTY));
             int house_code = tempDetail.getInt(tempDetail.getColumnIndex(TempCatchBTADetailEntry.COLUMN_HOUSE_CODE));
@@ -349,6 +349,21 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
 
             CatchBTADetailController.add(db, catch_bta_id, wgt, qty, house_code, cage_qty, with_cover_qty, is_bt);
         }
+        TempCatchBTADetailController.delete(db);
+
+        Cursor tempWorker = TempCatchBTAWorkerController.getAll(db);
+        while (tempWorker.moveToNext()) {
+            String psIdStr = tempWorker.getString(tempWorker.getColumnIndex(EngPengContract.TempCatchBTAWorkerEntry.COLUMN_PERSON_STAFF_ID));
+            Integer psId = null;
+            try {
+                psId = Integer.valueOf(psIdStr);
+            } catch (NumberFormatException ex) {
+                //DO Nothing
+            }
+            String workerName = tempWorker.getString(tempWorker.getColumnIndex(EngPengContract.TempCatchBTAWorkerEntry.COLUMN_WORKER_NAME));
+            CatchBTAWorkerController.add(db, catch_bta_id, psId, workerName);
+        }
+        TempCatchBTAWorkerController.deleteAll(db);
 
         return catch_bta_id;
     }
@@ -357,9 +372,9 @@ public class TempCatchBTASummaryActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CONTINUE_NEXT) {
-            if(resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK) {
                 boolean is_continue = data.getBooleanExtra(I_KEY_CONTINUE_NEXT, false);
-                if(is_continue){
+                if (is_continue) {
                     callTempCatchBTADetail();
                 }
             }
