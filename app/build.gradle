@@ -1,14 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "my.com.engpeng.engpeng"
         minSdkVersion 24
-        targetSdkVersion 28
-        versionCode 61
-        versionName "5.0.0"
+        targetSdkVersion 29
+        versionCode 62
+        versionName "5.1.0"
 
+        //62-5.1.0 - 20220104 - ADd Catch Worker Module
         //61-5.0.0 - 20210316 - Remove from google play
         //60-4.26.4 - 20200714 - Remove emoji
         //59-4.26.3 - 20200504 - Change global url
