@@ -13,7 +13,7 @@ import my.com.engpeng.engpeng.data.EngPengContract.*;
 
 public class EngPengDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "engpeng.db";
-    private static final int DATABASE_VERSION = 18;
+    private static final int DATABASE_VERSION = 19;
     //DB VER 7 20180317
     //DB VER 8 20180320
     //DB VER 9 20180418
@@ -26,6 +26,7 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
     //DB VER 16 20191016
     //DB VER 17 20200219
     //DB VER 18 20211229
+    //DB VER 19 20220329
 
     public EngPengDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -67,6 +68,8 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_CREATE_PERSON_STAFF_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_TEMP_CATCH_BTA_WORKER_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_CATCH_BTA_WORKER_TABLE);
+
+        sqLiteDatabase.execSQL(SQL_CREATE_LOCATION_TABLE);
     }
 
     @Override
@@ -181,6 +184,11 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
             sqLiteDatabase.execSQL(SQL_CREATE_PERSON_STAFF_TABLE);
             sqLiteDatabase.execSQL(SQL_CREATE_TEMP_CATCH_BTA_WORKER_TABLE);
             sqLiteDatabase.execSQL(SQL_CREATE_CATCH_BTA_WORKER_TABLE);
+        }
+
+        if (oldVer <= 18) {
+            sqLiteDatabase.execSQL("ALTER TABLE feed_discharge ADD COLUMN discharge_location_id INTEGER");
+            sqLiteDatabase.execSQL(SQL_CREATE_LOCATION_TABLE);
         }
     }
 
@@ -371,6 +379,7 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
             FeedDischargeEntry.COLUMN_DISCHARGE_CODE + " TEXT, " +
             FeedDischargeEntry.COLUMN_RUNNING_NO + " TEXT, " +
             FeedDischargeEntry.COLUMN_TRUCK_CODE + " TEXT, " +
+            FeedDischargeEntry.COLUMN_DISCHARGE_LOCATION_ID + " INTEGER, " +
             FeedDischargeEntry.COLUMN_UPLOAD + " INTEGER DEFAULT 0, " +
             FeedDischargeEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP " +
             "); ";
@@ -435,6 +444,14 @@ public class EngPengDbHelper extends SQLiteOpenHelper {
             CatchBTAWorkerEntry.COLUMN_CATCH_BTA_ID + " INTEGER, " +
             CatchBTAWorkerEntry.COLUMN_PERSON_STAFF_ID + " INTEGER, " +
             CatchBTAWorkerEntry.COLUMN_WORKER_NAME + " TEXT " +
+            "); ";
+
+    private final String SQL_CREATE_LOCATION_TABLE = "CREATE TABLE " + LocationEntry.TABLE_NAME + " (" +
+            LocationEntry._ID + " INTEGER PRIMARY KEY," +
+            LocationEntry.COLUMN_LOCATION_CODE + " TEXT, " +
+            LocationEntry.COLUMN_LOCATION_NAME + " TEXT, " +
+            LocationEntry.COLUMN_COMPANY_ID + " INTEGER, " +
+            LocationEntry.COLUMN_COMPANY_CODE + " TEXT " +
             "); ";
 }
 

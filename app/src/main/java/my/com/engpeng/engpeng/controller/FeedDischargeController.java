@@ -16,6 +16,7 @@ public class FeedDischargeController {
                            String record_date,
                            String discharge_code,
                            String truck_code,
+                           int dischargeLocationId,
                            String running_no) {
 
         ContentValues cv = new ContentValues();
@@ -25,6 +26,7 @@ public class FeedDischargeController {
         cv.put(FeedDischargeEntry.COLUMN_DISCHARGE_CODE, discharge_code);
         cv.put(FeedDischargeEntry.COLUMN_RUNNING_NO, running_no);
         cv.put(FeedDischargeEntry.COLUMN_TRUCK_CODE, truck_code);
+        cv.put(FeedDischargeEntry.COLUMN_DISCHARGE_LOCATION_ID, dischargeLocationId);
 
         return db.insert(FeedDischargeEntry.TABLE_NAME, null, cv);
     }
@@ -151,6 +153,7 @@ public class FeedDischargeController {
             json += "\"" + FeedDischargeEntry.COLUMN_DISCHARGE_CODE + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedDischargeEntry.COLUMN_DISCHARGE_CODE)) + "\",";
             json += "\"" + FeedDischargeEntry.COLUMN_RUNNING_NO + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedDischargeEntry.COLUMN_RUNNING_NO)) + "\",";
             json += "\"" + FeedDischargeEntry.COLUMN_TRUCK_CODE + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedDischargeEntry.COLUMN_TRUCK_CODE)) + "\",";
+            json += "\"" + FeedDischargeEntry.COLUMN_DISCHARGE_LOCATION_ID + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedDischargeEntry.COLUMN_DISCHARGE_LOCATION_ID)) + "\",";
             json += "\"" + FeedDischargeEntry.COLUMN_TIMESTAMP + "\": \"" + cursor.getString(cursor.getColumnIndex(FeedDischargeEntry.COLUMN_TIMESTAMP)) + "\",";
             json += FeedDischargeDetailController.getUploadJsonByFeedDischargeId(db, cursor.getLong(cursor.getColumnIndex(FeedDischargeEntry._ID)));
             if (cursor.getPosition() == (cursor.getCount() - 1)) {

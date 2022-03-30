@@ -32,6 +32,7 @@ public class NetworkUtils {
     final public static String MODULE_AUTH_LOGIN = "MobileAuth/NonGoogleAccLogin";
     final public static String MODULE_LOCATION_INFO = "MobileLocationInfo/List";
     final public static String MODULE_LOCATION_INFO_PERSON_STAFF = "MobileLocationInfo/PersonStaffList";
+    final public static String MODULE_LOCATION_INFO_LOCATION = "MobileLocationInfo/LocationList";
     final public static String MODULE_SYNC_UPLOAD = "MobileSync/Upload";
     final public static String MODULE_SYNC_LOG = "MobileSync/Log";
 

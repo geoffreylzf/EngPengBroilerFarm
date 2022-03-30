@@ -76,6 +76,7 @@ public class Global {
     public static final String I_KEY_DISCHARGE_HOUSE = "I_KEY_DISCHARGE_HOUSE";
     public static final String I_KEY_RECEIVE_HOUSE = "I_KEY_RECEIVE_HOUSE";
     public static final String I_KEY_DISCHARGE_CODE = "I_KEY_DISCHARGE_CODE";
+    public static final String I_KEY_DISCHARGE_LOCATION_ID = "I_KEY_DISCHARGE_LOCATION_ID";
     public static final String I_KEY_RUNNING_NO = "I_KEY_RUNNING_NO";
     public static final String I_KEY_NETT_VALUE = "I_KEY_NETT_VALUE";
     public static final String I_KEY_BLUETOOTH_NAME = "I_KEY_BLUETOOTH_NAME";
@@ -98,6 +99,7 @@ public class Global {
     public static final int LOG_LOADER_ID = 1004;
     public static final int PRINT_PREVIEW_LOADER_ID = 1005;
     public static final int PERSON_STAFF_LOADER_ID = 1006;
+    public static final int LOCATION_LOADER_ID = 1007;
 
     //item_uom_code
     public static final String UOM_CODE_BG = "Bg";

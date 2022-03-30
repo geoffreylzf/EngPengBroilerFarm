@@ -95,13 +95,13 @@ public class JsonUtils {
 
             if (json.has(SUCCESS)) {
                 boolean success = json.getBoolean(SUCCESS);
-                if(success){
+                if (success) {
                     return true;
-                }else{
+                } else {
                     String message = json.getString(MESSAGE);
-                    UIUtils.showToastMessage(context, "Error ("+message+")");
+                    UIUtils.showToastMessage(context, "Error (" + message + ")");
                 }
-            }else {
+            } else {
                 UIUtils.showToastMessage(context, "Login Authentication Error (no respond)");
             }
             return false;
@@ -298,6 +298,40 @@ public class JsonUtils {
                 cv.put(PersonStaffEntry._ID, id);
                 cv.put(PersonStaffEntry.COLUMN_PERSON_CODE, personCode);
                 cv.put(PersonStaffEntry.COLUMN_PERSON_NAME, personName);
+                cvs[i] = cv;
+            }
+            return cvs;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ContentValues[] getLocationContentValues(String jsonStr) {
+        try {
+            JSONObject json = new JSONObject(jsonStr);
+            JSONArray jsonArray = json.getJSONArray("location");
+            ContentValues[] cvs = new ContentValues[jsonArray.length()];
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                int id, coyId;
+                String locCode, locName, coyCode;
+                JSONObject ps = jsonArray.getJSONObject(i);
+
+                id = ps.getInt("id");
+                coyId = ps.getInt("company_id");
+                locCode = ps.getString("location_code");
+                locName = ps.getString("location_name");
+                coyCode = ps.getString("company_code");
+
+
+                ContentValues cv = new ContentValues();
+                cv.put(LocationEntry._ID, id);
+                cv.put(LocationEntry.COLUMN_COMPANY_ID, coyId);
+                cv.put(LocationEntry.COLUMN_LOCATION_CODE, locCode);
+                cv.put(LocationEntry.COLUMN_LOCATION_NAME, locName);
+                cv.put(LocationEntry.COLUMN_COMPANY_CODE, coyCode);
                 cvs[i] = cv;
             }
             return cvs;

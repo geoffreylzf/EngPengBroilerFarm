@@ -79,6 +79,14 @@ public class DatabaseUtils {
         }
     }
 
+    public static void insertLocation(SQLiteDatabase db, ContentValues[] cvs) {
+        if (cvs != null) {
+            for (ContentValues cv : cvs) {
+                db.insert(LocationEntry.TABLE_NAME, null, cv);
+            }
+        }
+    }
+
     public static void updateUploadedStatus(SQLiteDatabase db) {
         db.execSQL("UPDATE " + MortalityEntry.TABLE_NAME + " SET " + MortalityEntry.COLUMN_UPLOAD + " = 1");
         db.execSQL("UPDATE " + CatchBTAEntry.TABLE_NAME + " SET " + CatchBTAEntry.COLUMN_UPLOAD + " = 1");

@@ -26,6 +26,7 @@ import my.com.engpeng.engpeng.utilities.PrintUtils;
 
 import static my.com.engpeng.engpeng.Global.I_KEY_COMPANY;
 import static my.com.engpeng.engpeng.Global.I_KEY_DISCHARGE_CODE;
+import static my.com.engpeng.engpeng.Global.I_KEY_DISCHARGE_LOCATION_ID;
 import static my.com.engpeng.engpeng.Global.I_KEY_LOCATION;
 import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_QR_TEXT;
 import static my.com.engpeng.engpeng.Global.I_KEY_PRINT_TEXT;
@@ -42,7 +43,7 @@ public class TempFeedDischargeSummaryActivity extends AppCompatActivity {
     private TextView tvLocation, tvDischargeCode, tvTruckCode;
     private RecyclerView rv;
 
-    private int company_id, location_id;
+    private int company_id, location_id, dischargeLocationId;
     private String record_date, truck_code, discharge_code, running_no;
     private SQLiteDatabase db;
     private Toast mToast;
@@ -96,6 +97,9 @@ public class TempFeedDischargeSummaryActivity extends AppCompatActivity {
         }
         if (intentStart.hasExtra(I_KEY_TRUCK_CODE)) {
             truck_code = intentStart.getStringExtra(I_KEY_TRUCK_CODE);
+        }
+        if (intentStart.hasExtra(I_KEY_DISCHARGE_LOCATION_ID)) {
+            dischargeLocationId = intentStart.getIntExtra(I_KEY_DISCHARGE_LOCATION_ID, 0);
         }
         if (intentStart.hasExtra(I_KEY_DISCHARGE_CODE)) {
             discharge_code = intentStart.getStringExtra(I_KEY_DISCHARGE_CODE);
@@ -258,10 +262,11 @@ public class TempFeedDischargeSummaryActivity extends AppCompatActivity {
                 record_date,
                 discharge_code,
                 truck_code,
+                dischargeLocationId,
                 running_no);
 
         Cursor tempDetail = TempFeedDischargeDetailController.getAll(db);
-        while(tempDetail.moveToNext()){
+        while (tempDetail.moveToNext()) {
             int house_code = tempDetail.getInt(tempDetail.getColumnIndex(TempFeedDischargeDetailEntry.COLUMN_HOUSE_CODE));
             int item_packing_id = tempDetail.getInt(tempDetail.getColumnIndex(TempFeedDischargeDetailEntry.COLUMN_ITEM_PACKING_ID));
             double weight = tempDetail.getDouble(tempDetail.getColumnIndex(TempFeedDischargeDetailEntry.COLUMN_WEIGHT));
@@ -272,7 +277,7 @@ public class TempFeedDischargeSummaryActivity extends AppCompatActivity {
                     item_packing_id,
                     weight);
         }
-        
+
         return feed_discharge_id;
     }
 }

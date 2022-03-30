@@ -199,6 +199,7 @@ public class EngPengContract {
         public static final String COLUMN_DISCHARGE_CODE = "discharge_code";
         public static final String COLUMN_RUNNING_NO = "running_no";
         public static final String COLUMN_TRUCK_CODE = "truck_code";
+        public static final String COLUMN_DISCHARGE_LOCATION_ID = "discharge_location_id";
         public static final String COLUMN_UPLOAD = "upload";
         public static final String COLUMN_TIMESTAMP = "timestamp";
     }
@@ -265,5 +266,11 @@ public class EngPengContract {
         public static final String COLUMN_WORKER_NAME = "worker_name";
     }
 
-
+    public static final class LocationEntry implements BaseColumns{
+        public static final String TABLE_NAME = "location";
+        public static final String COLUMN_LOCATION_CODE = "location_code";
+        public static final String COLUMN_LOCATION_NAME = "location_name";
+        public static final String COLUMN_COMPANY_ID = "company_id";
+        public static final String COLUMN_COMPANY_CODE = "company_code";
+    }
 }
