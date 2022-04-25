@@ -279,6 +279,11 @@ public class CatchBTAController {
 
             int ttlQty = CatchBTADetailController.getTotalQtyByCatchBTAId(db, id);
             data += "|" + String.valueOf(ttlQty);
+
+            int ttlCageQty = CatchBTADetailController.getTotalCageByCatchBTAId(db, id);
+            int ttlCoverQty = CatchBTADetailController.getTotalCoverByCatchBTAId(db, id);
+            data += "|" + String.valueOf(ttlCageQty);
+            data += "|" + String.valueOf(ttlCoverQty);
         }
         return data;
     }

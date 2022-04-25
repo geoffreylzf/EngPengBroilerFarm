@@ -25,7 +25,7 @@ public class CatchBTADetailController {
         cv.put(CatchBTADetailEntry.COLUMN_CATCH_BTA_ID, catch_bta_id);
         cv.put(CatchBTADetailEntry.COLUMN_WEIGHT, wgt);
         cv.put(CatchBTADetailEntry.COLUMN_QTY, qty);
-        cv.put(CatchBTADetailEntry.COLUMN_HOUSE_CODE,house_code);
+        cv.put(CatchBTADetailEntry.COLUMN_HOUSE_CODE, house_code);
         cv.put(CatchBTADetailEntry.COLUMN_CAGE_QTY, cage_qty);
         cv.put(CatchBTADetailEntry.COLUMN_WITH_COVER_QTY, with_cover_qty);
         cv.put(CatchBTADetailEntry.COLUMN_IS_BT, is_bt);
@@ -86,6 +86,58 @@ public class CatchBTADetailController {
         return totalQty;
     }
 
+    public static int getTotalCageByCatchBTAId(SQLiteDatabase db, Long catch_bta_id) {
+
+        String[] columns = new String[]{
+                "SUM(" + CatchBTADetailEntry.COLUMN_CAGE_QTY + ") AS " + CatchBTADetailEntry.COLUMN_CAGE_QTY,
+        };
+
+        String selection = CatchBTADetailEntry.COLUMN_CATCH_BTA_ID + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(catch_bta_id),
+        };
+
+        Cursor cursor = db.query(
+                CatchBTADetailEntry.TABLE_NAME,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        cursor.moveToFirst();
+        return cursor.getInt(cursor.getColumnIndex(CatchBTADetailEntry.COLUMN_CAGE_QTY));
+    }
+
+    public static int getTotalCoverByCatchBTAId(SQLiteDatabase db, Long catch_bta_id) {
+
+        String[] columns = new String[]{
+                "SUM(" + CatchBTADetailEntry.COLUMN_WITH_COVER_QTY + ") AS " + CatchBTADetailEntry.COLUMN_WITH_COVER_QTY,
+        };
+
+        String selection = CatchBTADetailEntry.COLUMN_CATCH_BTA_ID + " = ? ";
+
+        String[] selectionArgs = new String[]{
+                String.valueOf(catch_bta_id),
+        };
+
+        Cursor cursor = db.query(
+                CatchBTADetailEntry.TABLE_NAME,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        cursor.moveToFirst();
+        return cursor.getInt(cursor.getColumnIndex(CatchBTADetailEntry.COLUMN_WITH_COVER_QTY));
+    }
+
     public static Cursor getAllByCatchBTAId(SQLiteDatabase db, Long catch_bta_id) {
 
         String selection = CatchBTADetailEntry.COLUMN_CATCH_BTA_ID + " = ? ";
@@ -128,11 +180,11 @@ public class CatchBTADetailController {
                 selectionArgs,
                 null,
                 null,
-                CatchBTADetailEntry._ID +" ASC"
+                CatchBTADetailEntry._ID + " ASC"
         );
 
         int[] houseArr = new int[cursor.getCount()];
-        for (int i = 0; i <cursor.getCount(); i++){
+        for (int i = 0; i < cursor.getCount(); i++) {
             cursor.moveToNext();
             houseArr[i] = cursor.getInt(cursor.getColumnIndex(CatchBTADetailEntry.COLUMN_HOUSE_CODE));
         }
