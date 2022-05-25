@@ -220,11 +220,11 @@ public class TempCatchBTAHeadActivity extends AppCompatActivity {
                 String truck_code = etTruckCode.getText().toString();
 
 
-                if (!CatchBTAController.checkDocNumber(db, doc_number, doc_type)) {
-                    toast = Toast.makeText(TempCatchBTAHeadActivity.this, "Document number and destination duplicate", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
+                //if (!CatchBTAController.checkDocNumber(db, doc_number, doc_type)) {
+                //toast = Toast.makeText(TempCatchBTAHeadActivity.this, "Document number and destination duplicate", Toast.LENGTH_SHORT);
+                //toast.show();
+                //return;
+                //}
 
                 String fasting_time = "";
 
